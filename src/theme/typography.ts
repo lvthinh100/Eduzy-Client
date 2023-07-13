@@ -70,19 +70,19 @@ const typography = {
     lineHeight: 1.5,
     fontSize: pxToRem(12),
   },
-  overline: {
-    fontWeight: 700,
-    lineHeight: 1.5,
-    fontSize: pxToRem(12),
-    textTransform: "uppercase",
-  },
-  button: {
-    fontFamily: "Lato",
-    fontWeight: 700,
-    lineHeight: 24 / 14,
-    fontSize: pxToRem(14),
-    textTransform: "capitalize",
-  },
+  // overline: {
+  //   fontWeight: 700,
+  //   lineHeight: 1.5,
+  //   fontSize: pxToRem(12),
+  //   textTransform: "uppercase",
+  // },
+  // button: {
+  //   fontFamily: "Lato",
+  //   fontWeight: 700,
+  //   lineHeight: 24 / 14,
+  //   fontSize: pxToRem(14),
+  //   textTransform: "capitalize",
+  // },
 };
 
 export default typography;
