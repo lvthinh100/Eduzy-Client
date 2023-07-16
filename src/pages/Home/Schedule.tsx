@@ -4,7 +4,6 @@ import { Box, Paper, Typography, Stack } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers";
 import CustomDay from "../../components/CustomComponent/CustomPickerDay";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import { Theme } from "@mui/material";
 
 import dayjs, { Dayjs } from "dayjs";
 const Schedule = () => {
@@ -41,7 +40,7 @@ const Schedule = () => {
             }}
           />
 
-          <Stack direction="row">
+          <Stack direction="row" alignItems="center" sx={{ my: 1 }} gap={1}>
             <RadioButtonUncheckedIcon
               fontSize="small"
               sx={(theme) => ({

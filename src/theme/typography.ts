@@ -9,7 +9,7 @@ const typography = {
   fontFamily: FONT_PRIMARY,
   fontWeightRegular: 400,
   fontWeightMedium: 600,
-  fontWeightBold: 700,
+  fontWeightBold: 900,
   h1: {
     fontWeight: 700,
     lineHeight: 80 / 64,

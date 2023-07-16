@@ -1,4 +1,5 @@
 import { ButtonProps } from "@mui/material";
+import { Theme } from "@mui/material";
 
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
@@ -25,6 +26,29 @@ const components = {
         },
       },
     ],
+  },
+  MuiDateCalendar: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        maxHeight: 320,
+        "& .MuiTypography-root": {
+          fontWeight: "inherit",
+          color: "inherit",
+        },
+        "& .MuiDayCalendar-header": {
+          fontWeight: "bolder",
+          color: "#bea1a6",
+        },
+        "& .MuiPickersDay-dayOutsideMonth": {
+          fontWeight: "bolder",
+          color: "#bea1a6",
+          opacity: 0.8,
+        },
+        "& .MuiPickersDay-today": {
+          backgroundColor: theme.palette.highlighter.main,
+        },
+      }),
+    },
   },
 };
 
