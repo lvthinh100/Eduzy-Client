@@ -1,12 +1,13 @@
 import React from "react";
 import CalendarContainer from "./CalendarContainer";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import Reward from "./Reward";
+import Prize from "../../components/Prize";
 
 const UpcomingEvent = () => {
   return (
     <CalendarContainer>
-      <Box sx={{ textAlign: "center" }}>
+      <Box sx={{ textAlign: "center", p: 2, position: "relative" }}>
         <Typography variant="h4" textTransform="uppercase">
           Kiểm tra
         </Typography>
@@ -22,6 +23,14 @@ const UpcomingEvent = () => {
 
         <Typography fontWeight="bold">Giải thưởng</Typography>
         <Reward />
+        <Button variant="gradient" sx={{ mt: 2 }}>
+          <Stack direction="column">
+            <Typography variant="subtitle2" color="white">
+              Đăng ký kiểm tra
+            </Typography>
+            <Prize crown={false} />
+          </Stack>
+        </Button>
       </Box>
     </CalendarContainer>
   );
