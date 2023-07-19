@@ -43,7 +43,6 @@ const CalendarContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
       <PaperStyled elevation={8} sx={{ mt: "30px" }}>
         {children}
       </PaperStyled>
-      ;
     </Box>
   );
 };
