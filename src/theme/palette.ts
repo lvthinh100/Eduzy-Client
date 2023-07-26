@@ -12,6 +12,12 @@ declare module "@mui/material/styles" {
       exam: String;
       lesson: String;
     };
+    gradient: {
+      light: String;
+    };
+  }
+  interface TypeBackground {
+    darker: string;
   }
   // allow configuration using `createTheme`
 }
@@ -28,6 +34,7 @@ const palette = {
   },
   highlighter: {
     main: "#feb102",
+    light: "#fee5aa",
   },
   prize: {
     first: "#feb102",
@@ -38,10 +45,14 @@ const palette = {
   background: {
     default: "#9ABBC2",
     paper: "#e2e2e2",
+    darker: "#f5f9fa",
   },
   date: {
     exam: "#5a7f8f",
     lesson: "#fe6c85",
+  },
+  gradient: {
+    light: "linear-gradient(to right, #FCDC93, #f08ad3 75%)",
   },
 };
 

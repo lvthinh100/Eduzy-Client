@@ -69,7 +69,7 @@ function ResponsiveAppBar() {
                     <NavLinkStyled
                       key={page.text}
                       component={RouterLink}
-                      to="/auth"
+                      to={page.path}
                       // onClick={handleCloseNavMenu}
                       sx={{ display: "flex", alignItems: "center", mr: 2 }}
                     >
@@ -123,7 +123,7 @@ function ResponsiveAppBar() {
               <NavLinkStyled
                 key={page.text}
                 component={RouterLink}
-                to="/auth"
+                to={page.path}
                 // onClick={handleCloseNavMenu}
                 sx={{ display: "flex", alignItems: "center", mr: 2 }}
               >

@@ -8,12 +8,6 @@ declare module "@mui/material/Button" {
 }
 
 const components = {
-  MuiButtonBase: {
-    defaultProps: {
-      // The props to change the default for.
-      disableRipple: true, // No more ripple, on the whole application 💣!
-    },
-  },
   MuiButton: {
     variants: [
       {
@@ -22,6 +16,10 @@ const components = {
           backgroundImage: `linear-gradient(to right, #FCDC93, #f08ad3 75%)`,
           "&:hover": {
             opacity: "0.7",
+          },
+          "&:disabled": {
+            backgroundImage: `linear-gradient(to right, white, gray 75%)`,
+            color: "white",
           },
         },
       },
