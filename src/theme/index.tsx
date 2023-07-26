@@ -8,14 +8,14 @@ import { useMemo } from "react";
 
 import palette from "./palette";
 import typography from "./typography";
-// import shadows from "./shadows";
-// import ComponentOverrides from "./overrides";
+import components from "./components";
 
-export default function ThemeProvider({ children }) {
+const ThemeProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const themeOptions = useMemo(
     () => ({
       palette,
       typography,
+      components,
       //   shadows: shadows,
       shape: { borderRadius: 8 },
     }),
@@ -27,8 +27,10 @@ export default function ThemeProvider({ children }) {
     <StyledEngineProvider injectFirst>
       <MUIThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        {props.children}
       </MUIThemeProvider>
     </StyledEngineProvider>
   );
-}
+};
+
+export default ThemeProvider;
