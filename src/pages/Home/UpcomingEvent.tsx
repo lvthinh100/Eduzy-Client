@@ -21,7 +21,9 @@ const UpcomingEvent = () => {
         </Typography>
         <Typography variant="subtitle2">20:10:43</Typography>
 
-        <Typography fontWeight="bold">Giải thưởng</Typography>
+        <Typography variant="subtitle1" fontWeight="bold">
+          Giải thưởng
+        </Typography>
         <Reward />
         <Button variant="gradient" sx={{ mt: 2 }}>
           <Stack direction="column">

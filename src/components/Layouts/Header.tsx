@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ minHeight: "60px !important" }}>
           {/* Mobile */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -90,16 +90,17 @@ function ResponsiveAppBar() {
           </Box>
 
           {!isDesktop && <Logo />}
+
           <NavLinkStyled
             href="google.com"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontWeight: 700,
+              fontWeight: 400,
               color: "inherit",
               textDecoration: "none",
-              fontSize: 22,
+              fontSize: 20,
               letterSpacing: ".3rem",
               mx: 1,
             }}
@@ -112,7 +113,11 @@ function ResponsiveAppBar() {
             href="google.com"
             sx={{
               display: { xs: "none", md: "flex" },
-              mr: 2,
+              mr: 3,
+              textTransform: "none",
+              fontWeight: "bold",
+              fontSize: "20px",
+              letterSpacing: ".1rem",
             }}
           >
             {content.LOGO}
@@ -127,7 +132,12 @@ function ResponsiveAppBar() {
                 // onClick={handleCloseNavMenu}
                 sx={{ display: "flex", alignItems: "center", mr: 2 }}
               >
-                {<page.icon fontSize="small" sx={{ mr: 1 }} />}
+                {
+                  <page.icon
+                    fontSize="small"
+                    sx={{ mr: 1, width: "16px", height: "16px" }}
+                  />
+                }
                 {page.text}
               </NavLinkStyled>
             ))}
@@ -142,7 +152,7 @@ function ResponsiveAppBar() {
                 // onClick={handleCloseNavMenu}
                 sx={{ display: "flex", alignItems: "center", mr: 2 }}
               >
-                {<page.icon fontSize="small" sx={{ mr: 1 }} />}
+                {<page.icon sx={{ mr: 1, width: "20px", height: "20px" }} />}
                 {page.text}
               </NavLinkStyled>
             ))}

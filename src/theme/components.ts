@@ -1,6 +1,8 @@
 import { ButtonProps } from "@mui/material";
 import { Theme } from "@mui/material";
 
+import Digital from "../assets/Fonts/digital.ttf";
+
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     gradient: true;
@@ -47,6 +49,17 @@ const components = {
         },
       }),
     },
+  },
+  MuiCssBaseline: {
+    styleOverrides: `
+    @font-face {
+      font-family: 'Digital';
+      font-style: normal;
+      font-display: swap;
+      font-weight: 400;
+      src: url(${Digital}) format('truetype');
+    }
+    `,
   },
 };
 
