@@ -1,5 +1,4 @@
 import React from "react";
-import CalendarContainer from "./CalendarContainer";
 import { Box, Paper, Typography, Stack } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers";
 import CustomDay from "../../components/CustomComponent/CustomPickerDay";
@@ -13,7 +12,7 @@ const Schedule = () => {
       <Typography variant="subtitle2">
         Ngày thi - Chính Thức - 27/6/2024
       </Typography>
-      <Typography variant="subtitle2" fontWeight="bold">
+      <Typography variant="subtitle2" fontWeight="bold" fontFamily="Segoe UI">
         347 ngày
       </Typography>
       <Paper

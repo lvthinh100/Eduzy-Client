@@ -13,7 +13,7 @@ const Crown: React.FC<PropsType> = ({ quantity, variant }) => {
       direction="row"
       alignItems="center"
       sx={{
-        fontSize: "20px",
+        fontSize: "14px",
         color: (theme) => theme.palette.prize[variant ?? "normal"],
       }}
     >

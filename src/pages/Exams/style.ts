@@ -10,6 +10,8 @@ import {
   styled,
   Input,
   InputProps,
+  Box,
+  BoxProps,
 } from "@mui/material";
 
 export const StyledTypo = styled(Typography)<TypographyProps>(({ theme }) => ({
@@ -62,4 +64,13 @@ export const StyledInput = styled(Input)<InputProps>(({ theme }) => ({
     border: `2px solid ${theme.palette.background.paper}`,
     padding: "0 4px",
   },
+}));
+
+export const StandingBox = styled(Box)<BoxProps>(({ theme }) => ({
+  width: "80%",
+  borderRadius: "30px 30px 0 0",
+  p: 1,
+  color: "white",
+  fontSize: 25,
+  fontWeight: "bold",
 }));

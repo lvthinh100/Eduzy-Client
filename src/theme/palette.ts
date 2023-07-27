@@ -2,6 +2,7 @@ declare module "@mui/material/styles" {
   interface Palette {
     lighter: Palette["primary"];
     highlighter: Palette["primary"];
+    digital: Palette["primary"];
     prize: {
       first: string;
       second: string;
@@ -53,6 +54,9 @@ const palette = {
   },
   gradient: {
     light: "linear-gradient(to right, #FCDC93, #f08ad3 75%)",
+  },
+  digital: {
+    main: "#7ed4bd",
   },
 };
 
