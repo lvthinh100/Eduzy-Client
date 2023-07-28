@@ -2,7 +2,7 @@ import { pxToRem, responsiveFontSizes } from "../utils/getFontValue";
 
 // ----------------------------------------------------------------------
 
-const FONT_PRIMARY = "Frank Ruhl Libre,Quicksand, sans-serif"; // Google Font
+const FONT_PRIMARY = "Arial ,Quicksand, sans-serif"; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 const typography = {
@@ -48,12 +48,13 @@ const typography = {
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
   subtitle1: {
-    fontFamily: "Lato, Frank Ruhl Libre,Quicksand, sans-serif",
+    fontFamily: "Segoe UI, Frank Ruhl Libre,Quicksand, sans-serif",
     fontWeight: 400,
     lineHeight: 1.5,
     fontSize: pxToRem(16),
   },
   subtitle2: {
+    fontFamily: "Segoe UI, Frank Ruhl Libre,Quicksand, sans-serif",
     fontWeight: 600,
     lineHeight: 22 / 14,
     fontSize: pxToRem(14),

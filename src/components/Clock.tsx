@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import img from "../assets/KeSach2.png";
 
-import { Box, Typography, CardMedia } from "@mui/material";
+import { Box, Typography, CardMedia, Stack } from "@mui/material";
 
 const Clock = () => {
   const format = "HH:mm:ss";
@@ -28,8 +28,8 @@ const Clock = () => {
         }}
         src={img}
       />
-      <Typography
-        fontSize={28}
+      <Stack
+        direction="row"
         fontWeight="bold"
         color="white"
         sx={{
@@ -38,8 +38,41 @@ const Clock = () => {
           right: 80,
         }}
       >
-        {current}
-      </Typography>
+        {current.split("").map((text) => (
+          <Box
+            sx={{
+              position: "relative",
+              width: text === ":" ? "5px" : "14px",
+              height: "14px",
+            }}
+          >
+            <Typography
+              sx={(theme) => ({
+                position: "absolute",
+                fontFamily: "Digital",
+                fontSize: "28px",
+                textAlign: "right",
+                right: 0,
+                color: theme.palette.digital.main,
+              })}
+            >
+              {text}
+            </Typography>
+            <Typography
+              sx={{
+                position: "absolute",
+                fontFamily: "Digital",
+                fontSize: "28px",
+                textAlign: "right",
+                opacity: 0.3,
+                color: "digital.main",
+              }}
+            >
+              {text !== ":" ? "8" : ":"}
+            </Typography>
+          </Box>
+        ))}
+      </Stack>
     </Box>
   );
 };

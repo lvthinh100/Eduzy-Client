@@ -1,24 +1,19 @@
 import React from "react";
-import {
-  Box,
-  Paper,
-  Typography,
-  Stack,
-  List,
-  ListItem,
-  InputBase,
-} from "@mui/material";
+import { Box, Paper, Typography, Stack, List, InputBase } from "@mui/material";
 import StudentInfo from "../../components/StudentInfo";
-import { StyledBadge } from "./style";
+import { StandingBox, StyledBadge } from "./style";
 import StudentRanking from "./StudentRanking";
 import SearchIcon from "@mui/icons-material/Search";
+import landscape from "../../assets/landscape.jpg";
+
 const LeaderBoard = () => {
   return (
     <Paper
       sx={{
         textAlign: "center",
         m: 2,
-        backgroundImage: (theme) => `${theme.palette.gradient.light}`,
+        backgroundImage: `url(${landscape})`,
+        backgroundSize: "550px 400px",
       }}
       elevation={5}
     >
@@ -26,12 +21,16 @@ const LeaderBoard = () => {
       <Typography variant="subtitle2">Đề thi chính thức năm 2021</Typography>
 
       {/* Leader board */}
-      <Box sx={{ position: "relative", width: "100%", height: "200px" }}>
+      <Box sx={{ position: "relative", width: "100%", height: "300px" }}>
         <Box
           sx={{
-            position: "absolute",
             left: "50%",
             transform: "translateX(-50%)",
+            top: "10%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            position: "absolute",
           }}
         >
           <StyledBadge color="secondary" badgeContent="1" overlap="circular">
@@ -40,12 +39,23 @@ const LeaderBoard = () => {
               <Typography fontWeight="bold">8.5</Typography>
             </Stack>
           </StyledBadge>
+          <StandingBox
+            sx={{
+              backgroundColor: "#606d54",
+              height: "140px",
+            }}
+          >
+            1
+          </StandingBox>
         </Box>
         <Box
           sx={{
             position: "absolute",
-            left: "25%",
+            left: "20%",
             transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             top: "30%",
           }}
         >
@@ -55,13 +65,24 @@ const LeaderBoard = () => {
               <Typography fontWeight="bold">8.5</Typography>
             </Stack>
           </StyledBadge>
+          <StandingBox
+            sx={{
+              backgroundColor: "#a9593d",
+              height: "80px",
+            }}
+          >
+            2
+          </StandingBox>
         </Box>
         <Box
           sx={{
             position: "absolute",
-            left: "75%",
+            left: "80%",
             transform: "translateX(-50%)",
             top: "30%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <StyledBadge color="secondary" badgeContent="3" overlap="circular">
@@ -70,6 +91,14 @@ const LeaderBoard = () => {
               <Typography fontWeight="bold">8.5</Typography>
             </Stack>
           </StyledBadge>
+          <StandingBox
+            sx={{
+              backgroundColor: "#da8100",
+              height: "57px",
+            }}
+          >
+            3
+          </StandingBox>
         </Box>
       </Box>
 

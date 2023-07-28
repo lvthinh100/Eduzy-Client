@@ -2,10 +2,9 @@ import { LinkProps, styled } from "@mui/material";
 import CustomLink from "../CustomComponent/CustomLink";
 
 const NavLinkStyled = styled(CustomLink)<LinkProps>(({ theme }) => ({
-  fontWeight: "bold",
-  fontSize: 12,
+  fontSize: 16,
   textDecoration: "none",
-  textTransform: "uppercase",
+  textTransform: "none",
   color: theme.palette.lighter.main,
   opacity: 0.6,
   "&:hover": {

@@ -1,20 +1,21 @@
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import ExamIcon from "../components/IconComponent/ExamIcon";
+import OmegaIcon from "../components/IconComponent/OmegaIcon";
+
 import paths from "./paths";
 const content = {
-  LOGO: "EDUZY",
+  LOGO: "Eduzy",
   NAV_LINK: [
     {
-      text: "Kiểm tra học tập",
+      text: "Kiểm tra-học tập",
       path: paths.HOME,
-      icon: SchoolOutlinedIcon,
+      icon: ExamIcon,
     },
     {
-      text: "Ngân Hàng Đề Thi",
+      text: "Ngân hàng đề thi",
       path: paths.EXAMS,
-      icon: FeedOutlinedIcon,
+      icon: OmegaIcon,
     },
   ],
   NAV_AUTH: [
