@@ -38,13 +38,14 @@ const Clock = () => {
           right: 80,
         }}
       >
-        {current.split("").map((text) => (
+        {current.split("").map((text, i) => (
           <Box
             sx={{
               position: "relative",
               width: text === ":" ? "5px" : "14px",
               height: "14px",
             }}
+            key={i}
           >
             <Typography
               sx={(theme) => ({

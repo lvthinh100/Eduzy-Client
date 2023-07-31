@@ -30,7 +30,6 @@ const components = {
   MuiDateCalendar: {
     styleOverrides: {
       root: ({ theme }: { theme: Theme }) => ({
-        maxHeight: 320,
         "& .MuiTypography-root": {
           fontWeight: "inherit",
           color: "inherit",
