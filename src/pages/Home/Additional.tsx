@@ -27,22 +27,25 @@ const Additional = () => {
       {isDesktop && <SelectClass />}
 
       {/* Flower */}
-      <CardMedia
-        component="img"
-        sx={{
-          height: 120,
-          objectFit: "contain",
-          width: "fit-content",
-        }}
-        src={flowers}
-      />
+      {isDesktop && 
+            <CardMedia
+            component="img"
+            sx={{
+              height: 160,
+              objectFit: "contain",
+              width: "fit-content",
+            }}
+            src={flowers}
+          />
+      }
+
 
       {/* Timer */}
       {isDesktop && <Clock />}
 
       {/* High Record */}
       <Box>
-        <Box sx={{ position: "relative", width: "300px", height: 300 }}>
+        <Box sx={{ position: "relative", width: "300px", height: 300, mt:5 }}>
           <Box
             component={Stack}
             direction="column"

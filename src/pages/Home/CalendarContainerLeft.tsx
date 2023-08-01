@@ -1,14 +1,14 @@
 import React, { ReactNode } from "react";
-import PaperStyled from "./style";
+import { PaperStyled } from "./style";
 import { Box } from "@mui/material";
 
-const CalendarContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
+const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Box
       sx={{
         position: "relative",
         mt: 2,
-        mx: { xl: 8, md: 2, xs: 0 },
+        mx: { xl: 8, md: 6, xs: 0 },
       }}
     >
       <Box
@@ -49,7 +49,7 @@ const CalendarContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
       <PaperStyled
         sx={{
           mt: "30px",
-          boxShadow: "13px 12px 26px 11px rgba(54 ,54 ,54 ,0.5) !important",
+          boxShadow: "26px 26px 16px 4px rgba(110, 143, 148,0.76) !important",
         }}
       >
         {children}
@@ -58,4 +58,4 @@ const CalendarContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default CalendarContainer;
+export default CalendarContainerLeft;

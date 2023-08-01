@@ -6,7 +6,7 @@ import UpcomingEvent from "./UpcomingEvent";
 import Schedule from "./Schedule";
 import Additional from "./Additional";
 import SelectClass from "./SelectClass";
-import CalendarContainer from "./CalendarContainer";
+import CalendarContainerRight from "./CalendarContainerRight";
 
 const HomePage = () => {
   const [open, setOpen] = React.useState(false);
@@ -19,7 +19,7 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={1}>
+      <Grid container spacing={3}>
         <Grid item md={4} xs={12}>
           {/* Mobile Select */}
           <Box
@@ -43,10 +43,17 @@ const HomePage = () => {
         <Grid item md={4} xs={12}>
           <Additional />
         </Grid>
-        <Grid item md={4} xs={0}>
-          <CalendarContainer>
-            <Schedule />
-          </CalendarContainer>
+        <Grid item md={4} xs={12}>
+          <Box
+              sx={{
+                display: { md: "block", xs: "none" }
+              }}
+            >
+            <CalendarContainerRight>
+              <Schedule />
+            </CalendarContainerRight>
+          </Box>
+
         </Grid>
       </Grid>
       <Dialog

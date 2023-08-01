@@ -1,6 +1,6 @@
 import React from "react";
 import dayjs from "dayjs";
-import img from "../assets/KeSach2.png";
+import img from "../assets/KeSach2.jpg";
 
 import { Box, Typography, CardMedia, Stack } from "@mui/material";
 
@@ -21,7 +21,7 @@ const Clock = () => {
       <CardMedia
         component="img"
         sx={{
-          height: 200,
+          height: 130,
           objectFit: "contain",
           width: "fit-content",
           position: "relative",
@@ -34,15 +34,15 @@ const Clock = () => {
         color="white"
         sx={{
           position: "absolute",
-          top: 95,
-          right: 80,
+          top: 58,
+          right: 48,
         }}
       >
         {current.split("").map((text, i) => (
           <Box
             sx={{
               position: "relative",
-              width: text === ":" ? "5px" : "14px",
+              width: text === ":" ? "5px" : "10px",
               height: "14px",
             }}
             key={i}
@@ -51,7 +51,7 @@ const Clock = () => {
               sx={(theme) => ({
                 position: "absolute",
                 fontFamily: "Digital",
-                fontSize: "28px",
+                fontSize: "22px",
                 textAlign: "right",
                 right: 0,
                 color: theme.palette.digital.main,
@@ -63,8 +63,9 @@ const Clock = () => {
               sx={{
                 position: "absolute",
                 fontFamily: "Digital",
-                fontSize: "28px",
+                fontSize: "22px",
                 textAlign: "right",
+                right: 0,
                 opacity: 0.3,
                 color: "digital.main",
               }}

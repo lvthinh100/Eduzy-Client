@@ -113,7 +113,8 @@ function ResponsiveAppBar() {
             href="google.com"
             sx={{
               display: { xs: "none", md: "flex" },
-              mr: 3,
+              mr: 6,
+              ml: 3,
               textTransform: "none",
               fontWeight: "bold",
               fontSize: "18px",
