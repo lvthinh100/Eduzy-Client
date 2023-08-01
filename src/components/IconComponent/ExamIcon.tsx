@@ -7,7 +7,7 @@ const ExamIcon = createSvgIcon(
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
     stroke="currentColor"
-    strokeWidth={0.5}
+    strokeWidth={0.1}
     viewBox="0 0 16 16"
     preserveAspectRatio="none"
   >

@@ -8,7 +8,7 @@ const content = {
   LOGO: "Eduzy",
   NAV_LINK: [
     {
-      text: "Kiểm tra-học tập",
+      text: "Kiểm tra - học tập",
       path: paths.HOME,
       icon: ExamIcon,
     },

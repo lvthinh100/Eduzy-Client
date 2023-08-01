@@ -21,11 +21,12 @@ const HomePage = () => {
     <Container maxWidth="xl">
       <Grid container spacing={1}>
         <Grid item md={4} xs={12}>
+          {/* Mobile Select */}
           <Box
             sx={{
               display: { md: "none", xs: "flex" },
               justifyContent: "space-between",
-              m: 1,
+              my: 1,
             }}
           >
             <SelectClass />
@@ -42,12 +43,10 @@ const HomePage = () => {
         <Grid item md={4} xs={12}>
           <Additional />
         </Grid>
-        <Grid item md={4} xs={12}>
-          <Box sx={{ display: { md: "block", xs: "none" } }}>
-            <CalendarContainer>
-              <Schedule />
-            </CalendarContainer>
-          </Box>
+        <Grid item md={4} xs={0}>
+          <CalendarContainer>
+            <Schedule />
+          </CalendarContainer>
         </Grid>
       </Grid>
       <Dialog

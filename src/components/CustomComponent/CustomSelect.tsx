@@ -70,7 +70,7 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
-  min-width: 320px;
+  min-width: 160px;
   padding: 12px;
   border-radius: 12px;
   text-align: center;
