@@ -1,4 +1,4 @@
-import { PaperProps, Paper, styled } from "@mui/material";
+import { PaperProps, Paper, styled, Typography } from "@mui/material";
 
 const PaperStyled = styled(Paper)<PaperProps>(({ theme }) => ({
   borderTop: `10px solid ${theme.palette.highlighter.main}`,
@@ -6,4 +6,10 @@ const PaperStyled = styled(Paper)<PaperProps>(({ theme }) => ({
   padding: 5,
 }));
 
-export default PaperStyled;
+const CustomSubtitleTypography = styled(Typography)({
+  fontFamily: "Segoe UI",
+  fontWeight: "600",
+  fontSize: "12px"
+});
+
+export { PaperStyled, CustomSubtitleTypography };

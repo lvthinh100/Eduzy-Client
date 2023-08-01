@@ -4,29 +4,33 @@ import isBetweenPlugin from "dayjs/plugin/isBetween";
 import { styled } from "@mui/material/styles";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import { Box, Popover, Typography } from "@mui/material";
+import { LessonType } from "../../model/Lesson";
 
 dayjs.extend(isBetweenPlugin);
 
 interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
-  isExam: boolean;
-  isLesson: boolean;
+  lessonType: "LuyenDe" | "LyThuyet" | null;
 }
 
 const CustomPickersDay = styled(PickersDay, {
-  shouldForwardProp: (prop) => prop !== "isExam" && prop !== "isLesson",
-})<CustomPickerDayProps>(({ theme, isExam, isLesson }) => ({
+  shouldForwardProp: (prop) => prop !== "lessonType",
+})<CustomPickerDayProps>(({ theme, lessonType }) => ({
   fontWeight: "bold",
-  ...(isExam && {
+  ...(lessonType === "LuyenDe" && {
     border: "3px solid " + theme.palette.date.exam + " !important",
   }),
-  ...(isLesson && {
+  ...(lessonType === "LyThuyet" && {
     border: "3px solid " + theme.palette.date.lesson + " !important",
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
 function CustomDay(
-  props: PickersDayProps<Dayjs> & { selectedDay?: Dayjs | null }
+  props: PickersDayProps<Dayjs> & {
+    selectedDay?: Dayjs | null;
+    lessons?: [LessonType] | null;
+  }
 ) {
+  // Handler PopOver
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,21 +42,29 @@ function CustomDay(
   };
 
   const open = Boolean(anchorEl);
-  const { day, selectedDay, ...other } = props;
+
+  // Handler Lesson type
+  const { day, selectedDay, lessons, ...other } = props;
 
   if (selectedDay == null) {
     return <PickersDay day={day} {...other} />;
   }
 
-  const isExam = day.isSame(selectedDay.add(2, "day"), "day");
-  const isLesson = day.isSame(selectedDay.add(4, "day"), "day");
+  let lessonType = null;
+  let lesson: LessonType | null = null;
+  const index = lessons?.findIndex((lesson) =>
+    day.isSame(dayjs(lesson.startTime).format("YYYY-MM-DD"))
+  );
+  if (lessons && index && index > 0) {
+    lessonType = lessons[index].lessonType;
+    lesson = lessons[index];
+  }
   return (
     <Box>
       <CustomPickersDay
         {...other}
         day={day}
-        isExam={isExam}
-        isLesson={isLesson}
+        lessonType={lessonType}
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
       />
@@ -83,9 +95,13 @@ function CustomDay(
             backgroundColor: "#fff",
           }}
         >
-          <Typography fontSize={12} fontWeight="bold">
-            Kiểm tra Đề Luyện Thi 5 Ngày 17/7/2023 - 8:30pm Nội dung: Luyện thi
-            buổi 4
+          <Typography fontSize={12} fontWeight="bold" whiteSpace="pre-line">
+            {index && index < 0
+              ? "Ngày nghỉ"
+              : ` ${lesson?.lessonContent}
+             Ngày ${dayjs(lesson?.startTime).format("DD/MM/YYYY - h:mma")} 
+             Nội dung: ${lesson?.lessonContent}
+            `}
           </Typography>
         </Box>
       </Popover>

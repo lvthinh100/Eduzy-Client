@@ -11,9 +11,10 @@ type PropsType = {
   variant?: variant;
   direction?: direction;
   crown?: boolean;
+  value?: number;
 };
 
-const Prize: React.FC<PropsType> = ({ variant, direction, crown }) => {
+const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
   return (
     <Stack
       sx={{
@@ -30,7 +31,7 @@ const Prize: React.FC<PropsType> = ({ variant, direction, crown }) => {
         </Stack>
       )}
       <Stack direction="row" alignItems="center">
-        <Typography fontSize="inherit">11.000</Typography>
+        <Typography fontSize="inherit">{value || 11000}</Typography>
         <MonetizationOnIcon fontSize="inherit" />
       </Stack>
     </Stack>

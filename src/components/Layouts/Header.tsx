@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ minHeight: "60px !important" }}>
+        <Toolbar disableGutters sx={{ minHeight: "50px !important" }}>
           {/* Mobile */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -113,11 +113,13 @@ function ResponsiveAppBar() {
             href="google.com"
             sx={{
               display: { xs: "none", md: "flex" },
-              mr: 3,
+              mr: 6,
+              ml: 3,
               textTransform: "none",
               fontWeight: "bold",
-              fontSize: "20px",
-              letterSpacing: ".1rem",
+              fontSize: "18px",
+              letterSpacing: ".05rem",
+              fontFamily: "Montserrat",
             }}
           >
             {content.LOGO}
@@ -135,7 +137,7 @@ function ResponsiveAppBar() {
                 {
                   <page.icon
                     fontSize="small"
-                    sx={{ mr: 1, width: "16px", height: "16px" }}
+                    sx={{ mr: 0.75, width: "14px", height: "14px" }}
                   />
                 }
                 {page.text}
@@ -152,7 +154,7 @@ function ResponsiveAppBar() {
                 // onClick={handleCloseNavMenu}
                 sx={{ display: "flex", alignItems: "center", mr: 2 }}
               >
-                {<page.icon sx={{ mr: 1, width: "20px", height: "20px" }} />}
+                {<page.icon sx={{ mr: 0.6, width: "18px", height: "18px" }} />}
                 {page.text}
               </NavLinkStyled>
             ))}
