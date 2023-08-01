@@ -5,6 +5,7 @@ import { StandingBox, StyledBadge } from "./style";
 import StudentRanking from "./StudentRanking";
 import SearchIcon from "@mui/icons-material/Search";
 import landscape from "../../assets/landscape.jpg";
+import Prize from "../../components/Prize";
 
 const LeaderBoard = () => {
   return (
@@ -26,7 +27,7 @@ const LeaderBoard = () => {
           sx={{
             left: "50%",
             transform: "translateX(-50%)",
-            top: "10%",
+            top: "5%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -36,6 +37,7 @@ const LeaderBoard = () => {
           <StyledBadge color="secondary" badgeContent="1" overlap="circular">
             <Stack direction="column" alignItems="center">
               <StudentInfo />
+              <Prize direction="row" variant="first" />
               <Typography fontWeight="bold">8.5</Typography>
             </Stack>
           </StyledBadge>
@@ -52,16 +54,18 @@ const LeaderBoard = () => {
           sx={{
             position: "absolute",
             left: "20%",
+            top: "25%",
             transform: "translateX(-50%)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            top: "30%",
           }}
         >
           <StyledBadge color="secondary" badgeContent="2" overlap="circular">
             <Stack direction="column" alignItems="center">
               <StudentInfo />
+              <Prize direction="row" variant="second" />
+
               <Typography fontWeight="bold">8.5</Typography>
             </Stack>
           </StyledBadge>
@@ -78,8 +82,8 @@ const LeaderBoard = () => {
           sx={{
             position: "absolute",
             left: "80%",
+            top: "25%",
             transform: "translateX(-50%)",
-            top: "30%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -88,13 +92,15 @@ const LeaderBoard = () => {
           <StyledBadge color="secondary" badgeContent="3" overlap="circular">
             <Stack direction="column" alignItems="center">
               <StudentInfo />
+              <Prize direction="row" variant="third" />
+
               <Typography fontWeight="bold">8.5</Typography>
             </Stack>
           </StyledBadge>
           <StandingBox
             sx={{
               backgroundColor: "#da8100",
-              height: "57px",
+              height: "80px",
             }}
           >
             3
@@ -130,6 +136,7 @@ const LeaderBoard = () => {
             py: 1,
             maxHeight: "300px",
             overflowY: "scroll",
+            pr: 1,
           }}
         >
           <StudentRanking />

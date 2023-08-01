@@ -20,7 +20,7 @@ export const StyledTypo = styled(Typography)<TypographyProps>(({ theme }) => ({
 }));
 
 export const StyledList = styled(List)<ListProps>(({ theme }) => ({
-  padding: 0,
+  padding: "0px 5px 0px 5px",
   maxHeight: "400px",
   overflowY: "scroll",
 }));

@@ -14,7 +14,15 @@ const StudentInfo = () => {
           m: "4px",
         }}
       />
-      <Typography fontWeight="bold">Hoàng Văn Hòa</Typography>
+      <Typography
+        fontWeight="bold"
+        maxWidth={200}
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
+        Hoàng Văn Hòa
+      </Typography>
       <Typography>#00006</Typography>
     </Stack>
   );

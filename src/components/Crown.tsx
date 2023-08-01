@@ -1,11 +1,12 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import CrownIcon from "../components/IconComponent/CrownIcon";
+import { CrownVariantType } from "../model/Crown";
 
-type PropsType = {
+interface PropsType {
   quantity: number;
-  variant: "first" | "second" | "third";
-};
+  variant?: CrownVariantType;
+}
 
 const Crown: React.FC<PropsType> = ({ quantity, variant }) => {
   return (
@@ -14,13 +15,19 @@ const Crown: React.FC<PropsType> = ({ quantity, variant }) => {
       alignItems="center"
       sx={{
         fontSize: "14px",
-        color: (theme) => theme.palette.prize[variant ?? "normal"],
+        color: (theme) => theme.palette.prize[variant || "normal"],
       }}
     >
-      <Typography fontSize="inherit">{quantity}</Typography>
-      <EmojiEventsIcon fontSize="inherit" color="inherit" />
+      <Typography fontSize="inherit" mr={0.3} lineHeight="14px">
+        {quantity}
+      </Typography>
+      <CrownIcon sx={{ width: 14, height: 14 }} color="inherit" />
     </Stack>
   );
+};
+
+Crown.defaultProps = {
+  variant: "normal",
 };
 
 export default Crown;

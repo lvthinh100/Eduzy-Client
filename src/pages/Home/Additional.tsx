@@ -27,25 +27,24 @@ const Additional = () => {
       {isDesktop && <SelectClass />}
 
       {/* Flower */}
-      {isDesktop && 
-            <CardMedia
-            component="img"
-            sx={{
-              height: 160,
-              objectFit: "contain",
-              width: "fit-content",
-            }}
-            src={flowers}
-          />
-      }
-
+      {isDesktop && (
+        <CardMedia
+          component="img"
+          sx={{
+            height: 160,
+            objectFit: "contain",
+            width: "fit-content",
+          }}
+          src={flowers}
+        />
+      )}
 
       {/* Timer */}
       {isDesktop && <Clock />}
 
       {/* High Record */}
       <Box>
-        <Box sx={{ position: "relative", width: "300px", height: 300, mt:5 }}>
+        <Box sx={{ position: "relative", width: "300px", height: 300, mt: 5 }}>
           <Box
             component={Stack}
             direction="column"
@@ -106,10 +105,10 @@ const Additional = () => {
             >
               #00006
             </Typography>
-            <Stack direction="row" alignItems="center" gap={1}>
+            <Stack direction="row" alignItems="center" gap={1} mt={0.5}>
               <Crown quantity={1} variant="first" />
-              <Crown quantity={1} variant="second" />
-              <Crown quantity={1} variant="third" />
+              <Crown quantity={5} variant="second" />
+              <Crown quantity={0} variant="third" />
             </Stack>
           </Box>
           <CardMedia

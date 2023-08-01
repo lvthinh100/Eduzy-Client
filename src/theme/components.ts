@@ -23,6 +23,7 @@ const components = {
             backgroundImage: `linear-gradient(to right, white, gray 75%)`,
             color: "white",
           },
+          color: "white",
         },
       },
     ],
@@ -51,13 +52,34 @@ const components = {
   },
   MuiCssBaseline: {
     styleOverrides: `
-    @font-face {
-      font-family: 'Digital';
-      font-style: normal;
-      font-display: swap;
-      font-weight: 400;
-      src: url(${Digital}) format('truetype');
-    }
+      @font-face {
+        font-family: 'Digital';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${Digital}) format('truetype');
+      }
+      /* width */
+      ::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #aaaaaa;
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
     `,
   },
 };

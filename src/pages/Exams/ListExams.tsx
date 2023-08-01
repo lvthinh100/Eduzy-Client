@@ -22,7 +22,7 @@ const ListExams = () => {
         </Typography>
         <Box sx={{ borderRadius: 2, p: 1 }} bgcolor="white">
           <StyledList>
-            <Exam />
+            <Exam selected />
             <Exam />
             <Exam />
             <Exam />

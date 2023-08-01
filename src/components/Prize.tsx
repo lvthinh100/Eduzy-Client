@@ -1,18 +1,19 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import Crown from "./Crown";
 
-type variant = "first" | "second" | "third" | "normal";
+import { CrownVariantType } from "../model/Crown";
+import MoneyIcon from "./IconComponent/MoneyIcon";
 
 type direction = "row" | "column";
 
-type PropsType = {
-  variant?: variant;
+interface PropsType {
+  variant?: CrownVariantType;
   direction?: direction;
   crown?: boolean;
   value?: number;
-};
+}
 
 const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
   return (
@@ -24,15 +25,17 @@ const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
       alignItems="center"
       direction={direction}
     >
-      {crown && (
-        <Stack direction="row" alignItems="center">
-          <Typography fontSize="inherit">1</Typography>
-          <EmojiEventsIcon fontSize="inherit" />
-        </Stack>
-      )}
-      <Stack direction="row" alignItems="center">
-        <Typography fontSize="inherit">{value || 11000}</Typography>
-        <MonetizationOnIcon fontSize="inherit" />
+      {crown && <Crown quantity={1} variant={variant} />}
+      <Stack
+        direction="row"
+        alignItems="center"
+        mt={0.5}
+        ml={direction === "row" ? 0.5 : 0}
+      >
+        <Typography fontSize="inherit" lineHeight="12px" mr={0.5}>
+          {value || 11000}
+        </Typography>
+        <MoneyIcon sx={{ width: 12, height: 12 }} />
       </Stack>
     </Stack>
   );
