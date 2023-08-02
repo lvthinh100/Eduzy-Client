@@ -8,7 +8,9 @@ const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({ children }) 
       sx={{
         position: "relative",
         mt: 2,
-        mx: { xl: 8, md: 6, xs: 0 },
+        mr: { lg: 8, md: 0, xs: 0 },
+        ml: { lg: 5, md: 0, xs: 0 },
+        minWidth: "320px"
       }}
     >
       <Box

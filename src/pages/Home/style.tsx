@@ -7,8 +7,8 @@ const PaperStyled = styled(Paper)<PaperProps>(({ theme }) => ({
 }));
 
 const CustomSubtitleTypography = styled(Typography)({
-  fontFamily: "Segoe UI",
-  fontWeight: "600",
+  fontFamily: "SegoeUISemiBold",
+  fontWeight: "800",
   fontSize: "12px"
 });
 

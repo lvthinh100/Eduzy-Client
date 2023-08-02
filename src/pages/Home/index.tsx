@@ -20,7 +20,7 @@ const HomePage = () => {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3}>
-        <Grid item md={4} xs={12}>
+        <Grid item lg={4} md={3} xs={12} >
           {/* Mobile Select */}
           <Box
             sx={{
@@ -40,13 +40,14 @@ const HomePage = () => {
           </Box>
           <UpcomingEvent />
         </Grid>
-        <Grid item md={4} xs={12}>
+        <Grid item lg={4} md={9} xs={12}>
           <Additional />
         </Grid>
-        <Grid item md={4} xs={12}>
+        <Grid item lg={4} md={6} xs={12}>
           <Box
               sx={{
-                display: { md: "block", xs: "none" }
+                display: { lg:"block", md: "none", xs: "none" },
+                mr: {lg: 0, md: 8, xs: 0 }
               }}
             >
             <CalendarContainerRight>

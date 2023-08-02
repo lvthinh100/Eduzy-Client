@@ -14,14 +14,14 @@ const Crown: React.FC<PropsType> = ({ quantity, variant }) => {
       direction="row"
       alignItems="center"
       sx={{
-        fontSize: "14px",
+        fontSize: "12px",
         color: (theme) => theme.palette.prize[variant || "normal"],
       }}
     >
-      <Typography fontSize="inherit" mr={0.3} lineHeight="14px">
+      <Typography fontSize="inherit" fontFamily="ArialRounded" mr={0.3} lineHeight="14px">
         {quantity}
       </Typography>
-      <CrownIcon sx={{ width: 14, height: 14 }} color="inherit" />
+      <CrownIcon sx={{ width: 12, height: 12 }} color="inherit" />
     </Stack>
   );
 };

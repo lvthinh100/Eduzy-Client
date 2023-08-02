@@ -25,7 +25,6 @@ const Additional = () => {
     <Stack direction="column" alignItems="center" sx={{ mt: 2 }}>
       {/* Select */}
       {isDesktop && <SelectClass />}
-
       {/* Flower */}
       {isDesktop && (
         <CardMedia
@@ -43,6 +42,7 @@ const Additional = () => {
       {isDesktop && <Clock />}
 
       {/* High Record */}
+      {isDesktop &&
       <Box>
         <Box sx={{ position: "relative", width: "300px", height: 300, mt: 5 }}>
           <Box
@@ -139,6 +139,7 @@ const Additional = () => {
           />
         </Box>
       </Box>
+      }
     </Stack>
   );
 };

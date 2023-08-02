@@ -39,7 +39,7 @@ const UpcomingEvent = () => {
     <CalendarContainerLeft>
       <Box sx={{ textAlign: "center", pb: 4, position: "relative", color:"#5A7F8F" }}>
         <Typography variant="h4" textTransform="uppercase" 
-        sx={{ fontFamily:"Roboto", fontWeight:"600", fontSize:"30px"
+        sx={{ fontFamily:"ArialUnicodeMS", fontWeight:"600", fontSize:"30px"
         , letterSpacing:".05rem" }}>
           Kiểm tra
         </Typography>
@@ -57,7 +57,7 @@ const UpcomingEvent = () => {
           Nội dung: {upcomingLesson?.lessonContent}
         </CustomSubtitleTypography>
         <Typography variant="subtitle2"
-        sx={{ fontFamily:"Arial Unicode MS", fontWeight:"500", fontSize:"14px"
+        sx={{ fontFamily:"ArialUnicodeMS", fontWeight:"500", fontSize:"14px"
         , mt:2 }}>Lượt Đăng ký</Typography>
         <Typography sx={{ fontFamily:"Century", fontWeight:"600", fontSize:"36px"
         }}>
@@ -73,9 +73,9 @@ const UpcomingEvent = () => {
           Giải thưởng
         </Typography>
         <Reward />
-        <Button variant="gradient" sx={{ mt: 2 }}>
+        <Button variant="gradient" sx={{ mt: 2 , pb: 1, width: "250px"}}>
           <Stack direction="column">
-            <Typography variant="subtitle2" color="white">
+            <Typography mb={0.7} color="white" fontFamily="SegoeUISemiBold" textTransform="none" fontSize="15px" fontWeight="medium">
               Đăng ký kiểm tra
             </Typography>
             <Prize crown={false} value={upcomingLesson?.examId.price} />

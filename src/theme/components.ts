@@ -2,6 +2,9 @@ import { ButtonProps } from "@mui/material";
 import { Theme } from "@mui/material";
 
 import Digital from "../assets/Fonts/digital.ttf";
+import ArialRounded from "../assets/Fonts/ARLRDBD.ttf";
+import SegoeUISemiBold from "../assets/Fonts/SegoeUI-SemiBold.ttf";
+import ArialUnicodeMS from "../assets/Fonts/ArialUnicodeMS.ttf";
 
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
@@ -24,6 +27,7 @@ const components = {
             color: "white",
           },
           color: "white",
+          borderRadius: "20px",
         },
       },
     ],
@@ -58,6 +62,27 @@ const components = {
         font-display: swap;
         font-weight: 400;
         src: url(${Digital}) format('truetype');
+      }
+      @font-face {
+        font-family: 'ArialRounded';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${ArialRounded}) format('truetype');
+      }
+      @font-face {
+        font-family: 'SegoeUISemiBold';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${SegoeUISemiBold}) format('truetype');
+      }
+      @font-face {
+        font-family: 'ArialUnicodeMS';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${ArialUnicodeMS}) format('truetype');
       }
       /* width */
       ::-webkit-scrollbar {
