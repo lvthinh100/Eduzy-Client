@@ -3,6 +3,7 @@ declare module "@mui/material/styles" {
     lighter: Palette["primary"];
     highlighter: Palette["primary"];
     digital: Palette["primary"];
+    highlightText: Palette["primary"];
     prize: {
       first: string;
       second: string;
@@ -57,6 +58,9 @@ const palette = {
   },
   digital: {
     main: "#7ed4bd",
+  },
+  highlightText: {
+    main: "#5A7F8F",
   },
 };
 

@@ -5,8 +5,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import UpcomingEvent from "./UpcomingEvent";
 import Schedule from "./Schedule";
 import Additional from "./Additional";
-import SelectClass from "./SelectClass";
 import CalendarContainerRight from "./CalendarContainerRight";
+import SelectClassType from "../../components/SelectClassType";
 
 const HomePage = () => {
   const [open, setOpen] = React.useState(false);
@@ -19,17 +19,16 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={3}>
-        <Grid item lg={4} md={3} xs={12} >
-          {/* Mobile Select */}
+      <Grid container spacing={2}>
+        <Grid item lg={0} md={12} xs={12}>
           <Box
             sx={{
-              display: { md: "none", xs: "flex" },
+              display: { lg: "none", xs: "flex" },
               justifyContent: "space-between",
               my: 1,
             }}
           >
-            <SelectClass />
+            <SelectClassType />
             <IconButton
               aria-label="Lịch"
               sx={{ justifySelf: "flex-end" }}
@@ -38,30 +37,32 @@ const HomePage = () => {
               <CalendarMonthIcon fontSize="large" />
             </IconButton>
           </Box>
+        </Grid>
+        <Grid item lg={4} md={3} xs={12}>
+          {/* Mobile Select */}
+
           <UpcomingEvent />
         </Grid>
         <Grid item lg={4} md={9} xs={12}>
           <Additional />
         </Grid>
-        <Grid item lg={4} md={6} xs={12}>
+        <Grid item lg={4} md={0} xs={0}>
           <Box
-              sx={{
-                display: { lg:"block", md: "none", xs: "none" },
-                mr: {lg: 0, md: 8, xs: 0 }
-              }}
-            >
+            sx={{
+              mr: { lg: 0, md: 8, xs: 0 },
+            }}
+          >
             <CalendarContainerRight>
               <Schedule />
             </CalendarContainerRight>
           </Box>
-
         </Grid>
       </Grid>
       <Dialog
         maxWidth={"xs"}
         fullWidth={true}
         open={open}
-        sx={{ display: { md: "none", xs: "block" } }}
+        sx={{ display: { lg: "none", xs: "block" } }}
         onClose={handleClose}
       >
         <Schedule />

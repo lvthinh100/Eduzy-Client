@@ -2,7 +2,9 @@ import React, { ReactNode } from "react";
 import { PaperStyled } from "./style";
 import { Box } from "@mui/material";
 
-const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({ children }) => {
+const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   return (
     <Box
       sx={{
@@ -10,7 +12,7 @@ const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({ children }) 
         mt: 2,
         mr: { lg: 8, md: 0, xs: 0 },
         ml: { lg: 5, md: 0, xs: 0 },
-        minWidth: "320px"
+        minWidth: "320px",
       }}
     >
       <Box

@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Crown from "./Crown";
 
 import { CrownVariantType } from "../model/Crown";
@@ -25,17 +24,19 @@ const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
       alignItems="center"
       direction={direction}
     >
-      {crown && 
-      <Stack>
-        <Crown quantity={1} variant={variant} />
-        <Stack mt={1}></Stack>
-      </Stack>}
+      {crown && <Crown quantity={1} variant={variant} />}
       <Stack
         direction="row"
         alignItems="center"
         ml={direction === "row" ? 0.5 : 0}
+        mt={direction === "column" && crown ? 1 : 0}
       >
-        <Typography fontSize="inherit" fontFamily="ArialRounded" lineHeight="12px" mr={0.5}>
+        <Typography
+          fontSize="inherit"
+          fontFamily="ArialRounded"
+          lineHeight="12px"
+          mr={0.5}
+        >
           {value || 11000}
         </Typography>
         <MoneyIcon sx={{ width: 12, height: 12 }} />

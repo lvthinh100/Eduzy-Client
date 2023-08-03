@@ -70,14 +70,15 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
-  min-width: 160px;
+  min-width: 200px;
   padding: 12px;
   border-radius: 12px;
   text-align: center;
   line-height: 1.5;
   background: ${theme.palette.background.paper};
   border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+  color: ${theme.palette.highlightText.main};
+  font-weight: bold;
   position: relative;
 
   transition-property: all;
@@ -110,12 +111,12 @@ const StyledListbox = styled("ul")(
   box-sizing: border-box;
   padding: 6px;
   margin: 12px 0;
-  min-width: 320px;
+  min-width: 200px;
   border-radius: 12px;
   overflow: auto;
   outline: 0px;
   background: ${theme.palette.background.paper};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+  border: 1px solid ${grey[900]};
   color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
   box-shadow: 0px 4px 30px ${
     theme.palette.mode === "dark" ? grey[900] : grey[200]
@@ -130,6 +131,8 @@ export const StyledOption = styled(Option)(
   border-radius: 8px;
   cursor: default;
   text-align: center;
+  color: ${theme.palette.highlightText.main};
+  font-weight: bold;
   &:last-of-type {
     border-bottom: none;
   }
@@ -152,7 +155,6 @@ export const StyledOption = styled(Option)(
 
   &:hover:not(.${optionClasses.disabled}) {
     background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
   }
   `
 );

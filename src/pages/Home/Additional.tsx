@@ -11,22 +11,22 @@ import { motion } from "framer-motion";
 
 import Clock from "../../components/Clock";
 import Crown from "../../components/Crown";
-import SelectClass from "./SelectClass";
 import useResponsive from "../../hooks/useResponsive";
 
 import computer from "../../assets/computer.jpg";
 import img from "../../assets/avatar.jpg";
 import flowers from "../../assets/flowers.jpg";
 import leaderboardBtn from "../../assets/leaderboardBtn.png";
+import SelectClassType from "../../components/SelectClassType";
 
 const Additional = () => {
-  const isDesktop = useResponsive("up", "md");
+  const isDesktop = useResponsive("up", "lg");
   return (
     <Stack direction="column" alignItems="center" sx={{ mt: 2 }}>
       {/* Select */}
-      {isDesktop && <SelectClass />}
+      {isDesktop && <SelectClassType />}
       {/* Flower */}
-      {isDesktop && (
+      {
         <CardMedia
           component="img"
           sx={{
@@ -36,13 +36,13 @@ const Additional = () => {
           }}
           src={flowers}
         />
-      )}
+      }
 
       {/* Timer */}
-      {isDesktop && <Clock />}
+      <Clock />
 
       {/* High Record */}
-      {isDesktop &&
+
       <Box>
         <Box sx={{ position: "relative", width: "300px", height: 300, mt: 5 }}>
           <Box
@@ -66,7 +66,9 @@ const Additional = () => {
               <Badge
                 badgeContent="1"
                 overlap="circular"
-                sx={{ "& .MuiBadge-badge": { backgroundColor: "prize.first" } }}
+                sx={{
+                  "& .MuiBadge-badge": { backgroundColor: "prize.first" },
+                }}
               >
                 <Avatar
                   src={img}
@@ -124,7 +126,7 @@ const Additional = () => {
 
           <CardMedia
             component="img"
-            alt="computer"
+            alt="leader board"
             src={leaderboardBtn}
             sx={{
               position: "absolute",
@@ -139,7 +141,6 @@ const Additional = () => {
           />
         </Box>
       </Box>
-      }
     </Stack>
   );
 };
