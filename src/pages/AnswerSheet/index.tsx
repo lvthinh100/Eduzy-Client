@@ -16,52 +16,57 @@ import { StyledScoreLabel } from "./style";
 const AnswerSheetPage = () => {
   return (
     <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
-      <Grid md={12}>
-        <Stack direction="column" alignItems="center" mb={2}>
-          <Typography variant="h3">Phiếu trả lời trắc nghiệm</Typography>
+      <Stack direction="column" alignItems="center" mb={2}>
+        <Typography variant="h3">Phiếu trả lời trắc nghiệm</Typography>
+        <FillingText
+          label="Kỳ thi"
+          text="Luyện thi trung học phổ thông quốc gia"
+          paddingLeft={1}
+        />
+        <Stack direction="row">
           <FillingText
-            label="Kỳ thi"
-            text="Luyện thi trung học phổ thông quốc gia"
-            paddingLeft={1}
+            label="Bài thi"
+            text="Vật Lý"
+            sx={{ mr: 1 }}
+            paddingLeft={2}
           />
-          <Stack direction="row">
-            <FillingText
-              label="Bài thi"
-              text="Vật Lý"
-              sx={{ mr: 1 }}
-              paddingLeft={2}
-            />
-            <FillingText label="Ngày thi" text="3/8/2023" paddingLeft={2} />
-          </Stack>
+          <FillingText label="Ngày thi" text="3/8/2023" paddingLeft={2} />
         </Stack>
-      </Grid>
+      </Stack>
       <Grid container>
         <Grid container spacing={1}>
           <Grid item md={2}>
-            <Grid container>
-              <Grid item md={12}>
-                <Box
-                  sx={{ p: 1, textAlign: "center", border: "1px solid red" }}
-                >
-                  <Typography>Điểm</Typography>
-                  <StyledScoreLabel>8</StyledScoreLabel>
-                </Box>
-              </Grid>
-              <Grid item md={12}>
-                <Box
-                  sx={{
-                    p: 1,
-                    textAlign: "center",
-                    border: "1px solid red",
-                    mt: 1,
-                  }}
-                >
-                  <Typography>Xếp hạng</Typography>
-                  <StyledScoreLabel>8</StyledScoreLabel>
-                  <Button variant="gradient">Xem đáp án</Button>
-                </Box>
-              </Grid>
-            </Grid>
+            <Stack
+              sx={{
+                direction: "column",
+                justifyContent: "space-between",
+                height: "100%",
+                border: "1px solid red",
+              }}
+            >
+              <Box
+                sx={{
+                  p: 1,
+                  textAlign: "center",
+                  mb: "auto",
+                }}
+              >
+                <Typography>Điểm</Typography>
+                <StyledScoreLabel>8</StyledScoreLabel>
+              </Box>
+              <Divider sx={{ width: "100%", backgroundColor: "red" }} />
+              <Box
+                sx={{
+                  p: 1,
+                  textAlign: "center",
+                  mt: 1,
+                }}
+              >
+                <Typography>Xếp hạng</Typography>
+                <StyledScoreLabel>8</StyledScoreLabel>
+                <Button variant="gradient">Xem đáp án</Button>
+              </Box>
+            </Stack>
           </Grid>
           <Grid item md={7}>
             <Stack
@@ -110,13 +115,18 @@ const AnswerSheetPage = () => {
               />
             </Stack>
           </Grid>
-          <Grid item md={2}>
-            <Typography>Mã dự thi: </Typography>
-            <CodeFilling id="000123" />
-          </Grid>
-          <Grid item md={1}>
-            <Typography>Mã đề thi: </Typography>
-            <CodeFilling id="003" />
+
+          <Grid item md={3}>
+            <Stack direction="row">
+              <Box mr={2}>
+                <Typography>Mã dự thi: </Typography>
+                <CodeFilling id="000123" />
+              </Box>
+              <Box>
+                <Typography>Mã đề thi: </Typography>
+                <CodeFilling id="003" />
+              </Box>
+            </Stack>
           </Grid>
         </Grid>
 
