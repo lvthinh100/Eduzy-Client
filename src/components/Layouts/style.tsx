@@ -8,6 +8,9 @@ const NavLinkStyled = styled(CustomLink)<LinkProps>(({ theme }) => ({
   textTransform: "none",
   color: theme.palette.lighter.main,
   opacity: 0.6,
+  display: "flex",
+  alignItems: "center",
+  cursor: "pointer",
   "&:hover": {
     opacity: 1,
   },

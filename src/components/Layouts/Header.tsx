@@ -19,6 +19,8 @@ import { Link as RouterLink } from "react-router-dom";
 import content from "../../constants/content";
 import Logo from "../Logo";
 import useResponsive from "../../hooks/useResponsive";
+import { useAppDispatch } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
 
 function ResponsiveAppBar() {
   const isDesktop = useResponsive("up", "md");
@@ -26,6 +28,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const dispatch = useAppDispatch();
 
   const handleOpenNavMenu = () => {
     setOpenNav(true);
@@ -40,6 +43,11 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleOpenLoginModal = () => {
+    dispatch(appActions.toggleShowLoginModal());
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -92,7 +100,6 @@ function ResponsiveAppBar() {
           {!isDesktop && <Logo />}
 
           <NavLinkStyled
-            href="google.com"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -146,7 +153,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            {content.NAV_AUTH.map((page) => (
+            {/* {content.NAV_AUTH.map((page) => (
               <NavLinkStyled
                 key={page.text}
                 component={RouterLink}
@@ -157,7 +164,25 @@ function ResponsiveAppBar() {
                 {<page.icon sx={{ mr: 0.6, width: "18px", height: "18px" }} />}
                 {page.text}
               </NavLinkStyled>
-            ))}
+            ))} */}
+            <NavLinkStyled mr={2} onClick={handleOpenLoginModal}>
+              {
+                <content.NAV_AUTH.login.icon
+                  sx={{ mr: 0.6, width: "18px", height: "18px" }}
+                />
+              }
+
+              {content.NAV_AUTH.login.text}
+            </NavLinkStyled>
+            <NavLinkStyled>
+              {
+                <content.NAV_AUTH.register.icon
+                  sx={{ mr: 0.6, width: "18px", height: "18px" }}
+                />
+              }
+
+              {content.NAV_AUTH.register.text}
+            </NavLinkStyled>
           </Box>
 
           {/* Avatar */}
@@ -189,11 +214,16 @@ function ResponsiveAppBar() {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
-                {content.NAV_AUTH.map((link) => (
+                {/* {content.NAV_AUTH.map((link) => (
                   <MenuItem key={link.text} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{link.text}</Typography>
                   </MenuItem>
-                ))}
+                ))} */}
+                <MenuItem>
+                  <Typography textAlign="center">
+                    {content.NAV_AUTH.login.text}
+                  </Typography>
+                </MenuItem>
               </Menu>
             </Box>
           )}

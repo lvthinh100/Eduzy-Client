@@ -18,19 +18,18 @@ const content = {
       icon: OmegaIcon,
     },
   ],
-  NAV_AUTH: [
-    {
+  NAV_AUTH: {
+    login: {
       text: "Đăng nhập",
       path: "",
       icon: ExitToAppOutlinedIcon,
     },
-    {
+    register: {
       text: "Đăng ký",
       path: "",
       icon: PersonAddOutlinedIcon,
     },
-  ],
-
+  },
   USERS: ["Products", "Pricing"],
   NUMBERS: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 };
