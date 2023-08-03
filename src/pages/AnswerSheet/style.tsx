@@ -1,4 +1,10 @@
-import { styled, Box, BoxProps } from "@mui/material";
+import {
+  styled,
+  Box,
+  BoxProps,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
 
 export const StyledBox = styled(Box)<BoxProps>(({ theme }) => ({
   width: "14px",
@@ -10,3 +16,9 @@ export const StyledBox = styled(Box)<BoxProps>(({ theme }) => ({
   borderRadius: "50%",
   textAlign: "center",
 }));
+
+export const StyledScoreLabel = styled(Typography)<TypographyProps>({
+  fontSize: "40px",
+  fontFamily: "HandWriting",
+  color: "red",
+});
