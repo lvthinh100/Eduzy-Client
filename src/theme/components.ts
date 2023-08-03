@@ -5,10 +5,13 @@ import Digital from "../assets/Fonts/digital.ttf";
 import ArialRounded from "../assets/Fonts/ARLRDBD.ttf";
 import SegoeUISemiBold from "../assets/Fonts/SegoeUI-SemiBold.ttf";
 import ArialUnicodeMS from "../assets/Fonts/ArialUnicodeMS.ttf";
+import HandWriting from "../assets/Fonts/Merienda-VariableFont_wght.ttf";
+import Signature from "../assets/Fonts/BrothersideSignature-w13o6.otf";
 
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     gradient: true;
+    gradient2: true;
   }
 }
 
@@ -19,6 +22,21 @@ const components = {
         props: { variant: "gradient" } as ButtonProps,
         style: {
           backgroundImage: `linear-gradient(to right, #FCDC93, #f08ad3 75%)`,
+          "&:hover": {
+            opacity: "0.7",
+          },
+          "&:disabled": {
+            backgroundImage: `linear-gradient(to right, white, gray 75%)`,
+            color: "white",
+          },
+          color: "white",
+          borderRadius: "20px",
+        },
+      },
+      {
+        props: { variant: "gradient2" } as ButtonProps,
+        style: {
+          backgroundImage: `linear-gradient(to right, #9fecf8, #f2a9df 75%)`,
           "&:hover": {
             opacity: "0.7",
           },
@@ -83,6 +101,20 @@ const components = {
         font-display: swap;
         font-weight: 400;
         src: url(${ArialUnicodeMS}) format('truetype');
+      }
+      @font-face {
+        font-family: 'HandWriting';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${HandWriting}) format('truetype');
+      }
+      @font-face {
+        font-family: 'Signature';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${Signature}) format('opentype');
       }
       /* width */
       ::-webkit-scrollbar {

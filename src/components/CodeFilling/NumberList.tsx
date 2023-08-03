@@ -12,7 +12,14 @@ const NumberList: React.FC<PropsType> = ({ value }) => {
   return (
     <Stack direction="column">
       <StyledBox mb={1}>
-        <Typography>{value}</Typography>
+        <Typography
+          sx={{
+            fontFamily: "HandWriting",
+            color: "blue",
+          }}
+        >
+          {value}
+        </Typography>
       </StyledBox>
 
       {content.NUMBERS.map((num) => (
