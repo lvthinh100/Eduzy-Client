@@ -1,21 +1,33 @@
 import React from "react";
-import { Box, Container, Dialog, Grid, IconButton } from "@mui/material";
+import {
+  Box,
+  Container,
+  Dialog,
+  Grid,
+  IconButton,
+  SpeedDialAction,
+} from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import AlarmIcon from "@mui/icons-material/Alarm";
+import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 
 import UpcomingEvent from "./UpcomingEvent";
 import Schedule from "./Schedule";
 import Additional from "./Additional";
 import CalendarContainerRight from "./CalendarContainerRight";
 import SelectClassType from "../../components/SelectClassType";
+import { StyledSpeedial } from "./style";
+import Clock from "../../components/Clock";
+import Leader from "./Leader";
+import useToggleOpen from "../../hooks/useToggleOpen";
 
 const HomePage = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const [openCalendar, handleOpenCalendar, handleCloseCalendar] =
+    useToggleOpen(false);
+  const [openClock, handleOpenClock, handleCloseClock] = useToggleOpen(false);
+  const [openLeader, handleOpenLeader, handleCloseLeader] =
+    useToggleOpen(false);
 
   return (
     <Container maxWidth="xl">
@@ -31,25 +43,56 @@ const HomePage = () => {
             <SelectClassType />
             <IconButton
               aria-label="Lịch"
-              sx={{ justifySelf: "flex-end" }}
-              onClick={handleOpen}
+              sx={{
+                justifySelf: "flex-end",
+                display: { md: "block", xs: "none" },
+              }}
+              onClick={() => handleOpenCalendar()}
             >
               <CalendarMonthIcon fontSize="large" />
             </IconButton>
+
+            <Box display={{ md: "none", xs: "block" }}>
+              <StyledSpeedial
+                ariaLabel="Item"
+                direction="down"
+                icon={<SpeedDialIcon />}
+              >
+                <SpeedDialAction
+                  // key={action.name}
+                  icon={<CalendarMonthIcon />}
+                  tooltipTitle="Lịch học"
+                  onClick={handleOpenCalendar}
+                />
+                <SpeedDialAction
+                  // key={action.name}
+                  icon={<AlarmIcon />}
+                  tooltipTitle="Đồng hồ"
+                  onClick={handleOpenClock}
+                />
+                <SpeedDialAction
+                  // key={action.name}
+                  icon={<LeaderboardOutlinedIcon />}
+                  tooltipTitle="Bảng xếp hạng"
+                  onClick={handleOpenLeader}
+                />
+              </StyledSpeedial>
+            </Box>
           </Box>
         </Grid>
         <Grid item lg={4} md={3} xs={12}>
-          {/* Mobile Select */}
-
           <UpcomingEvent />
         </Grid>
-        <Grid item lg={4} md={9} xs={12}>
-          <Additional />
+        <Grid item lg={4} md={9}>
+          <Box display={{ md: "block", xs: "none" }}>
+            <Additional />
+          </Box>
         </Grid>
-        <Grid item lg={4} md={0} xs={0}>
+        <Grid item lg={4} md={0}>
           <Box
             sx={{
               mr: { lg: 0, md: 8, xs: 0 },
+              display: { md: "block", xs: "none" },
             }}
           >
             <CalendarContainerRight>
@@ -61,11 +104,28 @@ const HomePage = () => {
       <Dialog
         maxWidth={"xs"}
         fullWidth={true}
-        open={open}
+        open={openCalendar}
         sx={{ display: { lg: "none", xs: "block" } }}
-        onClose={handleClose}
+        onClose={() => handleCloseCalendar()}
       >
         <Schedule />
+      </Dialog>
+      <Dialog
+        maxWidth={"xs"}
+        open={openClock}
+        sx={{ display: { lg: "none", xs: "block" } }}
+        onClose={() => handleCloseClock()}
+      >
+        <Clock />
+      </Dialog>
+      <Dialog
+        open={openLeader}
+        sx={{ display: { lg: "none", xs: "block" } }}
+        onClose={() => handleCloseLeader()}
+      >
+        <Box width="fit-content">
+          <Leader />
+        </Box>
       </Dialog>
     </Container>
   );
