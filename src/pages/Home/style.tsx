@@ -29,6 +29,9 @@ const StyledSpeedial = styled(SpeedDial)(({ theme }) => ({
     height: "40px",
     backgroundColor: "white",
     color: theme.palette.highlightText.main,
+    "&:hover": {
+      backgroundColor: "white",
+    },
   },
 }));
 
