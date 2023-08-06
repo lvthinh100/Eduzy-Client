@@ -25,19 +25,20 @@ const Schedule = () => {
   }, []);
 
   return (
-    <Box sx={{ textAlign: "center", p: 1 }}>
-      <Typography variant="subtitle2">
+    <Box sx={{ textAlign: "center", p: 1, pt: 0.3, color:"#5A7F8F"  }}>
+      <Typography variant="subtitle2" fontFamily="SegoeUISemiBold">
         Ngày thi - Chính Thức - 27/6/2024
       </Typography>
-      <Typography variant="subtitle2" fontWeight="bold" fontFamily="Segoe UI">
+      <Typography variant="subtitle2" fontSize="18px" fontWeight="bold" fontFamily="Century" mb="3px">
         347 ngày
       </Typography>
       <Paper
         sx={{
-          backgroundColor: "white",
+          backgroundColor: "#FDF5FA",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
+
         }}
       >
         {lessons && (
