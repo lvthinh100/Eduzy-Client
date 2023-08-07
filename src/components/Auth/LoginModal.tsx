@@ -3,9 +3,6 @@ import {
   Dialog,
   Paper,
   Typography,
-  FormControl,
-  InputLabel,
-  Input,
   InputAdornment,
   Stack,
   FormControlLabel,
@@ -14,6 +11,7 @@ import {
   Button,
   Divider,
   IconButton,
+  Box,
 } from "@mui/material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -23,6 +21,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { appActions } from "../../redux/slices/appSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import RHFTextField from "../RHF/RHFTextField";
+import FormProvider from "../RHF/FormProvider";
 
 type FormValues = {
   username: string;
@@ -33,6 +33,11 @@ const LoginModal = () => {
   const open = useAppSelector((state) => state.app.showLoginModal);
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
+
+  const methods = useForm({
+    mode: "onChange",
+    defaultValues: { username: "", password: "" },
+  });
 
   const handleClose = () => {
     dispatch(appActions.toggleShowLoginModal());
@@ -50,41 +55,38 @@ const LoginModal = () => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <Paper sx={{ padding: 3, backgroundColor: "white", minWidth: 360 }}>
-        <Typography fontSize="30px" color="#39393A" fontFamily="_SegoeUIBold" fontWeight="bold" textAlign="center" mb={3}>
+      <Paper sx={{ padding: 3, backgroundColor: "white", maxWidth: 360 }}>
+        <Typography
+          fontSize="30px"
+          color="#39393A"
+          fontFamily="_SegoeUIBold"
+          fontWeight="bold"
+          textAlign="center"
+          mb={3}
+        >
           Login
         </Typography>
-        <Stack component="form" onSubmit={handleSubmit(handleSubmitForm)}>
-          <FormControl variant="standard" sx={{ mb: 1 }}>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Tài khoản
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              startAdornment={
-                <InputAdornment position="start">
-                  <PersonOutlinedIcon fontSize="small" />
-                </InputAdornment>
-              }
-              placeholder="Nhập tên tài khoản"
-              {...register("username")}
-            />
-          </FormControl>
-          <FormControl variant="standard">
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Mật khẩu
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              startAdornment={
-                <InputAdornment position="start">
-                  <LockOutlinedIcon fontSize="small" />
-                </InputAdornment>
-              }
-              placeholder="Nhập mật khẩu"
-              {...register("password")}
-            />
-          </FormControl>
+        <FormProvider<FormValues> methods={methods} handler={handleSubmitForm}>
+          <RHFTextField
+            name="username"
+            label="Tài khoản"
+            startAdornment={
+              <InputAdornment position="start">
+                <PersonOutlinedIcon fontSize="small" />
+              </InputAdornment>
+            }
+            placeholder="Tài khoản"
+          />
+          <RHFTextField
+            name="password"
+            label="Mật khẩu"
+            placeholder="Mật khẩu"
+            startAdornment={
+              <InputAdornment position="start">
+                <LockOutlinedIcon fontSize="small" />
+              </InputAdornment>
+            }
+          />
           <Stack
             direction="row"
             alignItems="center"
@@ -123,7 +125,7 @@ const LoginModal = () => {
               Đăng nhập dùng thử
             </Button>
           </Stack>
-        </Stack>
+        </FormProvider>
         <IconButton
           aria-label="close"
           sx={{
