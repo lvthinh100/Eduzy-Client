@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Paper, Typography, Stack, List, InputBase } from "@mui/material";
-import StudentInfo from "../../components/StudentInfo";
-import { StandingBox, StyledBadge } from "./style";
+import StudentInfo from "../StudentInfo";
+import { StandingBox, StyledBadge } from "../../pages/Exams/style";
 import StudentRanking from "./StudentRanking";
 import SearchIcon from "@mui/icons-material/Search";
 import landscape from "../../assets/landscape.jpg";
-import Prize from "../../components/Prize";
+import Prize from "../Prize";
 
 const LeaderBoard = () => {
   return (

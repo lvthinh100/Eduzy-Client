@@ -1,7 +1,7 @@
 import { Container, Grid } from "@mui/material";
 import React from "react";
 import ListExams from "./ListExams";
-import LeaderBoard from "./LeaderBoard";
+import LeaderBoard from "../../components/LeaderBoard";
 
 const ExamsPage = () => {
   return (
