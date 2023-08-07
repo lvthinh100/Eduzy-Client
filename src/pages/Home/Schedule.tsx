@@ -13,7 +13,7 @@ import { getAllLesson } from "../../api";
 import { LessonType } from "../../model/Lesson";
 
 const Schedule = () => {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2023-07-31"));
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [lessons, setLessons] = React.useState<[LessonType] | null>(null);
 
   React.useEffect(() => {

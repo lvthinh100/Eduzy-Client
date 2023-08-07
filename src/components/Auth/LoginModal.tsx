@@ -51,7 +51,7 @@ const LoginModal = () => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <Paper sx={{ padding: 3, backgroundColor: "white", minWidth: 360 }}>
-        <Typography variant="h4" fontWeight="bolder" textAlign="center" mb={3}>
+        <Typography fontSize="30px" color="#39393A" fontFamily="_SegoeUIBold" fontWeight="bold" textAlign="center" mb={3}>
           Login
         </Typography>
         <Stack component="form" onSubmit={handleSubmit(handleSubmitForm)}>

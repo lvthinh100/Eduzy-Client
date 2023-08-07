@@ -14,8 +14,18 @@ interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
 
 const CustomPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) => prop !== "lessonType",
-})<CustomPickerDayProps>(({ theme, lessonType }) => ({
+})<CustomPickerDayProps>(({ theme, lessonType, selected, today }) => ({
   fontWeight: "bold",
+  backgroundColor: selected ? "#999 !important" : today ? "yellow" : "inherit",
+  ...(today && lessonType === "LuyenDe" && {
+    backgroundColor: theme.palette.date.exam + " !important",
+  }),
+  ...(today && lessonType === "LyThuyet" && {
+    backgroundColor: theme.palette.date.lesson + " !important",
+  }),
+  ...(today && {
+    border: "none !important",
+  }),
   ...(lessonType === "LuyenDe" && {
     border: "2px solid " + theme.palette.date.exam + " !important",
   }),
