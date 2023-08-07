@@ -9,7 +9,7 @@ type PropsType = {
 };
 
 const Countdown: React.FC<PropsType> = ({ date }) => {
-  const [value, setValue] = React.useState("asdasd");
+  const [value, setValue] = React.useState("00:00:00");
   React.useEffect(() => {
     const timer = setInterval(() => {
       const milisecond = date.diff();

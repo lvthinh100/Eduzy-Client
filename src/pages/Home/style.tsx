@@ -1,4 +1,10 @@
-import { PaperProps, Paper, styled, Typography } from "@mui/material";
+import {
+  PaperProps,
+  Paper,
+  styled,
+  Typography,
+  SpeedDial,
+} from "@mui/material";
 
 const PaperStyled = styled(Paper)<PaperProps>(({ theme }) => ({
   borderTop: `10px solid ${theme.palette.highlighter.main}`,
@@ -9,7 +15,24 @@ const PaperStyled = styled(Paper)<PaperProps>(({ theme }) => ({
 const CustomSubtitleTypography = styled(Typography)({
   fontFamily: "SegoeUISemiBold",
   fontWeight: "800",
-  fontSize: "12px"
+  fontSize: "12px",
 });
 
-export { PaperStyled, CustomSubtitleTypography };
+const StyledSpeedial = styled(SpeedDial)(({ theme }) => ({
+  position: "relative",
+  "& .MuiSpeedDial-actions": {
+    position: "absolute",
+    bottom: -170,
+  },
+  "& .MuiFab-root": {
+    width: "40px",
+    height: "40px",
+    backgroundColor: "white",
+    color: theme.palette.highlightText.main,
+    "&:hover": {
+      backgroundColor: "white",
+    },
+  },
+}));
+
+export { PaperStyled, CustomSubtitleTypography, StyledSpeedial };

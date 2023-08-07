@@ -14,13 +14,23 @@ interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
 
 const CustomPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) => prop !== "lessonType",
-})<CustomPickerDayProps>(({ theme, lessonType }) => ({
+})<CustomPickerDayProps>(({ theme, lessonType, selected, today }) => ({
   fontWeight: "bold",
+  backgroundColor: selected ? "#999 !important" : today ? "yellow" : "inherit",
+  ...(today && lessonType === "LuyenDe" && {
+    backgroundColor: theme.palette.date.exam + " !important",
+  }),
+  ...(today && lessonType === "LyThuyet" && {
+    backgroundColor: theme.palette.date.lesson + " !important",
+  }),
+  ...(today && {
+    border: "none !important",
+  }),
   ...(lessonType === "LuyenDe" && {
-    border: "3px solid " + theme.palette.date.exam + " !important",
+    border: "2px solid " + theme.palette.date.exam + " !important",
   }),
   ...(lessonType === "LyThuyet" && {
-    border: "3px solid " + theme.palette.date.lesson + " !important",
+    border: "2px solid " + theme.palette.date.lesson + " !important",
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
@@ -87,15 +97,17 @@ function CustomDay(
       >
         <Box
           sx={{
-            width: "300px",
+
             boxShadow: 1,
             border: 1,
             p: 1,
-            borderRadius: 0,
-            backgroundColor: "#fff",
+            px: 3,
+            borderRadius: 1,
+            backgroundColor: "#FDF5FA",
+            color: "#494969",
           }}
         >
-          <Typography fontSize={12} fontWeight="bold" whiteSpace="pre-line">
+          <Typography fontFamily="SegoeUISemiBold" fontWeight="bold" fontSize="12px" whiteSpace="pre-line">
             {index && index < 0
               ? "Ngày nghỉ"
               : ` ${lesson?.lessonContent}

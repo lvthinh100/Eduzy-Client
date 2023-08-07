@@ -5,6 +5,8 @@ import Digital from "../assets/Fonts/digital.ttf";
 import ArialRounded from "../assets/Fonts/ARLRDBD.ttf";
 import SegoeUISemiBold from "../assets/Fonts/SegoeUI-SemiBold.ttf";
 import ArialUnicodeMS from "../assets/Fonts/ArialUnicodeMS.ttf";
+import SegoeUIBold from "../assets/Fonts/Segoe-UI-Bold.ttf";
+import SegoeUINormal from "../assets/Fonts/Segoe-UI.ttf";
 import HandWriting from "../assets/Fonts/Merienda-VariableFont_wght.ttf";
 import Signature from "../assets/Fonts/BrothersideSignature-w13o6.otf";
 
@@ -96,6 +98,20 @@ const components = {
         src: url(${SegoeUISemiBold}) format('truetype');
       }
       @font-face {
+        font-family: '_SegoeUIBold';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${SegoeUIBold}) format('truetype');
+      }
+      @font-face {
+        font-family: '_SegoeUINormal';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${SegoeUINormal}) format('truetype');
+      }
+      @font-face {
         font-family: 'ArialUnicodeMS';
         font-style: normal;
         font-display: swap;
@@ -116,6 +132,7 @@ const components = {
         font-weight: 400;
         src: url(${Signature}) format('opentype');
       }
+
       /* width */
       ::-webkit-scrollbar {
         width: 8px;

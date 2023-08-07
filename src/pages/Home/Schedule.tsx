@@ -13,7 +13,7 @@ import { getAllLesson } from "../../api";
 import { LessonType } from "../../model/Lesson";
 
 const Schedule = () => {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2023-07-31"));
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [lessons, setLessons] = React.useState<[LessonType] | null>(null);
 
   React.useEffect(() => {
@@ -25,19 +25,20 @@ const Schedule = () => {
   }, []);
 
   return (
-    <Box sx={{ textAlign: "center", p: 1 }}>
-      <Typography variant="subtitle2">
+    <Box sx={{ textAlign: "center", p: 1, pt: 0.3, color:"#5A7F8F"  }}>
+      <Typography variant="subtitle2" fontFamily="SegoeUISemiBold">
         Ngày thi - Chính Thức - 27/6/2024
       </Typography>
-      <Typography variant="subtitle2" fontWeight="bold" fontFamily="Segoe UI">
+      <Typography variant="subtitle2" fontSize="18px" fontWeight="bold" fontFamily="Century" mb="3px">
         347 ngày
       </Typography>
       <Paper
         sx={{
-          backgroundColor: "white",
+          backgroundColor: "#FDF5FA",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
+          color: "#494969"
         }}
       >
         {lessons && (
@@ -55,21 +56,21 @@ const Schedule = () => {
           />
         )}
 
-        <Stack direction="row" alignItems="center" sx={{ my: 1 }} gap={1}>
+        <Stack direction="row" alignItems="center" sx={{ my: 1 }} gap={0.6}>
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
               color: "date.exam",
             })}
           />
-          <Typography>Kiểm tra</Typography>
+          <Typography fontSize="14px" fontFamily="SegoeUISemiBold" color="date.exam" mr={1}>Kiểm tra</Typography>
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
               color: "date.lesson",
             })}
           />
-          <Typography>Học Lý Thuyết</Typography>
+          <Typography fontSize="14px" fontFamily="SegoeUISemiBold" color="date.lesson">Học Lý Thuyết</Typography>
         </Stack>
       </Paper>
     </Box>
