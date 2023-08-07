@@ -37,7 +37,7 @@ const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
           lineHeight="12px"
           mr={0.5}
         >
-          {value || 11000}
+          {value?.toLocaleString() || 11000}
         </Typography>
         <MoneyIcon sx={{ width: 12, height: 12 }} />
       </Stack>
@@ -49,6 +49,7 @@ Prize.defaultProps = {
   crown: true,
   direction: "column",
   variant: "normal",
+  value: 11000,
 };
 
 export default Prize;

@@ -94,11 +94,11 @@ const HomePage = () => {
             <Additional />
           </Box>
         </Grid>
-        <Grid item lg={4} md={0}>
+        <Grid item lg={4} md={12}>
           <Box
             sx={{
               mr: { lg: 0, md: 8, xs: 0 },
-              display: { md: "block", xs: "none" },
+              display: { lg: "block", md: "none" },
             }}
           >
             <CalendarContainerRight>

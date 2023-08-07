@@ -30,7 +30,7 @@ const Leader = () => {
         mt: { md: 5, xs: 1 },
         mr: { lg: 5, md: 0, xs: 0 },
         height: 300,
-        zIndex:-100,
+        zIndex: -100,
       }}
     >
       <Box
@@ -124,6 +124,7 @@ const Leader = () => {
           "&:hover": {
             opacity: 0.6,
             cursor: "pointer",
+            zIndex: 1,
           },
         }}
         onClick={handleClick}
