@@ -17,10 +17,10 @@ const CustomPickersDay = styled(PickersDay, {
 })<CustomPickerDayProps>(({ theme, lessonType }) => ({
   fontWeight: "bold",
   ...(lessonType === "LuyenDe" && {
-    border: "3px solid " + theme.palette.date.exam + " !important",
+    border: "2px solid " + theme.palette.date.exam + " !important",
   }),
   ...(lessonType === "LyThuyet" && {
-    border: "3px solid " + theme.palette.date.lesson + " !important",
+    border: "2px solid " + theme.palette.date.lesson + " !important",
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
@@ -87,15 +87,17 @@ function CustomDay(
       >
         <Box
           sx={{
-            width: "300px",
+
             boxShadow: 1,
             border: 1,
             p: 1,
-            borderRadius: 0,
-            backgroundColor: "#fff",
+            px: 3,
+            borderRadius: 1,
+            backgroundColor: "#FDF5FA",
+            color: "#494969",
           }}
         >
-          <Typography fontSize={12} fontWeight="bold" whiteSpace="pre-line">
+          <Typography fontFamily="SegoeUISemiBold" fontWeight="bold" fontSize="12px" whiteSpace="pre-line">
             {index && index < 0
               ? "Ngày nghỉ"
               : ` ${lesson?.lessonContent}

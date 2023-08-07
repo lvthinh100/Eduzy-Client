@@ -38,7 +38,7 @@ const Schedule = () => {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-
+          color: "#494969"
         }}
       >
         {lessons && (
@@ -56,21 +56,21 @@ const Schedule = () => {
           />
         )}
 
-        <Stack direction="row" alignItems="center" sx={{ my: 1 }} gap={1}>
+        <Stack direction="row" alignItems="center" sx={{ my: 1 }} gap={0.6}>
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
               color: "date.exam",
             })}
           />
-          <Typography>Kiểm tra</Typography>
+          <Typography fontSize="14px" fontFamily="SegoeUISemiBold" color="date.exam" mr={1}>Kiểm tra</Typography>
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
               color: "date.lesson",
             })}
           />
-          <Typography>Học Lý Thuyết</Typography>
+          <Typography fontSize="14px" fontFamily="SegoeUISemiBold" color="date.lesson">Học Lý Thuyết</Typography>
         </Stack>
       </Paper>
     </Box>

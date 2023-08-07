@@ -20,7 +20,9 @@ const Leader = () => {
         position: "relative",
         width: { md: "300px", xs: "500px" },
         mt: { md: 5, xs: 1 },
+        mr: { lg: 5, md: 0, xs: 0 },
         height: 300,
+        zIndex:-100,
       }}
     >
       <Box
