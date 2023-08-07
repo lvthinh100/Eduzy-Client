@@ -50,20 +50,28 @@ const LoginModal = () => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <Paper sx={{ padding: 3, backgroundColor: "white", minWidth: 360 }}>
-        <Typography fontSize="30px" color="#39393A" fontFamily="_SegoeUIBold" fontWeight="bold" textAlign="center" mb={3}>
+      <Paper sx={{ p: 3, pb: 5, backgroundColor: "white",
+       minWidth: 360 }}>
+        <Typography fontSize="30px" color="#39393A" fontFamily="_SegoeUIBold" fontWeight="bold" textAlign="center" mt={1} mb={5}>
           Login
         </Typography>
-        <Stack component="form" onSubmit={handleSubmit(handleSubmitForm)}>
-          <FormControl variant="standard" sx={{ mb: 1 }}>
-            <InputLabel htmlFor="input-with-icon-adornment">
+        <Stack 
+        component="form" onSubmit={handleSubmit(handleSubmitForm)}>
+          <FormControl variant="standard" sx={{ mb: 2}}>
+            <InputLabel sx={{ color: "black", fontFamily: "_SegoeUINormal", fontSize: "16px", mb: 1}} htmlFor="input-with-icon-adornment">
               Tài khoản
             </InputLabel>
-            <Input
+            <Input sx={{ color: "black", fontFamily: "_SegoeUINormal",
+             fontSize: "13px", ml: 0.5,
+             "& .MuiSvgIcon-root": {
+              fontSize: "14px", 
+              color: "#A4A4A4", 
+            }}}
               id="input-with-icon-adornment"
+
               startAdornment={
-                <InputAdornment position="start">
-                  <PersonOutlinedIcon fontSize="small" />
+                <InputAdornment position="start" >
+                  <PersonOutlinedIcon fontSize="small"/>
                 </InputAdornment>
               }
               placeholder="Nhập tên tài khoản"
@@ -71,10 +79,15 @@ const LoginModal = () => {
             />
           </FormControl>
           <FormControl variant="standard">
-            <InputLabel htmlFor="input-with-icon-adornment">
+            <InputLabel sx={{ color: "black", fontFamily: "_SegoeUINormal", fontSize: "16px"}} htmlFor="input-with-icon-adornment">
               Mật khẩu
             </InputLabel>
-            <Input
+            <Input sx={{ color: "black", fontFamily: "_SegoeUINormal",
+             fontSize: "13px", ml: 0.5,
+             "& .MuiSvgIcon-root": {
+              fontSize: "14px", 
+              color: "#A4A4A4", 
+            }}}
               id="input-with-icon-adornment"
               startAdornment={
                 <InputAdornment position="start">
@@ -89,20 +102,23 @@ const LoginModal = () => {
             direction="row"
             alignItems="center"
             justifyContent="space-between"
+            mt={0.5}
           >
             <FormControlLabel
-              control={<Checkbox defaultChecked />}
+              control={<Checkbox defaultChecked sx={{ p: 1, pr: 0.5}}/>}
               label="Ghi nhớ đăng nhập"
               sx={{
                 "& .MuiSvgIcon-root": { fontSize: 14 },
-                "& .MuiTypography-root": { fontSize: 14 },
+                "& .MuiTypography-root": { fontSize: 12 },
                 opacity: 0.6,
+                fontFamily: "_SegoeUINormal",
               }}
             />
 
             <Link
               sx={{
-                fontSize: 14,
+                fontSize: 12,
+                fontFamily: "_SegoeUINormal",
                 "&:hover": {
                   opacity: 0.8,
                   cursor: "pointer",
@@ -110,18 +126,18 @@ const LoginModal = () => {
                 textDecoration: "none",
               }}
             >
-              Quên mật khẩu
+              Quên mật khẩu?
             </Link>
           </Stack>
 
           <Stack mt={4} alignItems="center">
-            <Button variant="gradient2" sx={{ width: "100%" }} type="submit">
+            <Button variant="gradient2" sx={{ p: 1.25, width: "100%", fontSize:"12px" }} type="submit">
               Đăng nhập
             </Button>
-            <Divider flexItem>Hoặc</Divider>
+            {/* <Divider flexItem>Hoặc</Divider>
             <Button variant="gradient" sx={{ width: 250 }} type="submit">
               Đăng nhập dùng thử
-            </Button>
+            </Button> */}
           </Stack>
         </Stack>
         <IconButton

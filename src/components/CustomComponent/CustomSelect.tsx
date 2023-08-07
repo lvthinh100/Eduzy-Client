@@ -64,15 +64,15 @@ const Button = React.forwardRef(function Button<
   );
 });
 
-const StyledButton = styled(Button, { shouldForwardProp: () => true })(
+const StyledButton = styled(Button, { shouldForwardProp: () => true })(//IBM Plex Sans, sans-serif
   ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
+  font-family: SegoeUISemibold;
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
   min-width: 200px;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 20px;
   text-align: center;
   line-height: 1.5;
   background: ${theme.palette.background.paper};
@@ -80,6 +80,7 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
   color: ${theme.palette.highlightText.main};
   font-weight: bold;
   position: relative;
+  cursor: pointer;
 
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
