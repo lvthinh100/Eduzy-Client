@@ -13,7 +13,15 @@ import img from "../../assets/avatar.jpg";
 import leaderboardBtn from "../../assets/leaderboardBtn.png";
 import { motion } from "framer-motion";
 
+// Data
+import { useAppDispatch } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
+
 const Leader = () => {
+  const dispatch = useAppDispatch();
+  const handleClick = () => {
+    dispatch(appActions.toggleShowLeaderBoardModal());
+  };
   return (
     <Box
       sx={{
@@ -118,6 +126,7 @@ const Leader = () => {
             cursor: "pointer",
           },
         }}
+        onClick={handleClick}
       />
     </Box>
   );
