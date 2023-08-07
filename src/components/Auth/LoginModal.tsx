@@ -91,20 +91,23 @@ const LoginModal = () => {
             direction="row"
             alignItems="center"
             justifyContent="space-between"
+            mt={0.5}
           >
             <FormControlLabel
-              control={<Checkbox defaultChecked />}
+              control={<Checkbox defaultChecked sx={{ p: 1, pr: 0.5 }} />}
               label="Ghi nhớ đăng nhập"
               sx={{
                 "& .MuiSvgIcon-root": { fontSize: 14 },
-                "& .MuiTypography-root": { fontSize: 14 },
+                "& .MuiTypography-root": { fontSize: 12 },
                 opacity: 0.6,
+                fontFamily: "_SegoeUINormal",
               }}
             />
 
             <Link
               sx={{
-                fontSize: 14,
+                fontSize: 12,
+                fontFamily: "_SegoeUINormal",
                 "&:hover": {
                   opacity: 0.8,
                   cursor: "pointer",
@@ -112,18 +115,22 @@ const LoginModal = () => {
                 textDecoration: "none",
               }}
             >
-              Quên mật khẩu
+              Quên mật khẩu?
             </Link>
           </Stack>
 
           <Stack mt={4} alignItems="center">
-            <Button variant="gradient2" sx={{ width: "100%" }} type="submit">
+            <Button
+              variant="gradient2"
+              sx={{ p: 1.25, width: "100%", fontSize: "12px" }}
+              type="submit"
+            >
               Đăng nhập
             </Button>
-            <Divider flexItem>Hoặc</Divider>
+            {/* <Divider flexItem>Hoặc</Divider>
             <Button variant="gradient" sx={{ width: 250 }} type="submit">
               Đăng nhập dùng thử
-            </Button>
+            </Button> */}
           </Stack>
         </FormProvider>
         <IconButton

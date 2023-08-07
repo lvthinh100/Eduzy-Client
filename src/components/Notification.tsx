@@ -15,9 +15,9 @@ const Notification = () => {
     <Dialog open={state.open} onClose={handleClose}>
       <Stack alignItems="center" padding={2} bgcolor="white">
         <ErrorOutlineOutlinedIcon
-          sx={{ color: "red", width: 60, height: 60 }}
+          sx={{ color: "#FE6C85", width: 50, height: 50 }}
         />
-        <Typography variant="h4">Sai Tài Khoản: {state.message}</Typography>
+        <Typography m={3} mx={5} variant="h4" fontFamily="_SegoeUI">Sai Tài Khoản: {state.message}</Typography>
         <Button variant="gradient2" sx={{ width: 120 }} onClick={handleClose}>
           OK
         </Button>
