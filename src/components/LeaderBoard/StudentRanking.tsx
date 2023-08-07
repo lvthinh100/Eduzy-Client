@@ -1,7 +1,7 @@
 import React from "react";
 import { ListItem, Box, Typography, Stack, Avatar } from "@mui/material";
 import img from "../../assets/avatar.jpg";
-import Prize from "../../components/Prize";
+import Prize from "../Prize";
 
 const StudentRanking = () => {
   return (

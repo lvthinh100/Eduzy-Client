@@ -19,15 +19,19 @@ import CalendarContainerRight from "./CalendarContainerRight";
 import SelectClassType from "../../components/SelectClassType";
 import { StyledSpeedial } from "./style";
 import Clock from "../../components/Clock";
-import Leader from "./Leader";
 import useToggleOpen from "../../hooks/useToggleOpen";
+import LeaderBoard from "../../components/LeaderBoard";
+
+// Data
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
 
 const HomePage = () => {
   const [openCalendar, handleOpenCalendar, handleCloseCalendar] =
     useToggleOpen(false);
   const [openClock, handleOpenClock, handleCloseClock] = useToggleOpen(false);
-  const [openLeader, handleOpenLeader, handleCloseLeader] =
-    useToggleOpen(false);
+  const { showLeaderBoardModal } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
 
   return (
     <Container maxWidth="xl">
@@ -74,7 +78,9 @@ const HomePage = () => {
                   // key={action.name}
                   icon={<LeaderboardOutlinedIcon />}
                   tooltipTitle="Bảng xếp hạng"
-                  onClick={handleOpenLeader}
+                  onClick={() =>
+                    dispatch(appActions.toggleShowLeaderBoardModal())
+                  }
                 />
               </StyledSpeedial>
             </Box>
@@ -113,18 +119,18 @@ const HomePage = () => {
       <Dialog
         maxWidth={"xs"}
         open={openClock}
-        sx={{ display: { lg: "none", xs: "block" } }}
+        sx={{ display: { md: "none", xs: "block" } }}
         onClose={() => handleCloseClock()}
       >
         <Clock />
       </Dialog>
       <Dialog
-        open={openLeader}
-        sx={{ display: { lg: "none", xs: "block" } }}
-        onClose={() => handleCloseLeader()}
+        open={showLeaderBoardModal}
+        fullWidth
+        onClose={() => dispatch(appActions.toggleShowLeaderBoardModal())}
       >
-        <Box width="fit-content">
-          <Leader />
+        <Box>
+          <LeaderBoard />
         </Box>
       </Dialog>
     </Container>

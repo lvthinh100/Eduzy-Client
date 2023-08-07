@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   showLoginModal: false,
+  showLeaderBoardModal: false,
   notification: {
     open: false,
     variant: "success",
@@ -24,6 +25,9 @@ const appSlice = createSlice({
     },
     hideNotification(state) {
       state.notification = { ...state.notification, open: false };
+    },
+    toggleShowLeaderBoardModal(state) {
+      state.showLeaderBoardModal = !state.showLeaderBoardModal;
     },
   },
 });
