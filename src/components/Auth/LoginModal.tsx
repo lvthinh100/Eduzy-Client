@@ -21,6 +21,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { appActions } from "../../redux/slices/appSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import RHFTextField from "../RHF/RHFTextField";
 import FormProvider from "../RHF/FormProvider";
 
@@ -32,11 +35,17 @@ type FormValues = {
 const LoginModal = () => {
   const open = useAppSelector((state) => state.app.showLoginModal);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<FormValues>();
-
+  const schema = yup.object().shape({
+    username: yup.string().required("Vui lòng nhập tài khoản"),
+    password: yup
+      .string()
+      .min(8, "Mật khẩu phải ít nhất 8 ký tự")
+      .required("Vui long nhap mật khẩu"),
+  });
   const methods = useForm({
     mode: "onChange",
     defaultValues: { username: "", password: "" },
+    resolver: yupResolver(schema),
   });
 
   const handleClose = () => {

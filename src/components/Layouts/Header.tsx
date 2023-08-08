@@ -47,6 +47,9 @@ function ResponsiveAppBar() {
   const handleOpenLoginModal = () => {
     dispatch(appActions.toggleShowLoginModal());
   };
+  const handleOpenRegisterModal = () => {
+    dispatch(appActions.toggleShowRegisterModal());
+  };
 
   return (
     <AppBar position="static">
@@ -174,7 +177,7 @@ function ResponsiveAppBar() {
 
               {content.NAV_AUTH.login.text}
             </NavLinkStyled>
-            <NavLinkStyled>
+            <NavLinkStyled onClick={handleOpenRegisterModal}>
               {
                 <content.NAV_AUTH.register.icon
                   sx={{ mr: 0.6, width: "18px", height: "18px" }}
