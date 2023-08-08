@@ -71,7 +71,7 @@ const RegisterModal = () => {
           textAlign="center"
           mb={3}
         >
-          Đăng Ký
+          Sign Up
         </Typography>
         <FormProvider<FormValues> methods={methods} handler={handleSubmitForm}>
           <RHFTextField
