@@ -16,7 +16,8 @@ const CustomPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) => prop !== "lessonType",
 })<CustomPickerDayProps>(({ theme, lessonType, selected, today }) => ({
   fontWeight: "bold",
-  backgroundColor: selected ? "#999 !important" : today ? "yellow" : "inherit",
+  color: today ? "#212020 !important" : "inherit",
+  backgroundColor: today ? "#FEB102 !important" : selected ? "#999 !important" : "inherit",
   ...(today && lessonType === "LuyenDe" && {
     backgroundColor: theme.palette.date.exam + " !important",
   }),
