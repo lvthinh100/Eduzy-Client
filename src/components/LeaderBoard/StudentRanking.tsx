@@ -10,15 +10,13 @@ const StudentRanking = () => {
         sx={{
           backgroundColor: (theme) => theme.palette.background.darker,
           width: "100%",
-          boxShadow: 1,
           display: "flex",
           alignItems: "center",
           p: 1,
-          border: "1px solid #a9593d",
           borderRadius: 3,
-        }}
+        }} //    border: "1px solid #a9593d", boxShadow: 1,
       >
-        <Typography fontWeight="bold" marginX={1}>
+        <Typography fontFamily="SegoeUISemiBold" marginX={1}>
           04
         </Typography>
         <Stack direction="row" alignItems="flex-start" flexGrow={1}>
@@ -32,12 +30,12 @@ const StudentRanking = () => {
             }}
           />
           <Box ml={3}>
-            <Typography fontWeight="bold">Hoàng Văn Hòa</Typography>
+            <Typography fontFamily="SegoeUISemiBold">Hoàng Văn Hòa</Typography>
             <Typography>#00006</Typography>
             <Prize direction="row" variant="third" />
           </Box>
         </Stack>
-        <Typography fontWeight="bold" marginX={1}>
+        <Typography variant="subtitle2" marginX={1}>
           9.0
         </Typography>
       </Box>

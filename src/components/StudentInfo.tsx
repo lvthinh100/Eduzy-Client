@@ -15,7 +15,8 @@ const StudentInfo = () => {
         }}
       />
       <Typography
-        fontWeight="bold"
+        fontSize="14px"
+        fontFamily="SegoeUISemiBold"
         maxWidth={200}
         overflow="hidden"
         textOverflow="ellipsis"
@@ -23,7 +24,8 @@ const StudentInfo = () => {
       >
         Hoàng Văn Hòa
       </Typography>
-      <Typography>#00006</Typography>
+      <Typography fontSize="12px"
+        fontFamily="SegoeUISemiBold">#000006</Typography>
     </Stack>
   );
 };

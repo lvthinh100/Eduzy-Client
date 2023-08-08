@@ -13,16 +13,19 @@ const LeaderBoard = () => {
       sx={{
         textAlign: "center",
         m: 2,
+        mb: 1,
         backgroundImage: `url(${landscape})`,
         backgroundSize: "550px 400px",
+        borderRadius: 5,
+        boxShadow: "26px 26px 16px 4px rgba(110, 143, 148,0.76) !important",
       }}
       elevation={5}
     >
-      <Typography variant="h4">Bảng Xếp Hạng</Typography>
+      <Typography variant="h4" >Bảng Xếp Hạng</Typography>
       <Typography variant="subtitle2">Đề thi chính thức năm 2021</Typography>
 
       {/* Leader board */}
-      <Box sx={{ position: "relative", width: "100%", height: "300px" }}>
+      <Box sx={{ position: "relative", width: "100%", height: "300px", zIndex: 0 }}>
         <Box
           sx={{
             left: "50%",
@@ -38,7 +41,7 @@ const LeaderBoard = () => {
             <Stack direction="column" alignItems="center">
               <StudentInfo />
               <Prize direction="row" variant="first" />
-              <Typography fontWeight="bold">8.5</Typography>
+              <Typography variant="subtitle2" >8.5</Typography>
             </Stack>
           </StyledBadge>
           <StandingBox
@@ -54,7 +57,7 @@ const LeaderBoard = () => {
           sx={{
             position: "absolute",
             left: "20%",
-            top: "25%",
+            top: "20%",
             transform: "translateX(-50%)",
             display: "flex",
             flexDirection: "column",
@@ -66,13 +69,13 @@ const LeaderBoard = () => {
               <StudentInfo />
               <Prize direction="row" variant="second" />
 
-              <Typography fontWeight="bold">8.5</Typography>
+              <Typography variant="subtitle2">8.5</Typography>
             </Stack>
           </StyledBadge>
           <StandingBox
             sx={{
               backgroundColor: "#a9593d",
-              height: "80px",
+              height: "120px",
             }}
           >
             2
@@ -94,7 +97,7 @@ const LeaderBoard = () => {
               <StudentInfo />
               <Prize direction="row" variant="third" />
 
-              <Typography fontWeight="bold">8.5</Typography>
+              <Typography variant="subtitle2">8.5</Typography>
             </Stack>
           </StyledBadge>
           <StandingBox
@@ -112,10 +115,11 @@ const LeaderBoard = () => {
       <Box
         sx={{
           backgroundColor: "white",
-          borderRadius: "30px 30px 0 0",
-          mt: 3,
-          my: 1,
+          borderRadius: "30px",
+          mt: -4,
           p: 2,
+          zIndex: 1,
+          position: "relative"
         }}
       >
         <Box
@@ -124,11 +128,14 @@ const LeaderBoard = () => {
             alignItems: "center",
             p: 1,
             backgroundColor: (theme) => `${theme.palette.background.darker}`,
-            borderRadius: 2,
+            borderRadius: 4,
           }}
         >
-          <SearchIcon />
-          <InputBase placeholder="Số báo danh" sx={{ width: "100%" }} />
+          <SearchIcon sx={{
+              fontSize: 18,
+              color: "#A4A4A4",
+            }}/>
+          <InputBase placeholder="Số báo danh" sx={{ width: "100%", ml: 1, fontSize:"14px" }} />
         </Box>
         <List
           sx={{

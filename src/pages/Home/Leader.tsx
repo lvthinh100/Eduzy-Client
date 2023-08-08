@@ -78,6 +78,7 @@ const Leader = () => {
             WebkitBackgroundClip: "text",
             backgroundSize: "250% 250%",
             WebkitBackgroundSize: "250% 250%",
+            fontFamily: "Oswald",
             fontSize: "14px",
             m: 0,
           }}
@@ -89,13 +90,13 @@ const Leader = () => {
           Hoàng Văn Hòa
         </Typography>
         <Typography
-          fontWeight="bold"
-          fontSize={14}
+          fontWeight="500"
+          fontSize={12}
           sx={{ color: "prize.first" }}
         >
           #00006
         </Typography>
-        <Stack direction="row" alignItems="center" gap={1} mt={0.5}>
+        <Stack direction="row" alignItems="center" gap={1} mt={0.2}>
           <Crown quantity={1} variant="first" />
           <Crown quantity={5} variant="second" />
           <Crown quantity={0} variant="third" />

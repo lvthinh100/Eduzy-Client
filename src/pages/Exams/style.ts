@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 
 export const StyledTypo = styled(Typography)<TypographyProps>(({ theme }) => ({
-  fontSize: "14px",
+  fontSize: "12px",
   fontWeight: "bold",
+  fontFamily: "SegoeUISemiBold",
 }));
 
 export const StyledList = styled(List)<ListProps>(({ theme }) => ({
@@ -67,9 +68,9 @@ export const StyledInput = styled(Input)<InputProps>(({ theme }) => ({
 }));
 
 export const StandingBox = styled(Box)<BoxProps>(({ theme }) => ({
-  width: "80%",
-  borderRadius: "30px 30px 0 0",
-  p: 1,
+  width: "90%",
+  borderRadius: "20px 20px 0 0",
+  p: 4,
   color: "white",
   fontSize: 25,
   fontWeight: "bold",

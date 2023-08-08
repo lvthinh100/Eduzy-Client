@@ -109,7 +109,7 @@ const components = {
         font-family: '_SegoeUIBold';
         font-style: normal;
         font-display: swap;
-        font-weight: 400;
+        font-weight: 900;
         src: url(${SegoeUIBold}) format('truetype');
       }
       @font-face {

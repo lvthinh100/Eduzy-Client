@@ -7,10 +7,10 @@ const ExamsPage = () => {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={1}>
-        <Grid item md={6} xs={12}>
+        <Grid item md={8} xs={12}>
           <ListExams />
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid item md={4} xs={12}>
           <LeaderBoard />
         </Grid>
       </Grid>
