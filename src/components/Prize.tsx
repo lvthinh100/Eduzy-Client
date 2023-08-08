@@ -4,6 +4,7 @@ import Crown from "./Crown";
 
 import { CrownVariantType } from "../model/Crown";
 import MoneyIcon from "./IconComponent/MoneyIcon";
+import { formatCoins } from "../utils/coinFormat";
 
 type direction = "row" | "column";
 
@@ -15,6 +16,8 @@ interface PropsType {
 }
 
 const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
+  const formattedValue = value ? formatCoins(value) : "11.000";
+
   return (
     <Stack
       sx={{
@@ -37,7 +40,8 @@ const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
           lineHeight="12px"
           mr={0.5}
         >
-          {value || 11000}
+          {formattedValue}
+          {/* {value || 11000} */}
         </Typography>
         <MoneyIcon sx={{ width: 12, height: 12 }} />
       </Stack>
