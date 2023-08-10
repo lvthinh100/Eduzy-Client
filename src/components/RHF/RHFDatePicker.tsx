@@ -3,17 +3,34 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import CakeIcon from "@mui/icons-material/Cake";
 //Mui
-import { TextFieldProps, InputAdornment } from "@mui/material";
+import {
+  TextFieldProps,
+  InputAdornment,
+  FormControl,
+  FormHelperText,
+} from "@mui/material";
 import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
+import { StyledDateTextField, StyledLabel } from "./style";
+
 import { Dayjs } from "dayjs";
-import { StyledDateTextField } from "./style";
 
 const MyTextField = React.forwardRef(
   (props: TextFieldProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const { ...rest } = props;
+    const { label, name, error, helperText, ...rest } = props;
 
     return (
-      <StyledDateTextField fullWidth variant="standard" ref={ref} {...rest} />
+      <FormControl variant="standard" fullWidth>
+        <StyledLabel htmlFor={name}>{label}</StyledLabel>
+        <StyledDateTextField fullWidth variant="standard" ref={ref} {...rest} />
+        {error && (
+          <FormHelperText
+            error={!!error}
+            sx={{ m: 0, position: "absolute", top: 0, right: 0 }}
+          >
+            {helperText}
+          </FormHelperText>
+        )}
+      </FormControl>
     );
   }
 );

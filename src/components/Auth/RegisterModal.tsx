@@ -22,11 +22,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import RHFTextField from "../RHF/RHFTextField";
 import FormProvider from "../RHF/FormProvider";
 import RHFDatePicker from "../RHF/RHFDatePicker";
+import RHFRadioGroup from "../RHF/RHFRadioGroup";
+import { Gender } from "../../model/Standard";
 
 type FormValues = {
   name: string;
   password: string;
   birth: Date;
+  gender: Gender;
 };
 
 const RegisterModal = () => {
@@ -39,6 +42,7 @@ const RegisterModal = () => {
       .min(8, "Mật khẩu phải ít nhất 8 ký tự")
       .required("Vui long nhap mật khẩu"),
     birth: yup.date().nullable().required("Vui lòng chọn ngày sinh"),
+    gender: yup.mixed<Gender>().required("Vui lòng chọn giới tính"),
   });
   const methods = useForm({
     mode: "onChange",
@@ -55,7 +59,7 @@ const RegisterModal = () => {
     dispatch(
       appActions.showNotification({
         variant: "success",
-        message: data.name,
+        message: `${data.name} - ${data.gender}`,
       })
     );
   };
@@ -95,7 +99,15 @@ const RegisterModal = () => {
             }
             placeholder="Nhập mật khẩu"
           />
-
+          <RHFRadioGroup
+            name="gender"
+            label="Giới tính"
+            options={[
+              { value: "men", label: "Nam" },
+              { value: "women", label: "Nữ" },
+            ]}
+            row
+          />
           <Stack mt={4} alignItems="center">
             <Button
               variant="gradient2"
@@ -104,10 +116,6 @@ const RegisterModal = () => {
             >
               Đăng ký
             </Button>
-            {/* <Divider flexItem>Hoặc</Divider>
-            <Button variant="gradient" sx={{ width: 250 }} type="submit">
-              Đăng nhập dùng thử
-            </Button> */}
           </Stack>
         </FormProvider>
         <IconButton
