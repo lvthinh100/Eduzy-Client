@@ -5,13 +5,8 @@ import {
   Typography,
   InputAdornment,
   Stack,
-  FormControlLabel,
-  Checkbox,
-  Link,
   Button,
-  Divider,
   IconButton,
-  Box,
 } from "@mui/material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -26,30 +21,33 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import RHFTextField from "../RHF/RHFTextField";
 import FormProvider from "../RHF/FormProvider";
+import RHFDatePicker from "../RHF/RHFDatePicker";
 
 type FormValues = {
-  username: string;
+  name: string;
   password: string;
+  birth: Date;
 };
 
-const LoginModal = () => {
-  const open = useAppSelector((state) => state.app.showLoginModal);
+const RegisterModal = () => {
+  const open = useAppSelector((state) => state.app.showRegisterModal);
   const dispatch = useAppDispatch();
   const schema = yup.object().shape({
-    username: yup.string().required("Vui lòng nhập tài khoản"),
+    name: yup.string().required("Vui lòng nhập tài khoản"),
     password: yup
       .string()
       .min(8, "Mật khẩu phải ít nhất 8 ký tự")
       .required("Vui long nhap mật khẩu"),
+    birth: yup.date().nullable().required("Vui lòng chọn ngày sinh"),
   });
   const methods = useForm({
     mode: "onChange",
-    defaultValues: { username: "", password: "" },
+    defaultValues: { name: "", password: "", birth: undefined },
     resolver: yupResolver(schema),
   });
 
   const handleClose = () => {
-    dispatch(appActions.toggleShowLoginModal());
+    dispatch(appActions.toggleShowRegisterModal());
   };
 
   const handleSubmitForm: SubmitHandler<FormValues> = (data: FormValues) => {
@@ -57,7 +55,7 @@ const LoginModal = () => {
     dispatch(
       appActions.showNotification({
         variant: "success",
-        message: data.username,
+        message: data.name,
       })
     );
   };
@@ -73,60 +71,30 @@ const LoginModal = () => {
           textAlign="center"
           mb={3}
         >
-          Login
+          Sign Up
         </Typography>
         <FormProvider<FormValues> methods={methods} handler={handleSubmitForm}>
           <RHFTextField
-            name="username"
-            label="Tài khoản"
+            name="name"
+            label="Họ và tên"
             startAdornment={
               <InputAdornment position="start">
                 <PersonOutlinedIcon fontSize="small" />
               </InputAdornment>
             }
-            placeholder="Tài khoản"
+            placeholder="Nhập họ và tên"
           />
+          <RHFDatePicker name="birth" label="Ngày sinh" />
           <RHFTextField
             name="password"
             label="Mật khẩu"
-            placeholder="Mật khẩu"
             startAdornment={
               <InputAdornment position="start">
-                <LockOutlinedIcon fontSize="small" />
+                <LockOutlinedIcon />
               </InputAdornment>
             }
+            placeholder="Nhập mật khẩu"
           />
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            mt={0.5}
-          >
-            <FormControlLabel
-              control={<Checkbox defaultChecked sx={{ p: 1, pr: 0.5 }} />}
-              label="Ghi nhớ đăng nhập"
-              sx={{
-                "& .MuiSvgIcon-root": { fontSize: 14 },
-                "& .MuiTypography-root": { fontSize: 12 },
-                opacity: 0.6,
-                fontFamily: "_SegoeUINormal",
-              }}
-            />
-
-            <Link
-              sx={{
-                fontSize: 12,
-                fontFamily: "_SegoeUINormal",
-                "&:hover": {
-                  opacity: 0.8,
-                  cursor: "pointer",
-                },
-                textDecoration: "none",
-              }}
-            >
-              Quên mật khẩu?
-            </Link>
-          </Stack>
 
           <Stack mt={4} alignItems="center">
             <Button
@@ -134,7 +102,7 @@ const LoginModal = () => {
               sx={{ p: 1.25, width: "100%", fontSize: "12px" }}
               type="submit"
             >
-              Đăng nhập
+              Đăng ký
             </Button>
             {/* <Divider flexItem>Hoặc</Divider>
             <Button variant="gradient" sx={{ width: 250 }} type="submit">
@@ -159,4 +127,4 @@ const LoginModal = () => {
   );
 };
 
-export default LoginModal;
+export default RegisterModal;

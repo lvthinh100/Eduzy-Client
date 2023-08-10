@@ -53,6 +53,7 @@ Prize.defaultProps = {
   crown: true,
   direction: "column",
   variant: "normal",
+  value: 11000,
 };
 
 export default Prize;

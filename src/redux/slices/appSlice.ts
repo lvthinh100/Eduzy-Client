@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   showLoginModal: false,
   showLeaderBoardModal: false,
+  showRegisterModal: false,
   notification: {
     open: false,
     variant: "success",
@@ -16,6 +17,9 @@ const appSlice = createSlice({
   reducers: {
     toggleShowLoginModal(state) {
       state.showLoginModal = !state.showLoginModal;
+    },
+    toggleShowRegisterModal(state) {
+      state.showRegisterModal = !state.showRegisterModal;
     },
     showLoginModal(state) {
       state.showLoginModal = true;
