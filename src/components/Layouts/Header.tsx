@@ -21,6 +21,10 @@ import Logo from "../Logo";
 import useResponsive from "../../hooks/useResponsive";
 import { useAppDispatch } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
+import useAuth from "../../hooks/useAuth";
+import MESSAGE from "../../constants/message";
+import { logout } from "../../api";
+import { authActions } from "../../redux/slices/authSlice";
 
 function ResponsiveAppBar() {
   const isDesktop = useResponsive("up", "md");
@@ -28,8 +32,11 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const { user } = useAuth();
   const dispatch = useAppDispatch();
 
+  // Mobile
   const handleOpenNavMenu = () => {
     setOpenNav(true);
   };
@@ -43,13 +50,117 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  // End Mobile
 
+  // Auth Modal
   const handleOpenLoginModal = () => {
     dispatch(appActions.toggleShowLoginModal());
+    handleCloseUserMenu();
   };
   const handleOpenRegisterModal = () => {
     dispatch(appActions.toggleShowRegisterModal());
+    handleCloseUserMenu();
   };
+  // End Auth modal
+
+  // USER ACTION
+  const [anchorElUserAction, setAnchorElUserAction] =
+    React.useState<null | HTMLElement>(null);
+
+  const handleOpenUserActionMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUserAction(event.currentTarget);
+  };
+  const handleCloseUserActionMenu = () => {
+    setAnchorElUserAction(null);
+  };
+  // END USER ACTION
+
+  // Logout
+  const handleLogout = async () => {
+    try {
+      await logout();
+      dispatch(authActions.logout());
+      dispatch(
+        appActions.showNotification({
+          variant: "success",
+          message: MESSAGE.LOGOUT_SUCCESS,
+        })
+      );
+      handleCloseUserActionMenu();
+    } catch (err) {
+      dispatch(
+        appActions.showNotification({
+          variant: "error",
+          message: MESSAGE.UNKNOWN_ERROR,
+        })
+      );
+    }
+  };
+
+  const notAuthAction = (
+    <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+      <NavLinkStyled mr={2} onClick={handleOpenLoginModal}>
+        {
+          <content.NAV_AUTH.login.icon
+            sx={{ mr: 0.6, width: "18px", height: "18px" }}
+          />
+        }
+
+        {content.NAV_AUTH.login.text}
+      </NavLinkStyled>
+      <NavLinkStyled onClick={handleOpenRegisterModal}>
+        {
+          <content.NAV_AUTH.register.icon
+            sx={{ mr: 0.6, width: "18px", height: "18px" }}
+          />
+        }
+
+        {content.NAV_AUTH.register.text}
+      </NavLinkStyled>
+    </Box>
+  );
+
+  const isAuthContent = (
+    <Box sx={{ flexGrow: 0 }}>
+      <Typography display="inline-block" fontSize={10} marginRight={1}>
+        Xin chào {user ? user.fullName : ""}
+      </Typography>
+      <IconButton onClick={handleOpenUserActionMenu} sx={{ p: 0 }}>
+        <Avatar>
+          <AccountCircleIcon />
+        </Avatar>
+      </IconButton>
+      <Menu
+        sx={{ mt: "40px" }}
+        id="menu-appbar"
+        anchorEl={anchorElUserAction}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={Boolean(anchorElUserAction)}
+        onClose={handleCloseUserActionMenu}
+      >
+        {content.USERS.map((setting) => (
+          <MenuItem key={setting} onClick={handleCloseUserActionMenu}>
+            <Typography textAlign="center">{setting}</Typography>
+          </MenuItem>
+        ))}
+        {/* {content.NAV_AUTH.map((link) => (
+              <MenuItem key={link.text} onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">{link.text}</Typography>
+              </MenuItem>
+            ))} */}
+        <MenuItem onClick={handleLogout}>
+          <Typography textAlign="center">Đăng xuất</Typography>
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
 
   return (
     <AppBar position="static">
@@ -155,41 +266,10 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            {/* {content.NAV_AUTH.map((page) => (
-              <NavLinkStyled
-                key={page.text}
-                component={RouterLink}
-                to="/auth"
-                // onClick={handleCloseNavMenu}
-                sx={{ display: "flex", alignItems: "center", mr: 2 }}
-              >
-                {<page.icon sx={{ mr: 0.6, width: "18px", height: "18px" }} />}
-                {page.text}
-              </NavLinkStyled>
-            ))} */}
-            <NavLinkStyled mr={2} onClick={handleOpenLoginModal}>
-              {
-                <content.NAV_AUTH.login.icon
-                  sx={{ mr: 0.6, width: "18px", height: "18px" }}
-                />
-              }
-
-              {content.NAV_AUTH.login.text}
-            </NavLinkStyled>
-            <NavLinkStyled onClick={handleOpenRegisterModal}>
-              {
-                <content.NAV_AUTH.register.icon
-                  sx={{ mr: 0.6, width: "18px", height: "18px" }}
-                />
-              }
-
-              {content.NAV_AUTH.register.text}
-            </NavLinkStyled>
-          </Box>
+          {user ? isAuthContent : notAuthAction}
 
           {/* Avatar */}
-          {!isDesktop && (
+          {!isDesktop && !user && (
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar>
@@ -204,7 +284,6 @@ function ResponsiveAppBar() {
                   vertical: "top",
                   horizontal: "right",
                 }}
-                keepMounted
                 transformOrigin={{
                   vertical: "top",
                   horizontal: "right",
@@ -212,19 +291,17 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {content.USERS.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-                {/* {content.NAV_AUTH.map((link) => (
-                  <MenuItem key={link.text} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{link.text}</Typography>
-                  </MenuItem>
-                ))} */}
-                <MenuItem>
+                <MenuItem onClick={handleOpenLoginModal}>
                   <Typography textAlign="center">
                     {content.NAV_AUTH.login.text}
+                  </Typography>
+                </MenuItem>
+                <MenuItem>
+                  <Typography
+                    textAlign="center"
+                    onClick={handleOpenRegisterModal}
+                  >
+                    {content.NAV_AUTH.register.text}
                   </Typography>
                 </MenuItem>
               </Menu>

@@ -27,10 +27,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import RHFTextField from "../RHF/RHFTextField";
 import FormProvider from "../RHF/FormProvider";
 
-type FormValues = {
-  username: string;
-  password: string;
-};
+import { LoginData } from "../../model/Student";
+import { login } from "../../api";
+import { authActions } from "../../redux/slices/authSlice";
+import MESSAGE from "../../constants/message";
 
 const LoginModal = () => {
   const open = useAppSelector((state) => state.app.showLoginModal);
@@ -52,14 +52,33 @@ const LoginModal = () => {
     dispatch(appActions.toggleShowLoginModal());
   };
 
-  const handleSubmitForm: SubmitHandler<FormValues> = (data: FormValues) => {
-    console.log(data);
-    dispatch(
-      appActions.showNotification({
-        variant: "success",
-        message: data.username,
-      })
-    );
+  const handleSubmitForm: SubmitHandler<LoginData> = async (
+    data: LoginData
+  ) => {
+    try {
+      const { data: response } = await login(data);
+      dispatch(
+        appActions.showNotification({
+          variant: "success",
+          message: "Đăng nhập thành công",
+        })
+      );
+      dispatch(
+        authActions.setUser({
+          user: response.data.user,
+          token: response.token,
+          tokenExpires: response.tokenExpires,
+        })
+      );
+      dispatch(appActions.toggleShowLoginModal());
+    } catch (err) {
+      dispatch(
+        appActions.showNotification({
+          variant: "error",
+          message: MESSAGE.WRONG_AUTH_INFO,
+        })
+      );
+    }
   };
 
   return (
@@ -75,7 +94,7 @@ const LoginModal = () => {
         >
           Login
         </Typography>
-        <FormProvider<FormValues> methods={methods} handler={handleSubmitForm}>
+        <FormProvider<LoginData> methods={methods} handler={handleSubmitForm}>
           <RHFTextField
             name="username"
             label="Tài khoản"

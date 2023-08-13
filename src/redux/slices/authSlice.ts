@@ -1,18 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { cartActions, getCartData } from "./cartSlice";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { AppDispatch } from "..";
+import { StudentInfo } from "../../model/Student";
 
-const initialState = {
+type AuthState = {
+  user: StudentInfo | null;
+};
+
+const initialState: AuthState = {
   user: null,
+};
+
+type AuthPayload = {
+  token: string;
+  user: StudentInfo | null;
+  tokenExpires: string;
 };
 
 const authSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.user = { ...action.payload.user };
+    setUser(state, action: PayloadAction<AuthPayload>) {
+      console.log(action.payload);
+      state.user = { ...action.payload.user } as StudentInfo;
       localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("expired", new Date(action.payload.tokenExpires));
+      localStorage.setItem(
+        "expired",
+        new Date(action.payload.tokenExpires).toISOString()
+      );
       localStorage.setItem("token", action.payload.token);
     },
     logout(state) {
@@ -26,13 +41,13 @@ const authSlice = createSlice({
 
 export const retrieveUser = function () {
   //start
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     let user = localStorage.getItem("user");
-    if (!user) return;
-    user = JSON.parse(user);
     const outDated = localStorage.getItem("expired");
     const token = localStorage.getItem("token");
-    const countTimeRemaining = function (outDated) {
+    if (!user || !outDated || !token) return;
+    const studentInfo = { ...JSON.parse(user) } as StudentInfo;
+    const countTimeRemaining = function (outDated: string) {
       const currentDate = new Date().getTime();
       const nextOutDated = new Date(outDated).getTime();
 
@@ -46,8 +61,9 @@ export const retrieveUser = function () {
       localStorage.removeItem("user");
       return;
     }
-    dispatch(authActions.setUser({ user, tokenExpires: outDated, token }));
-    dispatch(getCartData());
+    dispatch(
+      authActions.setUser({ user: studentInfo, tokenExpires: outDated, token })
+    );
   };
   //end
 };
