@@ -15,7 +15,8 @@ const LeaderBoard = () => {
         m: 2,
         mb: 1,
         backgroundImage: `url(${landscape})`,
-        backgroundSize: "550px 400px",
+        backgroundSize: "750px 400px",
+        backgroundPosition: "center top",
         borderRadius: 5,
         boxShadow: "26px 26px 16px 4px rgba(110, 143, 148,0.76) !important",
       }}
@@ -30,7 +31,7 @@ const LeaderBoard = () => {
           sx={{
             left: "50%",
             transform: "translateX(-50%)",
-            top: "5%",
+            top: "10%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -47,6 +48,7 @@ const LeaderBoard = () => {
           <StandingBox
             sx={{
               backgroundColor: "#606d54",
+              fontFamily: "SegoeUISemiBold",
               height: "140px",
             }}
           >
@@ -75,6 +77,7 @@ const LeaderBoard = () => {
           <StandingBox
             sx={{
               backgroundColor: "#a9593d",
+              fontFamily: "SegoeUISemiBold",
               height: "120px",
             }}
           >
@@ -103,6 +106,7 @@ const LeaderBoard = () => {
           <StandingBox
             sx={{
               backgroundColor: "#da8100",
+              fontFamily: "SegoeUISemiBold",
               height: "80px",
             }}
           >
