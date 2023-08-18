@@ -6,6 +6,7 @@ import {
   Grid,
   IconButton,
   SpeedDialAction,
+  Typography,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
@@ -94,11 +95,11 @@ const HomePage = () => {
             <Additional />
           </Box>
         </Grid>
-        <Grid item lg={4} md={12}>
+        <Grid item lg={4} md={12} xs={12}>
           <Box
             sx={{
               mr: { lg: 0, md: 8, xs: 0 },
-              display: { lg: "block", md: "none" },
+              display: { lg: "block", md: "none", xs: "none" },
             }}
           >
             <CalendarContainerRight>

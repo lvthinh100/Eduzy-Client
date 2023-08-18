@@ -1,14 +1,9 @@
 import React from "react";
 
 import { Controller, useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormHelperText,
-  InputProps,
-  InputLabel,
-} from "@mui/material";
+import { FormControl, FormHelperText, InputProps } from "@mui/material";
 
-import { StyledInput } from "./style";
+import { StyledInput, StyledLabel } from "./style";
 
 type MyInputProps = InputProps & { name: string; label: string };
 
@@ -21,17 +16,7 @@ const RHFInput: React.FC<MyInputProps> = ({ name, label, ...other }) => {
       render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <FormControl variant="standard" fullWidth sx={{ my: 1 }}>
-            <InputLabel
-              htmlFor={name}
-              sx={{
-                color: "black",
-                fontFamily: "_SegoeUINormal",
-                fontSize: "16px",
-                mb: 1,
-              }}
-            >
-              {label}
-            </InputLabel>
+            <StyledLabel htmlFor={name}>{label}</StyledLabel>
 
             <StyledInput
               fullWidth

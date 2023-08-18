@@ -30,7 +30,7 @@ const content = {
       icon: PersonAddOutlinedIcon,
     },
   },
-  USERS: ["Products", "Pricing"],
+  USERS: ["Đổi ảnh đại diện", "Đổi mật khẩu", "Xem thông tin"],
   NUMBERS: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 };
 export default content;
