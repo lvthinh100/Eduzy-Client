@@ -221,8 +221,9 @@ function ResponsiveAppBar() {
               fontWeight: 400,
               color: "inherit",
               textDecoration: "none",
-              fontSize: 20,
-              letterSpacing: ".3rem",
+              fontSize: "18px",
+              letterSpacing: ".1rem",
+              fontFamily: "Montserrat",
               mx: 1,
             }}
           >

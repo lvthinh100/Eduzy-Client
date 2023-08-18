@@ -8,14 +8,15 @@ import SelectClassType from "../../components/SelectClassType";
 
 const ListExams = () => {
   return (
-    <Stack direction="column" alignItems="center" sx={{ py: 2, flexGrow: 1 }}>
+    <Stack direction="column" alignItems="center" sx={{ py: 2, flexGrow: 1, mx: 5, my: 0 }}>
       <SelectClassType />
 
-      <Paper sx={{ p: 2, width: "100%", mt: 2, flexGrow: 1 }} elevation={5}>
-        <Typography textAlign="center" variant="h4">
+      <Paper sx={{ p: 2, width: "100%", mt: 2, flexGrow: 1,
+       borderRadius: 4, boxShadow: "26px 26px 16px 4px rgba(110, 143, 148,0.76) !important" }} elevation={5}>
+        <Typography textAlign="center" variant="h4" color="#5A7F8F" fontFamily="SegoeUISemiBold">
           Danh sách đề thi
         </Typography>
-        <Box sx={{ borderRadius: 2, p: 1 }} bgcolor="white">
+        <Box sx={{ borderRadius: 2, p: 1 }} bgcolor="#FDF5FA">
           <StyledList>
             <Exam selected />
             <Exam />
@@ -32,19 +33,20 @@ const ListExams = () => {
           alignItems="center"
           justifyContent="space-between"
           spacing={1}
-          marginTop={1}
+          marginTop={2}
         >
           <Button variant="gradient" sx={{ flexGrow: 1 }} disabled>
-            <Typography marginRight={1} fontWeight="bold">
+            {/* <Typography marginRight={1} fontWeight="bold">
               Mua đề
             </Typography>
-            <Prize crown={false} />
+            <Prize crown={false} /> */}
+            Mua đề
           </Button>
           <Button variant="gradient" sx={{ flexGrow: 1 }}>
             Làm bài
           </Button>
           <Button variant="gradient" sx={{ flexGrow: 1 }}>
-            Phiếu trả lời
+            Xem kết quả
           </Button>
         </Stack>
       </Paper>
