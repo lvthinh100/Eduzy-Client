@@ -10,15 +10,34 @@ type PropsType = {
 
 const Countdown: React.FC<PropsType> = ({ date }) => {
   const [value, setValue] = React.useState("00:00:00");
-  React.useEffect(() => {
+
+  const startUpdatingCountdown = () => {
     const timer = setInterval(() => {
-      const milisecond = date.diff();
-      setValue(dayjs.duration(milisecond).format("HH:mm:ss"));
+      const milisecond = date.diff() + 1000;
+      console.log("milisecond", milisecond);
+      milisecond > 86400000
+        ? setValue(dayjs.duration(milisecond).format("DD:HH:mm:ss"))
+        : setValue(dayjs.duration(milisecond).format("HH:mm:ss"));
     }, 1000);
+    return timer;
+  };
+
+  React.useEffect(() => {
+    const now = dayjs();
+    const timeUntilNextSecond = 1000 - now.millisecond();
+
+    const timeout = setTimeout(() => {
+      const timer = startUpdatingCountdown();
+      return () => {
+        clearInterval(timer);
+      };
+    }, timeUntilNextSecond);
+
     return () => {
-      clearInterval(timer);
+      clearTimeout(timeout);
     };
   }, [date]);
+
   return <React.Fragment>{value}</React.Fragment>;
 };
 

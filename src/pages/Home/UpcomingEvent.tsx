@@ -105,7 +105,7 @@ const UpcomingEvent = () => {
             fontFamily: "Segoe UI",
             fontWeight: "700",
             fontSize: "14px",
-            mt: 2,
+            my: 2,
           }}
         >
           Giải thưởng
