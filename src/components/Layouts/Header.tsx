@@ -25,6 +25,10 @@ import useAuth from "../../hooks/useAuth";
 import MESSAGE from "../../constants/message";
 import { logout } from "../../api";
 import { authActions } from "../../redux/slices/authSlice";
+import Crown from "../Crown";
+import { Stack } from "@mui/material";
+import MoneyIcon from "../IconComponent/MoneyIcon";
+import Coins from "../Coins";
 
 function ResponsiveAppBar() {
   const isDesktop = useResponsive("up", "md");
@@ -34,6 +38,8 @@ function ResponsiveAppBar() {
   );
 
   const { user } = useAuth();
+  console.log("user", user);
+
   const dispatch = useAppDispatch();
 
   // Mobile
@@ -121,44 +127,75 @@ function ResponsiveAppBar() {
   );
 
   const isAuthContent = (
-    <Box sx={{ flexGrow: 0 }}>
-      <Typography display="inline-block" fontSize={10} marginRight={1}>
-        Xin chào {user ? user.fullName : ""}
-      </Typography>
-      <IconButton onClick={handleOpenUserActionMenu} sx={{ p: 0 }}>
-        <Avatar>
-          <AccountCircleIcon />
-        </Avatar>
-      </IconButton>
-      <Menu
-        sx={{ mt: "40px" }}
-        id="menu-appbar"
-        anchorEl={anchorElUserAction}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        open={Boolean(anchorElUserAction)}
-        onClose={handleCloseUserActionMenu}
-      >
-        {content.USERS.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserActionMenu}>
-            <Typography textAlign="center">{setting}</Typography>
-          </MenuItem>
-        ))}
-        {/* {content.NAV_AUTH.map((link) => (
+    <Box display="inline-block">
+      <Stack direction="row" alignItems="center">
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          display="flex"
+          mr={1}
+        >
+          <Stack direction="row" display="flex" alignItems="center" mb={1.3}>
+            <Crown
+              quantity={user?.crowns1}
+              variant="first"
+              style={{ margin: "0px 5px" }}
+            />
+            <Crown
+              quantity={user?.crowns2}
+              variant="second"
+              style={{ margin: "0px 5px" }}
+            />
+            <Crown
+              quantity={user?.crowns3}
+              variant="third"
+              style={{ margin: "0px 5px" }}
+            />
+          </Stack>
+
+          <Stack
+            direction="row"
+            alignItems="center"
+            sx={{ marginLeft: "auto" }}
+          >
+            <Coins value={user?.coins} variant="first" />
+          </Stack>
+        </Stack>
+        <IconButton onClick={handleOpenUserActionMenu} sx={{ p: 0 }}>
+          <Avatar>
+            <AccountCircleIcon />
+          </Avatar>
+        </IconButton>
+        <Menu
+          sx={{ mt: "40px" }}
+          id="menu-appbar"
+          anchorEl={anchorElUserAction}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorElUserAction)}
+          onClose={handleCloseUserActionMenu}
+        >
+          {content.USERS.map((setting) => (
+            <MenuItem key={setting} onClick={handleCloseUserActionMenu}>
+              <Typography textAlign="center">{setting}</Typography>
+            </MenuItem>
+          ))}
+          {/* {content.NAV_AUTH.map((link) => (
               <MenuItem key={link.text} onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">{link.text}</Typography>
               </MenuItem>
             ))} */}
-        <MenuItem onClick={handleLogout}>
-          <Typography textAlign="center">Đăng xuất</Typography>
-        </MenuItem>
-      </Menu>
+          <MenuItem onClick={handleLogout}>
+            <Typography textAlign="center">Đăng xuất</Typography>
+          </MenuItem>
+        </Menu>
+      </Stack>
     </Box>
   );
 

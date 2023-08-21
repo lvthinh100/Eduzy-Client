@@ -13,6 +13,7 @@ import { getAllLesson } from "../../api";
 import { LessonType } from "../../model/Lesson";
 
 const Schedule = () => {
+  const targetDate = dayjs("2024-06-27");
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [lessons, setLessons] = React.useState<[LessonType] | null>(null);
 
@@ -24,13 +25,21 @@ const Schedule = () => {
     fetchAllLesson();
   }, []);
 
+  const dayDifference = targetDate.diff(dayjs(), "day");
+
   return (
-    <Box sx={{ textAlign: "center", p: 1, pt: 0.3, color:"#5A7F8F"  }}>
+    <Box sx={{ textAlign: "center", p: 1, pt: 0.3, color: "#5A7F8F" }}>
       <Typography variant="subtitle2" fontFamily="SegoeUISemiBold">
         Ngày thi - Chính Thức - 27/6/2024
       </Typography>
-      <Typography variant="subtitle2" fontSize="18px" fontWeight="bold" fontFamily="Century" mb="3px">
-        347 ngày
+      <Typography
+        variant="subtitle2"
+        fontSize="18px"
+        fontWeight="bold"
+        fontFamily="Century"
+        mb="3px"
+      >
+        {dayDifference} ngày
       </Typography>
       <Paper
         sx={{
@@ -38,7 +47,7 @@ const Schedule = () => {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          color: "#494969"
+          color: "#494969",
         }}
       >
         {lessons && (
@@ -63,14 +72,27 @@ const Schedule = () => {
               color: "date.exam",
             })}
           />
-          <Typography fontSize="14px" fontFamily="SegoeUISemiBold" color="date.exam" mr={1}>Kiểm tra</Typography>
+          <Typography
+            fontSize="14px"
+            fontFamily="SegoeUISemiBold"
+            color="date.exam"
+            mr={1}
+          >
+            Kiểm tra
+          </Typography>
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
               color: "date.lesson",
             })}
           />
-          <Typography fontSize="14px" fontFamily="SegoeUISemiBold" color="date.lesson">Học Lý Thuyết</Typography>
+          <Typography
+            fontSize="14px"
+            fontFamily="SegoeUISemiBold"
+            color="date.lesson"
+          >
+            Học Lý Thuyết
+          </Typography>
         </Stack>
       </Paper>
     </Box>

@@ -4,11 +4,12 @@ import CrownIcon from "../components/IconComponent/CrownIcon";
 import { CrownVariantType } from "../model/Crown";
 
 interface PropsType {
-  quantity: number;
+  quantity: number | undefined;
   variant?: CrownVariantType;
+  style?: React.CSSProperties;
 }
 
-const Crown: React.FC<PropsType> = ({ quantity, variant }) => {
+const Crown: React.FC<PropsType> = ({ quantity, variant, style }) => {
   return (
     <Stack
       direction="row"
@@ -16,10 +17,16 @@ const Crown: React.FC<PropsType> = ({ quantity, variant }) => {
       sx={{
         fontSize: "12px",
         color: (theme) => theme.palette.prize[variant || "normal"],
+        ...style,
       }}
     >
-      <Typography fontSize="inherit" fontFamily="ArialRounded" mr={0.3} lineHeight="14px">
-        {quantity}
+      <Typography
+        fontSize="inherit"
+        fontFamily="ArialRounded"
+        mr={0.3}
+        lineHeight="14px"
+      >
+        {quantity ?? 0}
       </Typography>
       <CrownIcon sx={{ width: 12, height: 12 }} color="inherit" />
     </Stack>

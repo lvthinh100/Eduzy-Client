@@ -9,15 +9,15 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
-import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
+import { DateField, DateFieldProps } from "@mui/x-date-pickers";
+
 import { StyledDateTextField, StyledLabel } from "./style";
 
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 const MyTextField = React.forwardRef(
   (props: TextFieldProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const { label, name, error, helperText, ...rest } = props;
-
     return (
       <FormControl variant="standard" fullWidth>
         <StyledLabel htmlFor={name}>{label}</StyledLabel>
@@ -27,7 +27,7 @@ const MyTextField = React.forwardRef(
             error={!!error}
             sx={{ m: 0, position: "absolute", top: 0, right: 0 }}
           >
-            {helperText}
+            {"Ngày sinh không hợp lệ"}
           </FormHelperText>
         )}
       </FormControl>
@@ -35,21 +35,22 @@ const MyTextField = React.forwardRef(
   }
 );
 
-type MyInputProps = DatePickerProps<Dayjs> & { name: string; label: string };
+type MyInputProps = DateFieldProps<Dayjs> & { name: string; label: string };
 
 const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
   const { control } = useFormContext();
-  const [value, setValue] = React.useState<string | null>("");
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2006-01-01"));
+  console.log("value", value);
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <DatePicker
+        <DateField
           disableFuture
           value={value}
-          format="DD/M/YYYY"
-          defaultValue=""
+          format="DD/MM/YYYY"
+          defaultValue={dayjs("2006-01-01")}
           onChange={(newValue) => {
             field.onChange(newValue);
             setValue(newValue);
@@ -74,10 +75,10 @@ const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
               defaultValue: null,
             },
 
-            // this puts the date picker icon at the end
-            inputAdornment: {
-              position: "end",
-            },
+            // // this puts the date picker icon at the end
+            // inputAdornment: {
+            //   position: "end",
+            // },
           }}
           // renderInput={(props) => (
           //   <StyledTextField

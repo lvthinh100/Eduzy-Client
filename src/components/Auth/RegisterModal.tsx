@@ -36,14 +36,19 @@ const RegisterModal = () => {
     name: yup.string().required("Vui lòng nhập tài khoản"),
     password: yup
       .string()
-      .min(8, "Mật khẩu phải ít nhất 8 ký tự")
+      .min(6, "Mật khẩu phải ít nhất 6 ký tự")
       .required("Vui long nhap mật khẩu"),
-    birth: yup.date().nullable().required("Vui lòng chọn ngày sinh"),
+    birth: yup.string().required("Vui lòng chọn ngày sinh"),
     gender: yup.mixed<Gender>().required("Vui lòng chọn giới tính"),
   });
   const methods = useForm({
     mode: "onChange",
-    defaultValues: { name: "", password: "", birth: undefined, gender: "Nam" },
+    defaultValues: {
+      name: "",
+      password: "",
+      birth: "01/01/2006",
+      gender: "Nam" as Gender,
+    },
     resolver: yupResolver(schema),
   });
 
