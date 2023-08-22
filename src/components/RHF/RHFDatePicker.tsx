@@ -40,7 +40,7 @@ type MyInputProps = DateFieldProps<Dayjs> & { name: string; label: string };
 const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
   const { control } = useFormContext();
   const [value, setValue] = React.useState<Dayjs | null>(dayjs("2006-01-01"));
-  console.log("value", value);
+
   return (
     <Controller
       name={name}

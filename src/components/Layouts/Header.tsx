@@ -38,7 +38,6 @@ function ResponsiveAppBar() {
   );
 
   const { user } = useAuth();
-  console.log("user", user);
 
   const dispatch = useAppDispatch();
 

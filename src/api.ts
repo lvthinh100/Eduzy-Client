@@ -17,3 +17,19 @@ export const logout = async () =>
 
 export const getMe = async () =>
   axios.get(`${SERVER}/api/students/me`, { withCredentials: true });
+
+export const registerExam = async (examId: string, studentId: string) => {
+  const requestData = { examId, studentId };
+  try {
+    const response = await axios.post(
+      `${SERVER}/api/exams/registerExam`,
+      requestData,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data; // You can process the response as needed
+  } catch (error) {
+    throw error; // Handle error cases here
+  }
+};

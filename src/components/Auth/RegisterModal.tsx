@@ -59,15 +59,17 @@ const RegisterModal = () => {
   const handleSubmitForm: SubmitHandler<SignUpData> = async (
     data: SignUpData
   ) => {
-    console.log(data);
     try {
       const { data: response } = await signup(data);
       dispatch(
         appActions.showNotification({
           variant: "success",
           message:
-            "Tạo tài khoản thành công với mã tài khoản: " +
-            response.data.user.studentCode,
+            "Tạo tài khoản thành công!\n" +
+            "Tài khoản: " +
+            response.data.user.studentCode +
+            "\nMật khẩu: " +
+            data.password,
         })
       );
       dispatch(
