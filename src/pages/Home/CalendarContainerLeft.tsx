@@ -13,6 +13,7 @@ const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({
         mr: { lg: 8, md: 0, xs: 0 },
         ml: { lg: 5, md: 0, xs: 0 },
         minWidth: "320px",
+        zIndex: 100,
       }}
     >
       <Box

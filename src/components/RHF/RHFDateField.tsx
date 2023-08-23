@@ -1,25 +1,21 @@
 import React from "react";
 
 import { Controller, useFormContext } from "react-hook-form";
-import CakeIcon from "@mui/icons-material/Cake";
-//Mui
-import { InputAdornment } from "@mui/material";
-import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
-import MyTextField from "./TextField";
+import { DateField, DateFieldProps } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
+import MyTextField from "./TextField";
 
-type MyInputProps = DatePickerProps<Dayjs> & { name: string; label: string };
+type MyInputProps = DateFieldProps<Dayjs> & { name: string; label: string };
 
-const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
+const RHFDateField: React.FC<MyInputProps> = ({ name, label, InputProps }) => {
   const { control } = useFormContext();
   const [value, setValue] = React.useState<string | null>("");
   return (
     <Controller
-      name={name}
       control={control}
+      name={name}
       render={({ field, fieldState: { error } }) => (
-        <DatePicker
-          disableFuture
+        <DateField
           value={value}
           format="DD/M/YYYY"
           defaultValue=""
@@ -33,23 +29,11 @@ const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
           slotProps={{
             // this adds my start icon
             textField: {
-              InputProps: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CakeIcon />
-                  </InputAdornment>
-                ),
-                placeholder: "Nhập ngày sinh",
-              },
+              InputProps: InputProps,
               helperText: error?.message,
               label: label,
               error: !!error,
               defaultValue: null,
-            },
-
-            // this puts the date picker icon at the end
-            inputAdornment: {
-              position: "end",
             },
           }}
         />
@@ -57,4 +41,5 @@ const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
     />
   );
 };
-export default RHFDatePicker;
+
+export default RHFDateField;
