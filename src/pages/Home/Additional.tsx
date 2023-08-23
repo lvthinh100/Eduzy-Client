@@ -32,10 +32,7 @@ const Additional = () => {
       <Clock />
 
       {/* High Record */}
-
-      <Box>
-        <Leader />
-      </Box>
+      <Leader />
     </Stack>
   );
 };
