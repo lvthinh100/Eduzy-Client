@@ -17,3 +17,6 @@ export const logout = async () =>
 
 export const getMe = async () =>
   axios.get(`${SERVER}/api/students/me`, { withCredentials: true });
+
+// Exams
+export const getExams = async () => axios.get(`${SERVER}/api/exams`);
