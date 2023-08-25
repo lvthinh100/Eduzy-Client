@@ -7,13 +7,17 @@ export type StudentInfo = {
   studentCode: string;
   studentType: string;
   username: string;
+  coins: number;
+  crowns1: number;
+  crowns2: number;
+  crowns3: number;
   _id: string;
 };
 
 export type SignUpData = {
   name: string;
   password: string;
-  birth: Date;
+  birth: string;
   gender: Gender;
 };
 
