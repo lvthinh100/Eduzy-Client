@@ -52,7 +52,7 @@ const RegisterModal = () => {
     defaultValues: {
       name: "",
       password: "",
-      birth: "01/01/2006",
+      birth: new Date(),
       gender: "Nam" as Gender,
     },
     resolver: yupResolver(schema),
