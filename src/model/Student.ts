@@ -17,7 +17,7 @@ export type StudentInfo = {
 export type SignUpData = {
   name: string;
   password: string;
-  birth: string;
+  birth: Date;
   gender: Gender;
 };
 

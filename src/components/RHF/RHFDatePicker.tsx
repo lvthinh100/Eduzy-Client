@@ -7,7 +7,7 @@ import CakeIcon from "@mui/icons-material/Cake";
 import { InputAdornment } from "@mui/material";
 import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
 import MyTextField from "./TextField";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 type MyInputProps = DatePickerProps<Dayjs> & { name: string; label: string };
 
@@ -20,7 +20,7 @@ const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <DateField
+        <DatePicker
           disableFuture
           value={value}
           format="DD/MM/YYYY"

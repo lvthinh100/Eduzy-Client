@@ -15,8 +15,8 @@ const ListExams = () => {
     const fetchExams = async () => {
       try {
         const { data: response } = await getExams();
-        setExams(response.data);
-        setSelectedExam(response.data[0]);
+        setExams(response);
+        setSelectedExam(response[0]);
       } catch (err) {
         console.log(err);
       }
