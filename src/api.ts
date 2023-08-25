@@ -18,6 +18,10 @@ export const logout = async () =>
 export const getMe = async () =>
   axios.get(`${SERVER}/api/students/me`, { withCredentials: true });
 
+
+// Exams
+export const getExams = async () => axios.get(`${SERVER}/api/exams`);
+
 export const registerExam = async (examId: string, studentId: string) => {
   const requestData = { examId, studentId };
   try {
@@ -33,3 +37,4 @@ export const registerExam = async (examId: string, studentId: string) => {
     throw error; // Handle error cases here
   }
 };
+
