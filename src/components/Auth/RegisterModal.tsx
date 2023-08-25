@@ -11,6 +11,7 @@ import {
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import CloseIcon from "@mui/icons-material/Close";
+import CakeIcon from "@mui/icons-material/Cake";
 
 // Data
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -28,6 +29,7 @@ import { SignUpData } from "../../model/Student";
 import { Gender } from "../../model/Standard";
 import { signup } from "../../api";
 import { authActions } from "../../redux/slices/authSlice";
+import RHFDateField from "../RHF/RHFDateField";
 
 const RegisterModal = () => {
   const open = useAppSelector((state) => state.app.showRegisterModal);
@@ -38,7 +40,11 @@ const RegisterModal = () => {
       .string()
       .min(6, "Mật khẩu phải ít nhất 6 ký tự")
       .required("Vui long nhap mật khẩu"),
-    birth: yup.string().required("Vui lòng chọn ngày sinh"),
+    birth: yup
+      .date()
+      .typeError("Vui lòng nhập ngày sinh hợp lệ")
+      .required("Vui lòng chọn ngày sinh")
+      .max(new Date(), "Vui lòng nhập ngày sinh ở quá khứ"),
     gender: yup.mixed<Gender>().required("Vui lòng chọn giới tính"),
   });
   const methods = useForm({
@@ -109,7 +115,18 @@ const RegisterModal = () => {
             }
             placeholder="Nhập họ và tên"
           />
-          <RHFDatePicker name="birth" label="Ngày sinh" />
+          <RHFDateField
+            name="birth"
+            label="Nhập ngày sinh"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CakeIcon />
+                </InputAdornment>
+              ),
+            }}
+            disableFuture
+          />
           <RHFTextField
             name="password"
             label="Mật khẩu"
