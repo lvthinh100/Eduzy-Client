@@ -3,6 +3,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import CakeIcon from "@mui/icons-material/Cake";
 //Mui
+
 import { InputAdornment } from "@mui/material";
 import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
 import MyTextField from "./TextField";
@@ -12,17 +13,18 @@ type MyInputProps = DatePickerProps<Dayjs> & { name: string; label: string };
 
 const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
   const { control } = useFormContext();
-  const [value, setValue] = React.useState<string | null>("");
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2006-01-01"));
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <DatePicker
+        <DateField
           disableFuture
           value={value}
-          format="DD/M/YYYY"
-          defaultValue=""
+          format="DD/MM/YYYY"
+          defaultValue={dayjs("2006-01-01")}
           onChange={(newValue) => {
             field.onChange(newValue);
             setValue(newValue);
@@ -47,10 +49,10 @@ const RHFDatePicker: React.FC<MyInputProps> = ({ name, label, ...other }) => {
               defaultValue: null,
             },
 
-            // this puts the date picker icon at the end
-            inputAdornment: {
-              position: "end",
-            },
+            // // this puts the date picker icon at the end
+            // inputAdornment: {
+            //   position: "end",
+            // },
           }}
         />
       )}

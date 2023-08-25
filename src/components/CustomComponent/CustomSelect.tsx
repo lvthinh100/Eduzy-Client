@@ -64,7 +64,8 @@ const Button = React.forwardRef(function Button<
   );
 });
 
-const StyledButton = styled(Button, { shouldForwardProp: () => true })(//IBM Plex Sans, sans-serif
+const StyledButton = styled(Button, { shouldForwardProp: () => true })(
+  //IBM Plex Sans, sans-serif
   ({ theme }) => `
   font-family: SegoeUISemibold;
   font-size: 0.875rem;
@@ -107,30 +108,30 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(//IBM Ple
 
 const StyledListbox = styled("ul")(
   ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
+  font-family: SegoeUISemibold;
   font-size: 0.875rem;
   box-sizing: border-box;
   padding: 6px;
-  margin: 12px 0;
+  margin: 0px 0;
   min-width: 200px;
-  border-radius: 12px;
+  border-radius: 20px;
   overflow: auto;
   outline: 0px;
   background: ${theme.palette.background.paper};
-  border: 1px solid ${grey[900]};
+  border: 0.5px solid ${grey[900]};
   color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 30px ${
-    theme.palette.mode === "dark" ? grey[900] : grey[200]
-  };
   `
 );
+// box-shadow: 0px 4px 30px ${
+//   theme.palette.mode === "dark" ? grey[900] : grey[200]
+// };
 
 export const StyledOption = styled(Option)(
   ({ theme }) => `
   list-style: none;
   padding: 8px;
   border-radius: 8px;
-  cursor: default;
+  cursor: pointer;
   text-align: center;
   color: ${theme.palette.highlightText.main};
   font-weight: bold;

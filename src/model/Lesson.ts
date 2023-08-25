@@ -1,3 +1,16 @@
+export type ResultType = {
+  studentId: string;
+  studentAnswerSheet: string;
+  score: number;
+  coins: number;
+  crowns1: number;
+  crowns2: number;
+  crowns3: number;
+  ordinalNumber: number;
+  rank: number;
+  hasReceivedPrize: boolean;
+};
+
 export type UpcomingLessonType = {
   lessonContent: string;
   lessonType: string;
@@ -12,6 +25,7 @@ export type UpcomingLessonType = {
     price: number;
     subject: string;
     _id: string;
+    listOfMainResult: ResultType[];
   };
 };
 

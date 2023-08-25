@@ -7,12 +7,34 @@ import { Box, Typography, CardMedia, Stack } from "@mui/material";
 const Clock = () => {
   const format = "HH:mm:ss";
   const [current, setCurrent] = React.useState(dayjs().format(format));
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setCurrent(dayjs().format(format));
+  //   }, 1000);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
+  const startUpdatingClock = () => {
     const timer = setInterval(() => {
       setCurrent(dayjs().format(format));
     }, 1000);
+    return timer;
+  };
+
+  React.useEffect(() => {
+    const now = dayjs();
+    const timeUntilNextSecond = 1000 - now.millisecond();
+
+    const timeout = setTimeout(() => {
+      const timer = startUpdatingClock();
+      return () => {
+        clearInterval(timer);
+      };
+    }, timeUntilNextSecond);
+
     return () => {
-      clearInterval(timer);
+      clearTimeout(timeout);
     };
   }, []);
 

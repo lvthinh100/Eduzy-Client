@@ -39,8 +39,8 @@ const LoginModal = () => {
     username: yup.string().required("Vui lòng nhập tài khoản"),
     password: yup
       .string()
-      .min(8, "Mật khẩu phải ít nhất 8 ký tự")
-      .required("Vui long nhap mật khẩu"),
+      .min(6, "Mật khẩu phải ít nhất 6 ký tự")
+      .required("Vui lòng nhập mật khẩu"),
   });
   const methods = useForm({
     mode: "onChange",

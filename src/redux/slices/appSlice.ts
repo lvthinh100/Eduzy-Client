@@ -9,6 +9,12 @@ const initialState = {
     variant: "success",
     message: "Hello world",
   },
+  okCancelNotification: {
+    open: false,
+    isOK: false,
+    variant: "success",
+    message: "Hello world",
+  },
 };
 
 const appSlice = createSlice({
@@ -29,6 +35,16 @@ const appSlice = createSlice({
     },
     hideNotification(state) {
       state.notification = { ...state.notification, open: false };
+    },
+    showOKCancelNotification(state, action) {
+      state.okCancelNotification = { open: true, ...action.payload };
+    },
+    hideOKCancelNotification(state, action) {
+      state.okCancelNotification = {
+        ...state.okCancelNotification,
+        open: false,
+        isOK: action.payload,
+      };
     },
     toggleShowLeaderBoardModal(state) {
       state.showLeaderBoardModal = !state.showLeaderBoardModal;

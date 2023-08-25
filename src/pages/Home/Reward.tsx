@@ -26,13 +26,13 @@ const Reward = () => {
           }}
           src={img}
         />
-        <Box position="absolute" sx={{ top: 10, left: 50 }}>
+        <Box position="absolute" sx={{ top: 10, left: 44 }}>
           <Prize direction="column" variant="second" />
         </Box>
-        <Box position="absolute" sx={{ top: -20, left: 130 }}>
+        <Box position="absolute" sx={{ top: -20, left: 128 }}>
           <Prize direction="column" variant="first" />
         </Box>
-        <Box position="absolute" sx={{ top: 25, left: 220 }}>
+        <Box position="absolute" sx={{ top: 25, left: 214 }}>
           <Prize direction="column" variant="third" />
         </Box>
       </Box>

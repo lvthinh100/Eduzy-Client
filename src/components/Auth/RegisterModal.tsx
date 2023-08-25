@@ -38,7 +38,7 @@ const RegisterModal = () => {
     name: yup.string().required("Vui lòng nhập tài khoản"),
     password: yup
       .string()
-      .min(8, "Mật khẩu phải ít nhất 8 ký tự")
+      .min(6, "Mật khẩu phải ít nhất 6 ký tự")
       .required("Vui long nhap mật khẩu"),
     birth: yup
       .date()
@@ -49,7 +49,12 @@ const RegisterModal = () => {
   });
   const methods = useForm({
     mode: "onChange",
-    defaultValues: { name: "", password: "", birth: undefined, gender: "Nam" },
+    defaultValues: {
+      name: "",
+      password: "",
+      birth: "01/01/2006",
+      gender: "Nam" as Gender,
+    },
     resolver: yupResolver(schema),
   });
 
@@ -60,15 +65,17 @@ const RegisterModal = () => {
   const handleSubmitForm: SubmitHandler<SignUpData> = async (
     data: SignUpData
   ) => {
-    console.log(data);
     try {
       const { data: response } = await signup(data);
       dispatch(
         appActions.showNotification({
           variant: "success",
           message:
-            "Tạo tài khoản thành công với mã tài khoản: " +
-            response.data.user.studentCode,
+            "Tạo tài khoản thành công!\n" +
+            "Tài khoản: " +
+            response.data.user.studentCode +
+            "\nMật khẩu: " +
+            data.password,
         })
       );
       dispatch(
