@@ -13,6 +13,12 @@ const Countdown: React.FC<PropsType> = ({ date }) => {
   const startUpdatingCountdown = () => {
     const timer = setInterval(() => {
       const milisecond = date.diff() + 1000;
+
+      if (milisecond < 0) {
+        clearInterval(timer);
+        return;
+      }
+
       milisecond > 86400000
         ? setValue(dayjs.duration(milisecond).format("DD:HH:mm:ss"))
         : setValue(dayjs.duration(milisecond).format("HH:mm:ss"));
