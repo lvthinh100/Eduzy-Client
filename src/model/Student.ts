@@ -19,6 +19,7 @@ export type SignUpData = {
   password: string;
   birth: Date;
   gender: Gender;
+  expiredTime: Date;
 };
 
 export type LoginData = {

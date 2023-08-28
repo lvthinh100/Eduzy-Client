@@ -46,6 +46,7 @@ const RegisterModal = () => {
       .required("Vui lòng chọn ngày sinh")
       .max(new Date(), "Vui lòng nhập ngày sinh ở quá khứ"),
     gender: yup.mixed<Gender>().required("Vui lòng chọn giới tính"),
+    expiredTime: yup.date().default(() => new Date("2024-01-01")),
   });
   const methods = useForm({
     mode: "onChange",
@@ -54,6 +55,7 @@ const RegisterModal = () => {
       password: "",
       birth: new Date(),
       gender: "Nam" as Gender,
+      expiredTime: new Date("2024-01-01"),
     },
     resolver: yupResolver(schema),
   });
