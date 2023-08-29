@@ -16,6 +16,7 @@ import Countdown from "../../components/Countdown";
 import { useAppDispatch } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
 import useAuth from "../../hooks/useAuth";
+import ProtectedButton from "../../components/Auth/ProtectedButton";
 
 const UpcomingEvent = () => {
   const { user } = useAuth();
@@ -102,6 +103,10 @@ const UpcomingEvent = () => {
     }
   };
 
+  const handleShowPrevLeaderBoard = () => {
+    console.log("This is leader board");
+  };
+
   return (
     <CalendarContainerLeft>
       <Box
@@ -164,17 +169,17 @@ const UpcomingEvent = () => {
             </Stack>
           </Button>
           <Stack direction="row" gap={1}>
-            <Button
+            <ProtectedButton
               variant="gradient2"
               sx={{ mt: 2, pb: 1, flexGrow: 1 }}
-              onClick={handleRegisterExam}
+              onClick={handleShowPrevLeaderBoard}
             >
               <Stack direction="column">
                 <StyledButtonText>Đáp án</StyledButtonText>
                 <StyledButtonText>Đề luyện thi 1</StyledButtonText>
               </Stack>
-            </Button>
-            <Button
+            </ProtectedButton>
+            <ProtectedButton
               variant="gradient2"
               sx={{ mt: 2, pb: 1, flexGrow: 1 }}
               onClick={handleRegisterExam}
@@ -183,7 +188,7 @@ const UpcomingEvent = () => {
                 <StyledButtonText>Bảng xếp hạng</StyledButtonText>
                 <StyledButtonText>Đề luyện thi 1</StyledButtonText>
               </Stack>
-            </Button>
+            </ProtectedButton>
           </Stack>
         </Stack>
       </Box>
