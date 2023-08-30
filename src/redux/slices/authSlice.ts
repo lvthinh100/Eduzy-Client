@@ -11,9 +11,9 @@ const initialState: AuthState = {
 };
 
 type AuthPayload = {
-  token: string;
+  // token: string;
   user: StudentInfo | null;
-  tokenExpires: string;
+  // tokenExpires: string;
 };
 
 const authSlice = createSlice({
@@ -23,12 +23,12 @@ const authSlice = createSlice({
     setUser(state, action: PayloadAction<AuthPayload>) {
       console.log(action.payload);
       state.user = { ...action.payload.user } as StudentInfo;
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem(
-        "expired",
-        new Date(action.payload.tokenExpires).toISOString()
-      );
-      localStorage.setItem("token", action.payload.token);
+      // localStorage.setItem("user", JSON.stringify(action.payload.user));
+      // localStorage.setItem(
+      //   "expired",
+      //   new Date(action.payload.tokenExpires).toISOString()
+      // );
+      // localStorage.setItem("token", action.payload.token);
     },
     logout(state) {
       state.user = null;
@@ -62,7 +62,10 @@ export const retrieveUser = function () {
       return;
     }
     dispatch(
-      authActions.setUser({ user: studentInfo, tokenExpires: outDated, token })
+      authActions.setUser({
+        user: studentInfo,
+        // tokenExpires: outDated, token
+      })
     );
   };
   //end

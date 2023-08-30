@@ -26,9 +26,7 @@ const UpcomingEvent = () => {
   >(undefined);
   const [is10MinEarly, setIs10MinEarly] = useState(false);
   const [hadRegister, setHadRegister] = useState(false);
-  console.log("is10MinEarly", is10MinEarly);
-  console.log("upcomingLesson", upcomingLesson);
-  console.log("hadRegister", hadRegister);
+
   React.useEffect(() => {
     const fetchUpcomingLesson = async () => {
       const { data: response } = await getUpcomingLesson();
