@@ -35,4 +35,17 @@ const StyledSpeedial = styled(SpeedDial)(({ theme }) => ({
   },
 }));
 
-export { PaperStyled, CustomSubtitleTypography, StyledSpeedial };
+const StyledButtonText = styled(Typography)({
+  color: "white",
+  fontFamily: "SegoeUISemiBold",
+  textTransform: "none",
+  fontSize: 15,
+  fontWeight: "medium",
+});
+
+export {
+  PaperStyled,
+  CustomSubtitleTypography,
+  StyledSpeedial,
+  StyledButtonText,
+};

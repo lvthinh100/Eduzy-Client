@@ -7,7 +7,7 @@ import CalendarContainerLeft from "./CalendarContainerLeft";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import Reward from "./Reward";
 import Prize from "../../components/Prize";
-import { CustomSubtitleTypography } from "./style";
+import { CustomSubtitleTypography, StyledButtonText } from "./style";
 
 // Data
 import { UpcomingLessonType } from "../../model/Lesson";
@@ -16,6 +16,7 @@ import Countdown from "../../components/Countdown";
 import { useAppDispatch } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
 import useAuth from "../../hooks/useAuth";
+import ProtectedButton from "../../components/Auth/ProtectedButton";
 
 const UpcomingEvent = () => {
   const { user } = useAuth();
@@ -60,7 +61,7 @@ const UpcomingEvent = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [upcomingLesson]);
 
   React.useEffect(() => {
     if (!user || !user._id || !upcomingLesson) {
@@ -71,7 +72,7 @@ const UpcomingEvent = () => {
       (result) => result.studentId === user._id
     );
     setHadRegister(isUserRegistered);
-  }, [user]);
+  }, [user, upcomingLesson]);
 
   const handleRegisterExam = async () => {
     try {
@@ -102,6 +103,10 @@ const UpcomingEvent = () => {
     }
   };
 
+  const handleShowPrevLeaderBoard = () => {
+    console.log("This is leader board");
+  };
+
   return (
     <CalendarContainerLeft>
       <Box
@@ -128,38 +133,17 @@ const UpcomingEvent = () => {
           Môn {upcomingLesson?.examId.subject} -{" "}
           {upcomingLesson?.examId.duration}m
         </CustomSubtitleTypography>
-        <CustomSubtitleTypography variant="subtitle2">
-          {upcomingLesson?.examId.name}
-        </CustomSubtitleTypography>
+
         <CustomSubtitleTypography variant="subtitle2">
           Ngày {dayjs(upcomingLesson?.startTime).format("DD-MM-YYYY - HH:mm")}
         </CustomSubtitleTypography>
-        <CustomSubtitleTypography variant="subtitle2">
-          Nội dung: {upcomingLesson?.lessonContent}
-        </CustomSubtitleTypography>
-        <Typography
-          variant="subtitle2"
-          sx={{
-            fontFamily: "ArialUnicodeMS",
-            fontWeight: "500",
-            fontSize: "14px",
-            mt: 2,
-          }}
-        >
-          Lượt Đăng ký
-        </Typography>
-        <Typography
-          sx={{ fontFamily: "Century", fontWeight: "600", fontSize: "36px" }}
-        >
-          {upcomingLesson?.examId.listOfMainResult.length || "0"}
-        </Typography>
+        <Typography fontSize={40}>{upcomingLesson?.examId.name}</Typography>
         <Typography
           variant="subtitle2"
           sx={{ fontFamily: "Segoe UI", fontWeight: "600", fontSize: "12px" }}
         >
           <Countdown date={dayjs(upcomingLesson?.startTime)} />
         </Typography>
-
         <Typography
           variant="subtitle1"
           sx={{
@@ -172,25 +156,41 @@ const UpcomingEvent = () => {
           Giải thưởng
         </Typography>
         <Reward />
-        <Button
-          variant="gradient"
-          sx={{ mt: 2, pb: 1, width: "250px" }}
-          onClick={handleRegisterExam}
-        >
-          <Stack direction="column">
-            <Typography
-              mb={0.7}
-              color="white"
-              fontFamily="SegoeUISemiBold"
-              textTransform="none"
-              fontSize="15px"
-              fontWeight="medium"
+
+        <Stack px={2}>
+          <Button
+            variant="gradient"
+            sx={{ mt: 2, pb: 1, flexGrow: 1 }}
+            onClick={handleRegisterExam}
+          >
+            <Stack direction="column">
+              <StyledButtonText>Kiểm tra</StyledButtonText>
+              <StyledButtonText>{upcomingLesson?.examId.name}</StyledButtonText>
+            </Stack>
+          </Button>
+          <Stack direction="row" gap={1}>
+            <ProtectedButton
+              variant="gradient2"
+              sx={{ mt: 2, pb: 1, flexGrow: 1 }}
+              onClick={handleShowPrevLeaderBoard}
             >
-              Đăng ký kiểm tra
-            </Typography>
-            <Prize crown={false} value={upcomingLesson?.examId.price} />
+              <Stack direction="column">
+                <StyledButtonText>Đáp án</StyledButtonText>
+                <StyledButtonText>Đề luyện thi 1</StyledButtonText>
+              </Stack>
+            </ProtectedButton>
+            <ProtectedButton
+              variant="gradient2"
+              sx={{ mt: 2, pb: 1, flexGrow: 1 }}
+              onClick={handleRegisterExam}
+            >
+              <Stack direction="column">
+                <StyledButtonText>Bảng xếp hạng</StyledButtonText>
+                <StyledButtonText>Đề luyện thi 1</StyledButtonText>
+              </Stack>
+            </ProtectedButton>
           </Stack>
-        </Button>
+        </Stack>
       </Box>
     </CalendarContainerLeft>
   );
