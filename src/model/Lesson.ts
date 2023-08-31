@@ -26,7 +26,7 @@ export type UpcomingLessonType = {
     subject: string;
     _id: string;
     listOfMainResult: ResultType[];
-  };
+  } | null;
 };
 
 export type LessonType = {
@@ -36,3 +36,5 @@ export type LessonType = {
   lessonType: "LuyenDe" | "LyThuyet";
   startTime: string;
 };
+
+export type LessonVariant = "LuyenDe" | "LyThuyet" | "LuyenDeChuong";
