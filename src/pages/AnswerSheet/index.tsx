@@ -68,7 +68,7 @@ const AnswerSheetPage = () => {
               </Box>
             </Stack>
           </Grid>
-          <Grid item md={7}>
+          <Grid item md={7} sx={{ display: { xs: "none", md: "block" } }}>
             <Stack
               direction="column"
               alignItems="flex-start"
