@@ -2,8 +2,8 @@ import { SERVER } from "./constants/url";
 import axios from "axios";
 import { LoginData, SignUpData } from "./model/Student";
 
-export const getUpcomingLesson = async () =>
-  axios.get(`${SERVER}/api/lessons/upcoming`);
+export const getUpcomingLesson = async (type: string) =>
+  axios.get(`${SERVER}/api/lessons/upcoming/${type}`);
 export const getAllLesson = async () => axios.get(`${SERVER}/api/lessons`);
 
 export const signup = async (data: SignUpData) =>
@@ -17,7 +17,6 @@ export const logout = async () =>
 
 export const getMe = async () =>
   axios.get(`${SERVER}/api/students/me`, { withCredentials: true });
-
 
 // Exams
 export const getExams = async () => axios.get(`${SERVER}/api/exams`);
@@ -37,4 +36,3 @@ export const registerExam = async (examId: string, studentId: string) => {
     throw error; // Handle error cases here
   }
 };
-

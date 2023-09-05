@@ -66,8 +66,8 @@ const LoginModal = () => {
       dispatch(
         authActions.setUser({
           user: response.data.user,
-          token: response.token,
-          tokenExpires: response.tokenExpires,
+          // token: response.token,
+          // tokenExpires: response.tokenExpires,
         })
       );
       dispatch(appActions.toggleShowLoginModal());
