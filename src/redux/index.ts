@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import appSlice from "./slices/appSlice";
 import authSlice from "./slices/authSlice";
 import lessonSlice from "./slices/lessonSlice";
+import filterSlice from "./slices/filterSlice";
 
 const store = configureStore({
   reducer: {
     app: appSlice.reducer,
     auth: authSlice.reducer,
     lesson: lessonSlice.reducer,
+    filter: filterSlice.reducer,
   },
 });
 

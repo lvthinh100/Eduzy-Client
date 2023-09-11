@@ -14,6 +14,7 @@ export type ResultType = {
 export type UpcomingLessonType = {
   lessonContent: string;
   lessonType: string;
+  lessonCode: string;
   startTime: string;
   lessonMeetingUrl: string;
   _id: string;
@@ -33,8 +34,9 @@ export type LessonType = {
   examId: string;
   lessonContent: string;
   lessonMeetingUrl: string;
-  lessonType: "LuyenDe" | "LyThuyet";
+  lessonType: string; //"LuyenDe" | "LyThuyet";
+  lessonCode: string; //according to filters
   startTime: string;
 };
 
-export type LessonVariant = "LuyenDe" | "LyThuyet" | "LuyenDeChuong";
+//export type LessonVariant = "LuyenDe" | "LyThuyet" | "LuyenDeChuong";
