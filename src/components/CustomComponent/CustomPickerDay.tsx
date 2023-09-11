@@ -9,7 +9,7 @@ import { LessonType } from "../../model/Lesson";
 dayjs.extend(isBetweenPlugin);
 
 interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
-  lessonType: "LuyenDe" | "LyThuyet" | null;
+  lessonType: string | null; //"LuyenDe" | "LyThuyet"
 }
 
 const CustomPickersDay = styled(PickersDay, {
@@ -17,13 +17,19 @@ const CustomPickersDay = styled(PickersDay, {
 })<CustomPickerDayProps>(({ theme, lessonType, selected, today }) => ({
   fontWeight: "bold",
   color: today ? "#212020 !important" : "inherit",
-  backgroundColor: today ? "#FEB102 !important" : selected ? "#999 !important" : "inherit",
-  ...(today && lessonType === "LuyenDe" && {
-    backgroundColor: theme.palette.date.exam + " !important",
-  }),
-  ...(today && lessonType === "LyThuyet" && {
-    backgroundColor: theme.palette.date.lesson + " !important",
-  }),
+  backgroundColor: today
+    ? "#FEB102 !important"
+    : selected
+    ? "#999 !important"
+    : "inherit",
+  ...(today &&
+    lessonType === "LuyenDe" && {
+      backgroundColor: theme.palette.date.exam + " !important",
+    }),
+  ...(today &&
+    lessonType === "LyThuyet" && {
+      backgroundColor: theme.palette.date.lesson + " !important",
+    }),
   ...(today && {
     border: "none !important",
   }),
@@ -98,7 +104,6 @@ function CustomDay(
       >
         <Box
           sx={{
-
             boxShadow: 1,
             border: 1,
             p: 1,
@@ -108,7 +113,12 @@ function CustomDay(
             color: "#494969",
           }}
         >
-          <Typography fontFamily="SegoeUISemiBold" fontWeight="bold" fontSize="12px" whiteSpace="pre-line">
+          <Typography
+            fontFamily="SegoeUISemiBold"
+            fontWeight="bold"
+            fontSize="12px"
+            whiteSpace="pre-line"
+          >
             {index && index < 0
               ? "Ngày nghỉ"
               : ` ${lesson?.lessonContent}

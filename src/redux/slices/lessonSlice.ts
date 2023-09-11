@@ -5,7 +5,7 @@ import { LessonType, UpcomingLessonType } from "../../model/Lesson";
 
 const initialState = {
   upcoming: {} as UpcomingLessonType,
-  type: "LuyenDe",
+  code: "LuyenDe",
   fetching: true,
 };
 
@@ -16,7 +16,7 @@ const lessonSlice = createSlice({
     setUpComingLesson(state, action: PayloadAction<UpcomingLessonType>) {
       console.log(action.payload);
       state.upcoming = action.payload;
-      state.type = action.payload.lessonType;
+      state.code = action.payload.lessonCode;
       state.fetching = false;
       // localStorage.setItem("user", JSON.stringify(action.payload.user));
       // localStorage.setItem(
