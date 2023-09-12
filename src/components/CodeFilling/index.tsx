@@ -9,8 +9,8 @@ type PropsType = {
 const CodeFilling: React.FC<PropsType> = ({ id }) => {
   return (
     <Stack direction="row">
-      {id.split("").map((num) => (
-        <NumberList value={+num} />
+      {id.split("").map((num, index) => (
+        <NumberList key={index} value={+num} />
       ))}
     </Stack>
   );

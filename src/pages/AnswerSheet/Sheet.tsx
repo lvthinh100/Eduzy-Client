@@ -21,9 +21,14 @@ import useToggleOpen from "../../hooks/useToggleOpen";
 import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
 
-const Sheet = () => {
+type PropsType = {
+  image: string;
+  questionNum: number;
+};
+
+const Sheet: React.FC<PropsType> = ({ questionNum, image }) => {
   const [answerSheet, setAnswerSheet] = useState(
-    new Array(exam.ANSWERS_LENGTH).fill("")
+    new Array(questionNum).fill("")
   );
   const [openAnswer, handleOpenAnswer, handleCloseAnswer] =
     useToggleOpen(false);
@@ -56,11 +61,7 @@ const Sheet = () => {
               border: "1px solid red",
             }}
           >
-            <CardMedia
-              component="img"
-              sx={{ width: "100%" }}
-              src="https://drive.google.com/uc?id=17y60ASL4BJxipnyPOCz-ddDgUvejtSYn"
-            />
+            <CardMedia component="img" sx={{ width: "100%" }} src={image} />
           </Box>
         </Grid>
         <Grid item md={2} sx={{ display: { xs: "none", md: "block" } }}>

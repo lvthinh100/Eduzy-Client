@@ -7,6 +7,8 @@ import CalendarContainerLeft from "./CalendarContainerLeft";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import Reward from "./Reward";
 import { CustomSubtitleTypography, StyledButtonText } from "./style";
+import ProtectedButton from "../../components/Auth/ProtectedButton";
+import { useNavigate } from "react-router-dom";
 
 // Data
 import { UpcomingLessonType } from "../../model/Lesson";
@@ -14,7 +16,6 @@ import { getUpcomingLesson } from "../../api";
 import Countdown from "../../components/Countdown";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
-import ProtectedButton from "../../components/Auth/ProtectedButton";
 
 const UpcomingEvent = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const UpcomingEvent = () => {
   const [upcomingLesson, setUpComingLesson] =
     useState<UpcomingLessonType | null>(null);
   const isLyThuyet = upcomingLesson?.lessonType === "LyThuyet";
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUpcomingLesson = async (type: string) => {
@@ -43,6 +45,10 @@ const UpcomingEvent = () => {
 
   const handleShowPrevLeaderBoard = () => {
     console.log("This is leader board");
+  };
+
+  const handleShowExam = () => {
+    navigate(`/sheet/${upcomingLesson?.examId?._id}`);
   };
 
   return (
@@ -108,12 +114,10 @@ const UpcomingEvent = () => {
               <Button
                 variant="gradient"
                 sx={{ mt: 2, pb: 1, flexGrow: 1 }}
-                // onClick={handleRegisterExam}
+                onClick={handleShowExam}
               >
                 <Stack direction="column">
-                  <StyledButtonText>
-                    {upcomingLesson?.examId ? "Kiểm tra" : "Học Lý Thuyết"}
-                  </StyledButtonText>
+                  <StyledButtonText>Kiểm Tra</StyledButtonText>
                   <StyledButtonText>
                     {upcomingLesson?.examId?.name}
                   </StyledButtonText>

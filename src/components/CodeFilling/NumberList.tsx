@@ -22,8 +22,8 @@ const NumberList: React.FC<PropsType> = ({ value }) => {
         </Typography>
       </StyledBox>
 
-      {content.NUMBERS.map((num) => (
-        <StyledBox>
+      {content.NUMBERS.map((num, index) => (
+        <StyledBox key={index}>
           <NumberCode value={num} selected={value === num} />
         </StyledBox>
       ))}
