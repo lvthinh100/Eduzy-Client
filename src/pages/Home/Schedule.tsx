@@ -20,6 +20,7 @@ const Schedule = () => {
   React.useEffect(() => {
     const fetchAllLesson = async () => {
       const { data: response } = await getAllLesson();
+      console.log(response);
       setLessons(response);
     };
     fetchAllLesson();
