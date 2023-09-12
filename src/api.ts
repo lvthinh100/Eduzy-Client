@@ -36,3 +36,6 @@ export const registerExam = async (examId: string, studentId: string) => {
     throw error; // Handle error cases here
   }
 };
+
+//Filters
+export const getFilters = async () => axios.get(`${SERVER}/api/filters`);
