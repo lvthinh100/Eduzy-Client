@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 import duration from "dayjs/plugin/duration";
-import React from "react";
+import React, { useCallback } from "react";
 
 dayjs.extend(duration);
 
@@ -10,7 +10,7 @@ type PropsType = {
 
 const Countdown: React.FC<PropsType> = ({ date }) => {
   const [value, setValue] = React.useState("00:00:00");
-  const startUpdatingCountdown = () => {
+  const startUpdatingCountdown = useCallback(() => {
     const timer = setInterval(() => {
       const milisecond = date.diff() + 1000;
 
@@ -24,7 +24,7 @@ const Countdown: React.FC<PropsType> = ({ date }) => {
         : setValue(dayjs.duration(milisecond).format("HH:mm:ss"));
     }, 1000);
     return timer;
-  };
+  }, [date]);
 
   React.useEffect(() => {
     const now = dayjs();
@@ -39,7 +39,7 @@ const Countdown: React.FC<PropsType> = ({ date }) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [date]);
+  }, [date, startUpdatingCountdown]);
 
   return <React.Fragment>{value}</React.Fragment>;
 };
