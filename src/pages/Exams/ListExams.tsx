@@ -6,10 +6,12 @@ import Exam from "./Exam";
 import SelectClassType from "../../components/SelectClassType";
 import { getExams } from "../../api";
 import { ExamType } from "../../model/Exam";
+import { useNavigate } from "react-router-dom";
 
 const ListExams = () => {
   const [exams, setExams] = useState<ExamType[]>([]);
   const [selectedExam, setSelectedExam] = useState<ExamType | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExams = async () => {
@@ -26,6 +28,11 @@ const ListExams = () => {
 
   const handleChangeSelectedExam = (exam: ExamType) => {
     setSelectedExam(exam);
+  };
+
+  const handleShowExam = () => {
+    if (!selectedExam) return;
+    navigate(`/sheet/${selectedExam._id}`);
   };
 
   return (
@@ -82,7 +89,11 @@ const ListExams = () => {
             <Prize crown={false} /> */}
             Mua đề
           </Button>
-          <Button variant="gradient" sx={{ flexGrow: 1 }}>
+          <Button
+            variant="gradient"
+            sx={{ flexGrow: 1 }}
+            onClick={handleShowExam}
+          >
             Làm bài
           </Button>
           <Button variant="gradient" sx={{ flexGrow: 1 }}>

@@ -3,7 +3,7 @@ import { Stack, Typography, SxProps } from "@mui/material";
 
 type PropsType = {
   label: string;
-  text: string;
+  text?: string;
   sx?: SxProps;
   paddingLeft?: number;
   width?: string;
