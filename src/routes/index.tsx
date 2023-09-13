@@ -5,6 +5,7 @@ import paths from "../constants/paths";
 import HomePage from "../pages/Home";
 import ExamsPage from "../pages/Exams";
 import AnswerSheetPage from "../pages/AnswerSheet";
+import NotFoundPage from "../pages/Error/NotFoundPage";
 
 export default function MyRouter() {
   return (
@@ -13,6 +14,7 @@ export default function MyRouter() {
         <Route path={paths.HOME} element={<HomePage />} />
         <Route path={paths.EXAMS} element={<ExamsPage />} />
         <Route path={paths.ANSWER_SHEET} element={<AnswerSheetPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>
   );

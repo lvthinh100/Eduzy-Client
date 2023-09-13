@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,8 +12,26 @@ import CodeFilling from "../../components/CodeFilling";
 import Sheet from "./Sheet";
 import FillingText from "./FillingText";
 import { StyledScoreLabel } from "./style";
+import { useNavigate, useParams } from "react-router-dom";
+import { getExamById } from "../../api";
+import { ExamType } from "../../model/Exam";
 
 const AnswerSheetPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [exam, setExam] = useState<ExamType | null>(null);
+  useEffect(() => {
+    const fetchExam = async () => {
+      try {
+        if (!id) return;
+        const { data: response } = await getExamById(id);
+        setExam(response.data);
+      } catch (err) {
+        navigate("/error");
+      }
+    };
+    fetchExam();
+  }, [id, navigate]);
   return (
     <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
       <Stack direction="column" alignItems="center" mb={2}>
@@ -137,7 +155,11 @@ const AnswerSheetPage = () => {
           />
         </Grid>
 
-        <Sheet />
+        {exam ? (
+          <Sheet image={exam.questionUrl} questionNum={exam.numberOfQuestion} />
+        ) : (
+          "Loading"
+        )}
       </Grid>
     </Container>
   );

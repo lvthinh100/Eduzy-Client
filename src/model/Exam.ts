@@ -9,4 +9,5 @@ export type ExamType = {
   answerUrl: string; // "https://drive.google.com/uc?id=13DEVfMTfkZJT9Keme8L9J8nwEmsFy01X" - URL of GG Drive
   numberOfQuestion: number; // 40
   answerSheet: string; //"ABCDABCD..."
+  isUpcoming: boolean;
 };
