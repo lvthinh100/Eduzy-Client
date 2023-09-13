@@ -6,16 +6,19 @@ dayjs.extend(duration);
 
 type PropsType = {
   date: Dayjs;
+  onTimeout?: () => void;
 };
 
-const Countdown: React.FC<PropsType> = ({ date }) => {
+const Countdown: React.FC<PropsType> = ({ date, onTimeout }) => {
   const [value, setValue] = React.useState("00:00:00");
   const startUpdatingCountdown = useCallback(() => {
     const timer = setInterval(() => {
       const milisecond = date.diff() + 1000;
 
+      // This trigger stop countdown
       if (milisecond < 0) {
         clearInterval(timer);
+        if (onTimeout) onTimeout();
         return;
       }
 
@@ -24,7 +27,7 @@ const Countdown: React.FC<PropsType> = ({ date }) => {
         : setValue(dayjs.duration(milisecond).format("HH:mm:ss"));
     }, 1000);
     return timer;
-  }, [date]);
+  }, [date, onTimeout]);
 
   React.useEffect(() => {
     const now = dayjs();
