@@ -105,6 +105,7 @@ const components = {
         font-weight: 400;
         src: url(${_SegoeUI}) format('truetype');
       }
+
       @font-face {
         font-family: '_SegoeUIBold';
         font-style: normal;

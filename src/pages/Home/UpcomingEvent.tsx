@@ -4,12 +4,20 @@ import dayjs from "dayjs";
 
 // UI Component
 import CalendarContainerLeft from "./CalendarContainerLeft";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  CardMedia,
+  CardActionArea,
+} from "@mui/material";
 import Reward from "./Reward";
 import { CustomSubtitleTypography, StyledButtonText } from "./style";
 import ProtectedButton from "../../components/Auth/ProtectedButton";
 import { useNavigate } from "react-router-dom";
-
+import gradeBoardBtn from "../../assets/gradeBoardBtn.png";
+import answerIcon from "../../assets/answerIcon.png";
 // Data
 import { UpcomingLessonType } from "../../model/Lesson";
 import { getUpcomingLesson } from "../../api";
@@ -67,7 +75,7 @@ const UpcomingEvent = () => {
           sx={{
             fontFamily: "ArialUnicodeMS",
             fontWeight: "600",
-            fontSize: "30px",
+            fontSize: "24px !important",
             letterSpacing: ".05rem",
           }}
         >
@@ -81,7 +89,7 @@ const UpcomingEvent = () => {
         <CustomSubtitleTypography variant="subtitle2">
           Ngày {dayjs(upcomingLesson?.startTime).format("DD-MM-YYYY - HH:mm")}
         </CustomSubtitleTypography>
-        <Typography fontSize={40}>{upcomingLesson?.examId?.name}</Typography>
+        <Typography fontSize={28}>{upcomingLesson?.examId?.name}</Typography>
         <Typography
           variant="subtitle2"
           sx={{ fontFamily: "Segoe UI", fontWeight: "600", fontSize: "12px" }}
@@ -117,14 +125,14 @@ const UpcomingEvent = () => {
                 onClick={handleShowExam}
               >
                 <Stack direction="column">
-                  <StyledButtonText>Kiểm Tra</StyledButtonText>
-                  <StyledButtonText>
+                  <StyledButtonText>KIỂM TRA</StyledButtonText>
+                  {/* <StyledButtonText>
                     {upcomingLesson?.examId?.name}
-                  </StyledButtonText>
+                  </StyledButtonText> */}
                 </Stack>
               </Button>
               <Stack direction="row" gap={1}>
-                <ProtectedButton
+                {/* <ProtectedButton
                   variant="gradient2"
                   sx={{ mt: 2, pb: 1, flexGrow: 1 }}
                   onClick={handleShowPrevLeaderBoard}
@@ -143,7 +151,72 @@ const UpcomingEvent = () => {
                     <StyledButtonText>Bảng xếp hạng</StyledButtonText>
                     <StyledButtonText>Đề luyện thi 1</StyledButtonText>
                   </Stack>
-                </ProtectedButton>
+                </ProtectedButton> */}
+                <CardActionArea
+                  sx={{
+                    pb: 1,
+                    m: 2,
+                    mb: 0,
+                    border: "3px solid #FDB201",
+                    borderRadius: "12px",
+                  }}
+                >
+                  <Stack direction="column" alignItems="center">
+                    {/* <Typography
+                      sx={{
+                        fontFamily: "Arial",
+                        fontSize: 15,
+                        fontWeight: "medium",
+                        color: "#FDB201",
+                      }}
+                    >
+                      BXH
+                    </Typography> */}
+                    <CardMedia
+                      component="img"
+                      alt="answer"
+                      src={gradeBoardBtn}
+                      sx={{
+                        mt: 0,
+                        height: 60,
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Stack>
+                </CardActionArea>
+                <CardActionArea
+                  sx={{
+                    pb: 1,
+                    m: 2,
+                    mb: 0,
+                    border: "3px solid #FDB201",
+                    borderRadius: "12px",
+                  }}
+                >
+                  <Stack direction="column" alignItems="center">
+                    {/* <Typography
+                      sx={{
+                        fontFamily: "Arial",
+                        fontSize: 15,
+                        fontWeight: "medium",
+                        color: "#FDB201",
+                      }}
+                    >
+                      ĐÁP ÁN
+                    </Typography> */}
+                    <CardMedia
+                      component="img"
+                      alt="answer"
+                      src={answerIcon}
+                      sx={{
+                        mt: 0,
+                        height: 60,
+                        pt: 1,
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Stack>
+                </CardActionArea>
               </Stack>
             </Fragment>
           )}

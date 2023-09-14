@@ -87,7 +87,7 @@ const Leader = () => {
           }}
           transition={{ duration: 10, repeat: Infinity, delay: 3 }}
         >
-          Hoàng Văn Hòa
+          Trần Văn Thông
         </Typography>
         <Typography
           fontWeight="500"
