@@ -9,7 +9,7 @@ import {
 export const StyledBox = styled(Box)<BoxProps>(({ theme }) => ({
   color: "red",
   fontSize: "10px",
-  border: "1px solid red",
+  border: "1px solid #DE5173",
   borderRadius: "50%",
   textAlign: "center",
   [theme.breakpoints.up("xs")]: {
@@ -25,7 +25,7 @@ export const StyledBox = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 export const StyledScoreLabel = styled(Typography)<TypographyProps>({
-  fontSize: "40px",
+  fontSize: "36px",
   fontFamily: "HandWriting",
   color: "red",
 });

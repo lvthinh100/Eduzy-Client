@@ -78,7 +78,7 @@ const Leader = () => {
             WebkitBackgroundClip: "text",
             backgroundSize: "250% 250%",
             WebkitBackgroundSize: "250% 250%",
-            fontFamily: "Oswald",
+            fontFamily: "OswaldSemiBold",
             fontSize: "14px",
             m: 0,
           }}

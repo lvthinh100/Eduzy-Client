@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  CardMedia,
   Container,
   Divider,
   Grid,
@@ -15,6 +16,10 @@ import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
 import { getExamById } from "../../api";
 import { ExamType } from "../../model/Exam";
+import GenderTypography from "./GenderTypography";
+import CoupleButtons from "../../components/CoupleButtons";
+import GradeLBbtn from "../../components/GradeLBbtn";
+import AnswerBtn from "../../components/AnswerBtn";
 
 const AnswerSheetPage = () => {
   const { id } = useParams();
@@ -35,7 +40,9 @@ const AnswerSheetPage = () => {
   return (
     <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
       <Stack direction="column" alignItems="center" mb={2}>
-        <Typography variant="h3">Phiếu trả lời trắc nghiệm</Typography>
+        <Typography variant="h3" fontFamily="Times New Roman">
+          PHIẾU TRẢ LỜI TRẮC NGHIỆM
+        </Typography>
         <FillingText
           label="Kỳ thi"
           text="Luyện thi trung học phổ thông quốc gia"
@@ -52,14 +59,20 @@ const AnswerSheetPage = () => {
         </Stack>
       </Stack>
       <Grid container>
-        <Grid container spacing={1}>
-          <Grid item md={2}>
+        <Grid
+          container
+          spacing={1}
+          sx={{
+            justifyContent: "center",
+          }}
+        >
+          <Grid item style={{ width: "200px" }}>
             <Stack
               sx={{
                 direction: "column",
                 justifyContent: "space-between",
                 height: "100%",
-                border: "1px solid red",
+                border: "1px solid #DE5173",
               }}
             >
               <Box
@@ -69,10 +82,19 @@ const AnswerSheetPage = () => {
                   mb: "auto",
                 }}
               >
-                <Typography>Điểm</Typography>
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
+                >
+                  Kết quả
+                </Typography>
                 <StyledScoreLabel>8</StyledScoreLabel>
+                <Stack>
+                  <AnswerBtn />
+                </Stack>
               </Box>
-              <Divider sx={{ width: "100%", backgroundColor: "red" }} />
+              <Divider sx={{ width: "100%", backgroundColor: "#DE5173" }} />
               <Box
                 sx={{
                   p: 1,
@@ -80,77 +102,125 @@ const AnswerSheetPage = () => {
                   mt: 1,
                 }}
               >
-                <Typography>Xếp hạng</Typography>
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
+                >
+                  Xếp hạng
+                </Typography>
                 <StyledScoreLabel>8</StyledScoreLabel>
-                <Button variant="gradient">Xem đáp án</Button>
+                {/* <Button variant="gradient">Xem đáp án</Button> */}
+
+                <Stack>
+                  <GradeLBbtn />
+                </Stack>
               </Box>
             </Stack>
           </Grid>
-          <Grid item md={7} sx={{ display: { xs: "none", md: "block" } }}>
+          <Grid
+            item
+            xs
+            sx={{
+              display: { md: "block", xs: "none" },
+            }}
+          >
             <Stack
               direction="column"
               alignItems="flex-start"
               justifyContent="space-between"
-              sx={{ height: "100%", p: 1, border: "1px solid red" }}
+              sx={{ height: "100%", p: 1, border: "1px solid #DE5173" }}
             >
               <FillingText
                 width="100%"
                 paddingLeft={2}
-                label="Hội Đồng thi"
+                label="1.Hội Đồng thi"
                 text="Eduzy"
                 sx={{ width: "100%" }}
               />
               <FillingText
                 sx={{ width: "100%" }}
                 paddingLeft={2}
-                label="Địa điểm"
+                label="2.Điểm thi"
                 text="Eduzy"
               />
               <FillingText
                 sx={{ width: "100%" }}
                 paddingLeft={2}
-                label="Phòng thi"
+                label="3.Phòng thi số"
                 text="Eduzy"
               />
               <FillingText
                 sx={{ width: "100%" }}
                 paddingLeft={2}
-                label="Họ và tên thí sinh"
+                label="4.Họ và tên thí sinh"
                 text="Eduzy"
               />
+              <Stack direction="row">
+                <FillingText
+                  sx={{ width: "100%" }}
+                  paddingLeft={2}
+                  label="5.Ngày sinh"
+                  text="2006"
+                />
+                <GenderTypography isMale={false} />
+              </Stack>
+
               <FillingText
                 sx={{ width: "100%" }}
                 paddingLeft={2}
-                label="Ngày sinh"
-                text="2006"
-              />
-              <FillingText
-                sx={{ width: "100%" }}
-                paddingLeft={2}
-                label="Chữ ký thí sinh"
+                label="6.Chữ ký của thí sinh"
                 text="QUEST"
                 fontFamily="Signature"
               />
             </Stack>
           </Grid>
 
-          <Grid item md={3}>
+          <Grid
+            item
+            sx={{
+              width: "240px",
+              mt: { md: -3, xs: 0 },
+              display: { md: "block", xs: "none" },
+            }}
+          >
             <Stack direction="row">
-              <Box mr={2}>
-                <Typography>Mã dự thi: </Typography>
+              <Stack
+                direction="column"
+                mr={2}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
+                >
+                  7.Số báo danh:{" "}
+                </Typography>
                 <CodeFilling id="000123" />
-              </Box>
-              <Box>
-                <Typography>Mã đề thi: </Typography>
+              </Stack>
+              <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
+                >
+                  8.Mã đề thi:{" "}
+                </Typography>
                 <CodeFilling id="003" />
-              </Box>
+              </Stack>
             </Stack>
           </Grid>
         </Grid>
 
         <Grid item md={12}>
           <Divider
-            sx={{ my: 1, width: "100%", backgroundColor: "red" }}
+            sx={{ my: 1, width: "100%", backgroundColor: "#DE5173" }}
             flexItem
           />
         </Grid>

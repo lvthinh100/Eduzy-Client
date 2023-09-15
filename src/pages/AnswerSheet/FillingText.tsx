@@ -43,7 +43,7 @@ const FillingText: React.FC<PropsType> = ({
           minWidth: "200px",
           borderBottom: "2px dotted black",
           lineHeight: "12px",
-          color: "blue",
+          color: "#4845C4",
           ...(fontFamily === "Signature" && signatureStyle),
         }}
         pl={paddingLeft}
