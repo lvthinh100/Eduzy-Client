@@ -37,7 +37,6 @@ const SelectClassType = () => {
 
   const handleChangeLessonType = async (newType: {} | null) => {
     try {
-      console.log("newType", newType);
       // const { data: response } = await getUpcomingLesson(newType as string);
       // dispatch(lessonActions.setUpComingLesson(response.data));
       dispatch(lessonActions.changeLessonType(newType));

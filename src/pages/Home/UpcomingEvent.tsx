@@ -4,18 +4,27 @@ import dayjs from "dayjs";
 
 // UI Component
 import CalendarContainerLeft from "./CalendarContainerLeft";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  CardMedia,
+  CardActionArea,
+} from "@mui/material";
 import Reward from "./Reward";
 import { CustomSubtitleTypography, StyledButtonText } from "./style";
 import ProtectedButton from "../../components/Auth/ProtectedButton";
 import { useNavigate } from "react-router-dom";
-
+import gradeBoardBtn from "../../assets/gradeBoardBtn.png";
+import answerIcon from "../../assets/answerIcon.png";
 // Data
 import { UpcomingLessonType } from "../../model/Lesson";
 import { getUpcomingLesson } from "../../api";
 import Countdown from "../../components/Countdown";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
+import CoupleButtons from "../../components/CoupleButtons";
 
 const UpcomingEvent = () => {
   const dispatch = useAppDispatch();
@@ -67,7 +76,7 @@ const UpcomingEvent = () => {
           sx={{
             fontFamily: "ArialUnicodeMS",
             fontWeight: "600",
-            fontSize: "30px",
+            fontSize: "24px !important",
             letterSpacing: ".05rem",
           }}
         >
@@ -81,7 +90,7 @@ const UpcomingEvent = () => {
         <CustomSubtitleTypography variant="subtitle2">
           Ngày {dayjs(upcomingLesson?.startTime).format("DD-MM-YYYY - HH:mm")}
         </CustomSubtitleTypography>
-        <Typography fontSize={40}>{upcomingLesson?.examId?.name}</Typography>
+        <Typography fontSize={28}>{upcomingLesson?.examId?.name}</Typography>
         <Typography
           variant="subtitle2"
           sx={{ fontFamily: "Segoe UI", fontWeight: "600", fontSize: "12px" }}
@@ -113,40 +122,17 @@ const UpcomingEvent = () => {
             <Fragment>
               <Button
                 variant="gradient"
-                sx={{ mt: 2, pb: 1, flexGrow: 1 }}
+                sx={{ mt: 2, pb: 1, flexGrow: 1, mb: 1.5 }}
                 onClick={handleShowExam}
               >
                 <Stack direction="column">
-                  <StyledButtonText>Kiểm Tra</StyledButtonText>
-                  <StyledButtonText>
-                    {upcomingLesson?.examId?.name}
-                  </StyledButtonText>
+                  <StyledButtonText>LUYỆN ĐỀ</StyledButtonText>
                 </Stack>
               </Button>
-              <Stack direction="row" gap={1}>
-                <ProtectedButton
-                  variant="gradient2"
-                  sx={{ mt: 2, pb: 1, flexGrow: 1 }}
-                  onClick={handleShowPrevLeaderBoard}
-                >
-                  <Stack direction="column">
-                    <StyledButtonText>Đáp án</StyledButtonText>
-                    <StyledButtonText>Đề luyện thi 1</StyledButtonText>
-                  </Stack>
-                </ProtectedButton>
-                <ProtectedButton
-                  variant="gradient2"
-                  sx={{ mt: 2, pb: 1, flexGrow: 1 }}
-                  // onClick={handleRegisterExam}
-                >
-                  <Stack direction="column">
-                    <StyledButtonText>Bảng xếp hạng</StyledButtonText>
-                    <StyledButtonText>Đề luyện thi 1</StyledButtonText>
-                  </Stack>
-                </ProtectedButton>
-              </Stack>
+              <CoupleButtons />
             </Fragment>
           )}
+
           {isLyThuyet && (
             <Button
               variant="gradient2"

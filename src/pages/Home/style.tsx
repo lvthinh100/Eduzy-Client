@@ -5,6 +5,7 @@ import {
   Typography,
   SpeedDial,
 } from "@mui/material";
+import { pxToRem } from "../../utils/getFontValue";
 
 const PaperStyled = styled(Paper)<PaperProps>(({ theme }) => ({
   borderTop: `10px solid ${theme.palette.highlighter.main}`,
@@ -38,9 +39,9 @@ const StyledSpeedial = styled(SpeedDial)(({ theme }) => ({
 const StyledButtonText = styled(Typography)({
   color: "white",
   fontFamily: "SegoeUISemiBold",
-  textTransform: "none",
-  fontSize: 15,
-  fontWeight: "medium",
+  fontWeight: 600,
+  lineHeight: 22 / 14,
+  fontSize: pxToRem(14),
 });
 
 export {

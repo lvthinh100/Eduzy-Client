@@ -10,15 +10,15 @@ const AnswerRadio: React.FC<PropsType> = ({ value }) => {
   return (
     <Radio
       disableRipple
-      sx={{ p: 1 }}
+      sx={{ px: 1, py: 0 }}
       icon={
         <StyledBox>
           <span>{value}</span>
         </StyledBox>
       }
       checkedIcon={
-        <StyledBox sx={{ backgroundColor: "gray" }}>
-          <span>{value}</span>
+        <StyledBox sx={{ backgroundColor: "#828486" }}>
+          <span style={{ opacity: "0.5" }}>{value}</span>
         </StyledBox>
       }
       value={value}

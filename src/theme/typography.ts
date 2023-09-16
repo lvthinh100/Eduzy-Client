@@ -55,7 +55,7 @@ const typography = {
   },
   subtitle2: {
     fontFamily: "Segoe UI, Frank Ruhl Libre,Quicksand, sans-serif",
-    fontWeight: 600,
+    fontWeight: 500,
     lineHeight: 22 / 14,
     fontSize: pxToRem(14),
   },
@@ -70,7 +70,7 @@ const typography = {
   caption: {
     lineHeight: 1.5,
     fontSize: pxToRem(12),
-  }
+  },
   // overline: {
   //   fontWeight: 700,
   //   lineHeight: 1.5,

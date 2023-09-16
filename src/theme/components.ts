@@ -10,6 +10,7 @@ import SegoeUINormal from "../assets/Fonts/Segoe-UI.ttf";
 import _SegoeUI from "../assets/Fonts/SVN-Segoe-UI.ttf";
 import HandWriting from "../assets/Fonts/Merienda-VariableFont_wght.ttf";
 import Signature from "../assets/Fonts/BrothersideSignature-w13o6.otf";
+import OswaldSemiBold from "../assets/Fonts/Oswald-SemiBold.ttf";
 
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
@@ -39,7 +40,7 @@ const components = {
       {
         props: { variant: "gradient2" } as ButtonProps,
         style: {
-          backgroundImage: `linear-gradient(to right, #9fecf8, #f2a9df 75%)`,
+          backgroundImage: `linear-gradient(to right, #FCDC93, #f08ad3 100%)`,
           "&:hover": {
             opacity: "0.7",
           },
@@ -85,6 +86,13 @@ const components = {
         src: url(${Digital}) format('truetype');
       }
       @font-face {
+        font-family: 'OswaldSemiBold';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(${OswaldSemiBold}) format('truetype');
+      }
+      @font-face {
         font-family: 'ArialRounded';
         font-style: normal;
         font-display: swap;
@@ -105,6 +113,7 @@ const components = {
         font-weight: 400;
         src: url(${_SegoeUI}) format('truetype');
       }
+
       @font-face {
         font-family: '_SegoeUIBold';
         font-style: normal;
