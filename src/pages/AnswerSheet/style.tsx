@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 
 export const StyledBox = styled(Box)<BoxProps>(({ theme }) => ({
-  color: "red",
+  color: "#DE5173",
   fontSize: "10px",
   border: "1px solid #DE5173",
   borderRadius: "50%",

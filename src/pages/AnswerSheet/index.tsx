@@ -167,7 +167,7 @@ const AnswerSheetPage = () => {
               </Stack>
 
               <FillingText
-                sx={{ width: "100%" }}
+                sx={{ width: "100%", fontWeight: "bold" }}
                 paddingLeft={2}
                 label="6.Chữ ký của thí sinh"
                 text="QUEST"
