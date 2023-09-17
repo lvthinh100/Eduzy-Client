@@ -15,18 +15,19 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import CloseIcon from "@mui/icons-material/Close";
 
 import AnswerRadio from "./AnswerRadio";
-import exam from "../../constants/exam";
 import useResponsive from "../../hooks/useResponsive";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import Countdown from "../../components/Countdown";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 type PropsType = {
   image: string;
   questionNum: number;
+  isUpcoming: boolean;
+  stopAt: Dayjs;
 };
 
-const Sheet: React.FC<PropsType> = ({ questionNum, image }) => {
+const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
   const [answerSheet, setAnswerSheet] = useState(
     new Array(questionNum).fill("")
   );
@@ -45,6 +46,8 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image }) => {
     return handleChangeAnswer;
   };
 
+  //Submit need: ExamId từ url, type check isupcoming, answer sẵn, userId từ auth, timeout
+
   return (
     <Fragment>
       <Grid item md={12} xs={12}>
@@ -59,7 +62,12 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image }) => {
         </Typography>
       </Grid>
       <Grid container spacing={1} my={2} bgcolor="#fae9ea">
-        <Grid item xs>
+        <Grid item md={12} xs={12}>
+          <Typography textAlign="center" fontWeight="bold" color="blue">
+            <Countdown date={stopAt} key={dayjs().toISOString()} />
+          </Typography>
+        </Grid>
+        <Grid item md={10} xs={12}>
           <Box
             sx={{
               maxHeight: "calc(100vh + 50px)",

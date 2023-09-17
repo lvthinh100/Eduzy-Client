@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,6 +16,11 @@ import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
 import { getExamById } from "../../api";
 import { ExamType } from "../../model/Exam";
+import NameDialog from "./NameDialog";
+import useToggleOpen from "../../hooks/useToggleOpen";
+import useAuth from "../../hooks/useAuth";
+import Countdown from "../../components/Countdown";
+import dayjs from "dayjs";
 import GenderTypography from "./GenderTypography";
 import CoupleButtons from "../../components/CoupleButtons";
 import GradeLBbtn from "../../components/GradeLBbtn";
@@ -25,6 +30,12 @@ const AnswerSheetPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [exam, setExam] = useState<ExamType | null>(null);
+  const [unAuthName, setUnAuthName] = useState<string | null>(null);
+  const [openNameDialog, handleOpen, handleClose] = useToggleOpen(true);
+  const [showTime, setShowTime] = useState<boolean>(false);
+
+  const { user } = useAuth();
+
   useEffect(() => {
     const fetchExam = async () => {
       try {
@@ -37,8 +48,24 @@ const AnswerSheetPage = () => {
     };
     fetchExam();
   }, [id, navigate]);
+  // DK hiện đề:
+  /**
+   * 1. isUpcoming = false
+   * 2. isUpcoming = true && upcomingtest.starttime + duration > curtime
+   */
+  const isBetween =
+    exam &&
+    dayjs().isBetween(
+      dayjs(exam.startTime),
+      dayjs(exam.startTime).add(exam.duration, "minute")
+    );
+  const showExam =
+    !exam?.isUpcoming || showTime || (exam.isUpcoming && isBetween);
+
   return (
-    <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
+    <Fragment>
+      {showExam && (
+        <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
       <Stack direction="column" alignItems="center" mb={2}>
         <Typography variant="h3" fontFamily="Times New Roman">
           PHIẾU TRẢ LỜI TRẮC NGHIỆM
@@ -173,18 +200,98 @@ const AnswerSheetPage = () => {
                 text="QUEST"
                 fontFamily="Signature"
               />
+              <FillingText label="Ngày thi" text="3/8/2023" paddingLeft={2} />
             </Stack>
-          </Grid>
+          </Stack>
+          <Grid container>
+            <Grid container spacing={1}>
+              <Grid item md={2}>
+                <Stack
+                  sx={{
+                    direction: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                    border: "1px solid red",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      p: 1,
+                      textAlign: "center",
+                      mb: "auto",
+                    }}
+                  >
+                    <Typography>Điểm</Typography>
+                    <StyledScoreLabel>8</StyledScoreLabel>
+                  </Box>
+                  <Divider sx={{ width: "100%", backgroundColor: "red" }} />
+                  <Box
+                    sx={{
+                      p: 1,
+                      textAlign: "center",
+                      mt: 1,
+                    }}
+                  >
+                    <Typography>Xếp hạng</Typography>
+                    <StyledScoreLabel>8</StyledScoreLabel>
+                    <Button variant="gradient">Xem đáp án</Button>
+                  </Box>
+                </Stack>
+              </Grid>
+              <Grid item md={7} sx={{ display: { xs: "none", md: "block" } }}>
+                <Stack
+                  direction="column"
+                  alignItems="flex-start"
+                  justifyContent="space-between"
+                  sx={{ height: "100%", p: 1, border: "1px solid red" }}
+                >
+                  <FillingText
+                    width="100%"
+                    paddingLeft={2}
+                    label="Hội Đồng thi"
+                    text="Eduzy"
+                    sx={{ width: "100%" }}
+                  />
+                  <FillingText
+                    sx={{ width: "100%" }}
+                    paddingLeft={2}
+                    label="Địa điểm"
+                    text="Eduzy"
+                  />
+                  <FillingText
+                    sx={{ width: "100%" }}
+                    paddingLeft={2}
+                    label="Phòng thi"
+                    text="Eduzy"
+                  />
+                  <FillingText
+                    sx={{ width: "100%" }}
+                    paddingLeft={2}
+                    label="Họ và tên thí sinh"
+                    text={unAuthName && !user ? unAuthName : user?.fullName}
+                  />
+                  <FillingText
+                    sx={{ width: "100%" }}
+                    paddingLeft={2}
+                    label="Ngày sinh"
+                    text="2006"
+                  />
+                  <FillingText
+                    sx={{ width: "100%" }}
+                    paddingLeft={2}
+                    label="Chữ ký thí sinh"
+                    text="QUEST"
+                    fontFamily="Signature"
+                  />
+                </Stack>
+              </Grid>
 
-          <Grid
-            item
-            sx={{
+              <Grid item md={3}             sx={{
               width: "240px",
               mt: { md: -3, xs: 0 },
               display: { md: "block", xs: "none" },
-            }}
-          >
-            <Stack direction="row">
+            }}>
+                <Stack direction="row">
               <Stack
                 direction="column"
                 mr={2}
@@ -215,9 +322,45 @@ const AnswerSheetPage = () => {
                 <CodeFilling id="003" />
               </Stack>
             </Stack>
-          </Grid>
-        </Grid>
+              </Grid>
+            </Grid>
 
+            <Grid item md={12}>
+              <Divider
+                sx={{ my: 1, width: "100%", backgroundColor: "red" }}
+                flexItem
+              />
+            </Grid>
+
+            {exam ? (
+              <Sheet
+                image={exam.questionUrl}
+                questionNum={exam.numberOfQuestion}
+                isUpcoming={exam.isUpcoming}
+                stopAt={
+                  exam.isUpcoming
+                    ? dayjs(exam.startTime).add(exam.duration, "minute")
+                    : dayjs().add(exam.duration, "minute")
+                }
+              />
+            ) : (
+              "Loading"
+            )}
+          </Grid>
+        </Container>
+      )}
+
+      {!showExam && (
+        <Box textAlign="center" bgcolor="white" py={3}>
+          <Typography variant="h4">Đề thi sẽ hiện sau: </Typography>
+          <Typography>
+            <Countdown
+              date={dayjs().add(10, "second")}
+              onTimeout={() => setShowTime(true)}
+            />
+          </Typography>
+        </Box>
+      )}
         <Grid item md={12}>
           <Divider
             sx={{ my: 1, width: "100%", backgroundColor: "#DE5173" }}
@@ -225,13 +368,16 @@ const AnswerSheetPage = () => {
           />
         </Grid>
 
-        {exam ? (
-          <Sheet image={exam.questionUrl} questionNum={exam.numberOfQuestion} />
-        ) : (
-          "Loading"
-        )}
-      </Grid>
-    </Container>
+      {!user && (
+        <NameDialog
+          onSubmitName={(name: string) => {
+            setUnAuthName(name);
+            handleClose();
+          }}
+          open={openNameDialog}
+        />
+      )}
+    </Fragment>
   );
 };
 

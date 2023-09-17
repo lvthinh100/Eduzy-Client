@@ -10,4 +10,6 @@ export type ExamType = {
   numberOfQuestion: number; // 40
   answerSheet: string; //"ABCDABCD..."
   isUpcoming: boolean;
+  _id: string;
+  startTime: string;
 };
