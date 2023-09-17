@@ -40,10 +40,10 @@ const FillingText: React.FC<PropsType> = ({
       <Typography
         sx={{
           display: "block",
-          minWidth: "200px",
+          minWidth: "150px",
           borderBottom: "2px dotted black",
           lineHeight: "12px",
-          color: "blue",
+          color: "#4845C4",
           ...(fontFamily === "Signature" && signatureStyle),
         }}
         pl={paddingLeft}

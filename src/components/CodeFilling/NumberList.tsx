@@ -15,7 +15,7 @@ const NumberList: React.FC<PropsType> = ({ value }) => {
         <Typography
           sx={{
             fontFamily: "HandWriting",
-            color: "blue",
+            color: "#4845C4",
           }}
         >
           {value}

@@ -14,13 +14,15 @@ const NumberCode: React.FC<PropsType> = ({ value, selected }) => {
         borderRadius: "50%",
         width: "14px",
         height: "14px",
-        ...(selected && { backgroundColor: "gray" }),
+        ...(selected && { backgroundColor: "#828486" }),
       }}
     >
       <Typography
         sx={{
           fontSize: "12px",
           lineHeight: "12px",
+
+          ...(selected && { opacity: "0.5" }),
         }}
       >
         {value}

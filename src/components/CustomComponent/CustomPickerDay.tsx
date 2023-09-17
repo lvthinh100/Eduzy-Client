@@ -1,10 +1,11 @@
 import * as React from "react";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, { Dayjs, duration } from "dayjs";
 import isBetweenPlugin from "dayjs/plugin/isBetween";
 import { styled } from "@mui/material/styles";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import { Box, Popover, Typography } from "@mui/material";
 import { LessonType } from "../../model/Lesson";
+import { useAppSelector } from "../../hooks/redux";
 
 dayjs.extend(isBetweenPlugin);
 
@@ -47,6 +48,10 @@ function CustomDay(
     lessons?: [LessonType] | null;
   }
 ) {
+  //Import Type
+  const { code: type } = useAppSelector((state) => state.lesson);
+  console.log("type", type);
+
   // Handler PopOver
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
@@ -69,13 +74,17 @@ function CustomDay(
 
   let lessonType = null;
   let lesson: LessonType | null = null;
-  const index = lessons?.findIndex((lesson) =>
-    day.isSame(dayjs(lesson.startTime).format("YYYY-MM-DD"))
+  const index = lessons?.findIndex(
+    (lesson) =>
+      day.isSame(dayjs(lesson.startTime).format("YYYY-MM-DD")) &&
+      lesson.lessonCode == type
   );
-  if (lessons && index && index > 0) {
+
+  if (lessons && index != undefined && index > -1) {
     lessonType = lessons[index].lessonType;
     lesson = lessons[index];
   }
+
   return (
     <Box>
       <CustomPickersDay

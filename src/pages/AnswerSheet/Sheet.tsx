@@ -50,6 +50,17 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
 
   return (
     <Fragment>
+      <Grid item md={12} xs={12}>
+        <Typography
+          textAlign="center"
+          fontWeight="bold"
+          color="purple"
+          fontFamily="Times New Roman"
+          fontSize="18px"
+        >
+          <Countdown date={dayjs("20/09/2023", "DD/MM/YYYY")} />
+        </Typography>
+      </Grid>
       <Grid container spacing={1} my={2} bgcolor="#fae9ea">
         <Grid item md={12} xs={12}>
           <Typography textAlign="center" fontWeight="bold" color="blue">
@@ -61,21 +72,25 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
             sx={{
               maxHeight: "calc(100vh + 50px)",
               overflowY: "scroll",
-              border: "1px solid red",
+              border: "1px solid #DE5173",
             }}
           >
             <CardMedia component="img" sx={{ width: "100%" }} src={image} />
           </Box>
         </Grid>
-        <Grid item md={2} sx={{ display: { xs: "none", md: "block" } }}>
+        <Grid
+          item
+          sx={{ width: "165px", display: { xs: "none", md: "block" } }}
+        >
           <Stack alignItems="center">
             <Box
               sx={{
-                p: 1,
-                border: "1px solid red",
+                pl: 1,
+                border: "1px solid #DE5173",
                 maxHeight: "100vh",
                 overflowY: "scroll",
                 width: "100%",
+                backgroundColor: "white",
               }}
             >
               {answerSheet.map((value, index: number) => (
@@ -84,8 +99,12 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
                   direction="row"
                   alignItems="center"
                   justifyContent="space-between"
+                  sx={{}}
                 >
-                  <Typography>{index + 1}</Typography>
+                  <Typography fontFamily="Times New Roman">
+                    {" "}
+                    {index + 1}
+                  </Typography>
                   <RadioGroup
                     value={answerSheet[index]}
                     row
@@ -118,31 +137,47 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
             <FormatListNumberedIcon />
           </Fab>
           <Dialog open={openAnswer} maxWidth="md" onClose={handleCloseAnswer}>
-            <Typography textAlign="center">Phiếu trả lời</Typography>
-            <Grid container sx={{ padding: 1 }}>
-              {answerSheet.map((value, index: number) => (
-                <Grid item xs={6}>
-                  <Stack
-                    key={index}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="flex-start"
-                  >
-                    <Typography minWidth={20}>{index + 1}</Typography>
-                    <RadioGroup
-                      value={answerSheet[index]}
-                      row
-                      onChange={generateChangeEventHandler(index)}
+            <Typography
+              fontFamily="Times New Roman"
+              fontWeight="bold"
+              textAlign="center"
+              fontSize="18px"
+              mt={2}
+            >
+              PHIẾU TRẢ LỜI
+            </Typography>
+            <Box sx={{ px: 2 }}>
+              <Grid
+                container
+                sx={{ padding: 1, my: 2, border: "1px solid #DE5173" }}
+              >
+                {answerSheet.map((value, index: number) => (
+                  <Grid item xs={6}>
+                    <Stack
+                      key={index}
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="center"
                     >
-                      <AnswerRadio value="A" />
-                      <AnswerRadio value="B" />
-                      <AnswerRadio value="C" />
-                      <AnswerRadio value="D" />
-                    </RadioGroup>
-                  </Stack>
-                </Grid>
-              ))}
-            </Grid>
+                      <Typography fontFamily="Times New Roman" minWidth={20}>
+                        {index + 1}
+                      </Typography>
+                      <RadioGroup
+                        value={answerSheet[index]}
+                        row
+                        onChange={generateChangeEventHandler(index)}
+                      >
+                        <AnswerRadio value="A" />
+                        <AnswerRadio value="B" />
+                        <AnswerRadio value="C" />
+                        <AnswerRadio value="D" />
+                      </RadioGroup>
+                    </Stack>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+
             <Button
               variant="gradient"
               sx={{ my: 1, width: "150px", mx: "auto" }}
