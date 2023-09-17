@@ -15,21 +15,26 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import CloseIcon from "@mui/icons-material/Close";
 
 import AnswerRadio from "./AnswerRadio";
+import exam from "../../constants/exam";
 import useResponsive from "../../hooks/useResponsive";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import Countdown from "../../components/Countdown";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import { ExamType } from "../../model/Exam";
+import { StudentInfo } from "../../model/Student";
+import { useAppSelector } from "../../hooks/redux";
 
 type PropsType = {
-  image: string;
-  questionNum: number;
-  isUpcoming: boolean;
-  stopAt: Dayjs;
+  exam: ExamType;
+  student: StudentInfo;
 };
 
-const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
+const Sheet: React.FC<PropsType> = ({ exam, student }) => {
+  const startTime = exam.startTime;
+  const countDown = dayjs(startTime).diff(dayjs(), "minute");
+  console.log("countDown", countDown);
   const [answerSheet, setAnswerSheet] = useState(
-    new Array(questionNum).fill("")
+    new Array(exam.numberOfQuestion).fill("")
   );
   const [openAnswer, handleOpenAnswer, handleCloseAnswer] =
     useToggleOpen(false);
@@ -46,8 +51,6 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
     return handleChangeAnswer;
   };
 
-  //Submit need: ExamId từ url, type check isupcoming, answer sẵn, userId từ auth, timeout
-
   return (
     <Fragment>
       <Grid item md={12} xs={12}>
@@ -58,11 +61,11 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
           fontFamily="Times New Roman"
           fontSize="18px"
         >
-          <Countdown date={stopAt} key={dayjs().toISOString()} />
+          <Countdown date={dayjs(startTime)} />
         </Typography>
       </Grid>
       <Grid container spacing={1} my={2} bgcolor="#fae9ea">
-        <Grid item md={10} xs={12}>
+        <Grid item xs>
           <Box
             sx={{
               maxHeight: "calc(100vh + 50px)",
@@ -70,7 +73,11 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
               border: "1px solid #DE5173",
             }}
           >
-            <CardMedia component="img" sx={{ width: "100%" }} src={image} />
+            <CardMedia
+              component="img"
+              sx={{ width: "100%" }}
+              src={exam.questionUrl}
+            />
           </Box>
         </Grid>
         <Grid

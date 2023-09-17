@@ -16,6 +16,7 @@ declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     gradient: true;
     gradient2: true;
+    gradient3: true;
   }
 }
 
@@ -39,6 +40,21 @@ const components = {
       },
       {
         props: { variant: "gradient2" } as ButtonProps,
+        style: {
+          backgroundImage: `linear-gradient(to right, #9fecf8, #f2a9df 75%)`,
+          "&:hover": {
+            opacity: "0.7",
+          },
+          "&:disabled": {
+            backgroundImage: `linear-gradient(to right, white, gray 75%)`,
+            color: "white",
+          },
+          color: "white",
+          borderRadius: "20px",
+        },
+      },
+      {
+        props: { variant: "gradient3" } as ButtonProps,
         style: {
           backgroundImage: `linear-gradient(to right, #FCDC93, #f08ad3 100%)`,
           "&:hover": {

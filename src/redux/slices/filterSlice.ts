@@ -11,7 +11,6 @@ const filterSlice = createSlice({
   initialState,
   reducers: {
     setFilters(state, action: PayloadAction<FilterType[]>) {
-      console.log(action.payload);
       state.filters = action.payload;
       state.fetching = false;
     },

@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Button, Dialog, DialogProps, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogProps,
+  FormControl,
+  FormHelperText,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { StyledInput, StyledLabel } from "../../components/RHF/style";
 
 type PropsType = {
   onSubmitName: (name: string) => void;
@@ -18,8 +29,9 @@ const NameDialog: React.FC<PropsType & DialogProps> = ({
 
   return (
     <Dialog maxWidth="sm" {...dialogProps}>
-      <Stack direction="column" alignItems="center" p={1}>
-        <TextField
+      <Paper sx={{ padding: 3, backgroundColor: "white", maxWidth: 360 }}>
+        <Stack direction="column" alignItems="center">
+          {/* <TextField
           placeholder="Họ và tên"
           sx={{ marginBottom: 1 }}
           value={name}
@@ -30,11 +42,46 @@ const NameDialog: React.FC<PropsType & DialogProps> = ({
           }}
           error={!!error}
           helperText={error}
-        />
-        <Button type="submit" variant="gradient" onClick={handleSubmitName}>
-          Làm bài
-        </Button>
-      </Stack>
+        /> */}
+          <Typography
+            fontSize="30px"
+            color="#39393A"
+            fontFamily="_SegoeUIBold"
+            fontWeight="bold"
+            textAlign="center"
+            mb={3}
+          >
+            Enter Your Name
+          </Typography>
+          <FormControl variant="standard" fullWidth sx={{ my: 1 }}>
+            <StyledLabel htmlFor={name}>Họ và tên</StyledLabel>
+
+            <StyledInput
+              fullWidth
+              error={!!error}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setName(event.target.value);
+                setError(null);
+              }}
+              value={name}
+            />
+            <FormHelperText
+              error={!!error}
+              sx={{ m: 0, position: "absolute", top: 0, right: 0 }}
+            >
+              {error ? error : ""}
+            </FormHelperText>
+          </FormControl>
+          <Button
+            variant="gradient2"
+            sx={{ p: 1.25, width: "100%", fontSize: "12px", mt: 4 }}
+            type="submit"
+            onClick={handleSubmitName}
+          >
+            Đồng ý
+          </Button>
+        </Stack>
+      </Paper>
     </Dialog>
   );
 };
