@@ -11,5 +11,5 @@ export type ExamType = {
   answerSheet: string; //"ABCDABCD..."
   isUpcoming: boolean;
   _id: string;
-  startTime: string;
+  startTime: string | null;
 };
