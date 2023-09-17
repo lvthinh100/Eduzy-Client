@@ -58,15 +58,10 @@ const Sheet: React.FC<PropsType> = ({ questionNum, image, stopAt }) => {
           fontFamily="Times New Roman"
           fontSize="18px"
         >
-          <Countdown date={dayjs("20/09/2023", "DD/MM/YYYY")} />
+          <Countdown date={stopAt} key={dayjs().toISOString()} />
         </Typography>
       </Grid>
       <Grid container spacing={1} my={2} bgcolor="#fae9ea">
-        <Grid item md={12} xs={12}>
-          <Typography textAlign="center" fontWeight="bold" color="blue">
-            <Countdown date={stopAt} key={dayjs().toISOString()} />
-          </Typography>
-        </Grid>
         <Grid item md={10} xs={12}>
           <Box
             sx={{
