@@ -50,7 +50,6 @@ function CustomDay(
 ) {
   //Import Type
   const { code: type } = useAppSelector((state) => state.lesson);
-  console.log("type", type);
 
   // Handler PopOver
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);

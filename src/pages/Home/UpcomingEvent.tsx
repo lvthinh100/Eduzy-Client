@@ -24,7 +24,8 @@ import { getUpcomingLesson } from "../../api";
 import Countdown from "../../components/Countdown";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
-import CoupleButtons from "../../components/CoupleButtons";
+import GradeLBbtn from "../../components/GradeLBbtn";
+import AnswerBtn from "../../components/AnswerBtn";
 
 const UpcomingEvent = () => {
   const dispatch = useAppDispatch();
@@ -129,7 +130,10 @@ const UpcomingEvent = () => {
                   <StyledButtonText>LUYỆN ĐỀ</StyledButtonText>
                 </Stack>
               </Button>
-              <CoupleButtons />
+              <Stack direction="row">
+                <GradeLBbtn onChange={() => {}} />
+                <AnswerBtn onChange={() => {}} />
+              </Stack>
             </Fragment>
           )}
 

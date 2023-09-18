@@ -1,19 +1,19 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import CardMedia from "@mui/material/CardMedia";
-import gradeBoardBtn from "../assets/gradeBoardBtn.png"; // Replace with the actual image path
+import examIcon from "../assets/examIcon.png"; // Replace with the actual image path
 
-type GradeLBbtnProps = {
+type ExamBtnProps = {
   onChange: () => void;
 };
 
-const GradeLBbtn: React.FC<GradeLBbtnProps> = ({ onChange }) => {
+const ExamBtn: React.FC<ExamBtnProps> = ({ onChange }) => {
   return (
     <Button variant="gradient2" onClick={onChange} sx={{ flexGrow: 1 }}>
       <CardMedia
         component="img"
-        alt="answer"
-        src={gradeBoardBtn}
+        alt="Exam"
+        src={examIcon}
         sx={{
           mt: 0,
           height: 25,
@@ -24,4 +24,4 @@ const GradeLBbtn: React.FC<GradeLBbtnProps> = ({ onChange }) => {
   );
 };
 
-export default GradeLBbtn;
+export default ExamBtn;

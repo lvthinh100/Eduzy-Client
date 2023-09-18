@@ -3,9 +3,13 @@ import Button from "@mui/material/Button";
 import CardMedia from "@mui/material/CardMedia";
 import answerIcon from "../assets/answerIcon.png"; // Replace with the actual image path
 
-const AnswerBtn: React.FC = () => {
+type AnswerBtnProps = {
+  onChange: () => void;
+};
+
+const AnswerBtn: React.FC<AnswerBtnProps> = ({ onChange }) => {
   return (
-    <Button variant="gradient2" sx={{ flexGrow: 1 }}>
+    <Button variant="gradient2" onClick={onChange} sx={{ flexGrow: 1 }}>
       <CardMedia
         component="img"
         alt="answer"

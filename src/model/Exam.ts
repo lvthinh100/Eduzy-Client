@@ -13,3 +13,19 @@ export type ExamType = {
   _id: string;
   startTime: string | null;
 };
+
+export const defaultExam: ExamType = {
+  examCode: "001",
+  examType: "",
+  name: "",
+  subject: "",
+  duration: 50,
+  price: 0,
+  questionUrl: "",
+  answerUrl: "",
+  numberOfQuestion: 40,
+  answerSheet: "",
+  isUpcoming: true,
+  _id: "",
+  startTime: null,
+};

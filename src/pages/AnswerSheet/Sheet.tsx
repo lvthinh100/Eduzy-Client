@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -22,20 +22,68 @@ import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
 import { ExamType } from "../../model/Exam";
 import { StudentInfo } from "../../model/Student";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import timeState from "./TimeState";
+import { current } from "@reduxjs/toolkit";
+import ExamBtn from "../../components/ExamBtn";
+import { appActions } from "../../redux/slices/appSlice";
 
 type PropsType = {
   exam: ExamType;
   student: StudentInfo;
+  currentState: number;
+  isAnswerSheet: boolean;
 };
 
-const Sheet: React.FC<PropsType> = ({ exam, student }) => {
-  const startTime = exam.startTime;
-  const countDown = dayjs(startTime).diff(dayjs(), "minute");
-  console.log("countDown", countDown);
+const Sheet: React.FC<PropsType> = ({
+  exam,
+  student,
+  currentState,
+  isAnswerSheet,
+}) => {
+  const dispatch = useAppDispatch();
   const [answerSheet, setAnswerSheet] = useState(
     new Array(exam.numberOfQuestion).fill("")
   );
+
+  const [imgUrl, setImgUrl] = useState("");
+
+  useEffect(() => {
+    setAnswerSheet(new Array(exam.numberOfQuestion).fill(""));
+  }, [exam]);
+
+  useEffect(() => {
+    if (exam._id == "") return;
+    var newImgUrl = "";
+    if (!isAnswerSheet && currentState >= timeState.inExam)
+      newImgUrl = exam.questionUrl;
+
+    //Kiểm tra điều kiện xem đáp án ở đây
+    if (isAnswerSheet) {
+      newImgUrl =
+        currentState == timeState.afterExam && student._id != ""
+          ? exam.answerUrl
+          : "";
+    }
+
+    if (isAnswerSheet) {
+      if (
+        newImgUrl == "" &&
+        student._id == "" &&
+        currentState == timeState.afterExam
+      ) {
+        dispatch(
+          appActions.showNotification({
+            variant: "success",
+            message: "Bạn cần đăng nhập để xem đáp án",
+          })
+        );
+      }
+    }
+
+    setImgUrl(newImgUrl);
+  }, [exam, student, currentState, isAnswerSheet]);
+
   const [openAnswer, handleOpenAnswer, handleCloseAnswer] =
     useToggleOpen(false);
 
@@ -61,7 +109,36 @@ const Sheet: React.FC<PropsType> = ({ exam, student }) => {
           fontFamily="Times New Roman"
           fontSize="18px"
         >
-          <Countdown date={dayjs(startTime)} />
+          {isAnswerSheet ? (
+            <>
+              {currentState < timeState.afterExam && (
+                <>
+                  Đáp án sẽ được mở sau:
+                  <Countdown
+                    date={dayjs(exam.startTime).add(exam.duration, "minute")}
+                  />
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {" "}
+              {currentState === timeState.beforeExam && (
+                <>
+                  Đề sẽ được mở sau:
+                  <Countdown date={dayjs(exam.startTime)} />
+                </>
+              )}
+              {currentState === timeState.inExam && (
+                <>
+                  Thời gian còn lại:
+                  <Countdown
+                    date={dayjs(exam.startTime).add(exam.duration, "minute")}
+                  />
+                </>
+              )}
+            </>
+          )}
         </Typography>
       </Grid>
       <Grid container spacing={1} my={2} bgcolor="#fae9ea">
@@ -73,11 +150,24 @@ const Sheet: React.FC<PropsType> = ({ exam, student }) => {
               border: "1px solid #DE5173",
             }}
           >
-            <CardMedia
-              component="img"
-              sx={{ width: "100%" }}
-              src={exam.questionUrl}
-            />
+            {/* Tạo 3 cái để ko cần reload khi đổi ảnh */}
+            {imgUrl == "" && (
+              <CardMedia component="img" sx={{ width: "100%" }} src={""} />
+            )}
+            {imgUrl == exam.questionUrl && (
+              <CardMedia
+                component="img"
+                sx={{ width: "100%" }}
+                src={exam.questionUrl}
+              />
+            )}
+            {imgUrl == exam.answerUrl && (
+              <CardMedia
+                component="img"
+                sx={{ width: "100%" }}
+                src={exam.answerUrl}
+              />
+            )}
           </Box>
         </Grid>
         <Grid
