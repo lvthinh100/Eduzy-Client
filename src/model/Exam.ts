@@ -10,7 +10,7 @@ export type ExamType = {
   numberOfQuestion: number; // 40
   answerSheet: string; //"ABCDABCD..."
   isUpcoming: boolean;
-  _id: string;
+  _id: string | null;
   startTime: string | null;
 };
 
@@ -26,6 +26,6 @@ export const defaultExam: ExamType = {
   numberOfQuestion: 40,
   answerSheet: "",
   isUpcoming: true,
-  _id: "",
+  _id: null,
   startTime: null,
 };

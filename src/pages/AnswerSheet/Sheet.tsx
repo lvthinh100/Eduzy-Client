@@ -15,17 +15,14 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import CloseIcon from "@mui/icons-material/Close";
 
 import AnswerRadio from "./AnswerRadio";
-import exam from "../../constants/exam";
 import useResponsive from "../../hooks/useResponsive";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
 import { ExamType } from "../../model/Exam";
 import { StudentInfo } from "../../model/Student";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import timeState from "./TimeState";
-import { current } from "@reduxjs/toolkit";
-import ExamBtn from "../../components/ExamBtn";
 import { appActions } from "../../redux/slices/appSlice";
 
 type PropsType = {
@@ -53,7 +50,7 @@ const Sheet: React.FC<PropsType> = ({
   }, [exam]);
 
   useEffect(() => {
-    if (exam._id == "") return;
+    if (!exam._id) return;
     var newImgUrl = "";
     if (!isAnswerSheet && currentState >= timeState.inExam)
       newImgUrl = exam.questionUrl;
@@ -61,16 +58,16 @@ const Sheet: React.FC<PropsType> = ({
     //Kiểm tra điều kiện xem đáp án ở đây
     if (isAnswerSheet) {
       newImgUrl =
-        currentState == timeState.afterExam && student._id != ""
+        currentState === timeState.afterExam && student._id
           ? exam.answerUrl
           : "";
     }
 
     if (isAnswerSheet) {
       if (
-        newImgUrl == "" &&
-        student._id == "" &&
-        currentState == timeState.afterExam
+        newImgUrl === "" &&
+        !student._id &&
+        currentState === timeState.afterExam
       ) {
         dispatch(
           appActions.showNotification({
@@ -98,6 +95,83 @@ const Sheet: React.FC<PropsType> = ({
 
     return handleChangeAnswer;
   };
+
+  const handleSubmit = async () => {
+    const data = {
+      studentId: student._id,
+      studentName: student.fullName,
+      examId: exam._id,
+      answers: answerSheet,
+    };
+
+    try {
+      const response = await fetch("/api/submitAnswers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        // Handle a successful response, e.g., show a success message
+        dispatch(
+          appActions.showNotification({
+            variant: "success",
+            message: "Bài làm đã được nộp thành công!",
+          })
+        );
+      } else {
+        // Handle an error response, e.g., show an error message
+        const responseData = await response.json();
+        dispatch(
+          appActions.showNotification({
+            variant: "error",
+            message: responseData.message || "Có lỗi xảy ra khi nộp bài.",
+          })
+        );
+      }
+    } catch (error) {
+      // Handle a network error or any other unexpected error
+      console.error("Error submitting answers:", error);
+      dispatch(
+        appActions.showNotification({
+          variant: "error",
+          message: "Có lỗi xảy ra khi nộp bài.",
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (exam.questionUrl === "") return;
+    new Promise((resolve) => {
+      const img = new Image();
+      img.src = exam.questionUrl;
+      img.onload = () => {
+        resolve(true);
+      };
+      img.onerror = () => {
+        console.error("Failed to preload question image:", exam.questionUrl);
+        resolve(false);
+      };
+    });
+  }, [exam.questionUrl]);
+
+  useEffect(() => {
+    if (exam.answerUrl === "") return;
+    new Promise<boolean>((resolve) => {
+      const img = new Image();
+      img.src = exam.answerUrl;
+      img.onload = () => {
+        resolve(true);
+      };
+      img.onerror = () => {
+        console.error("Failed to preload answer image:", exam.answerUrl);
+        resolve(false);
+      };
+    });
+  }, [exam.answerUrl]);
 
   return (
     <Fragment>
@@ -151,23 +225,33 @@ const Sheet: React.FC<PropsType> = ({
             }}
           >
             {/* Tạo 3 cái để ko cần reload khi đổi ảnh */}
-            {imgUrl == "" && (
-              <CardMedia component="img" sx={{ width: "100%" }} src={""} />
-            )}
-            {imgUrl == exam.questionUrl && (
-              <CardMedia
-                component="img"
-                sx={{ width: "100%" }}
-                src={exam.questionUrl}
-              />
-            )}
-            {imgUrl == exam.answerUrl && (
-              <CardMedia
-                component="img"
-                sx={{ width: "100%" }}
-                src={exam.answerUrl}
-              />
-            )}
+
+            <CardMedia
+              component="img"
+              sx={{
+                width: "100%",
+                display: imgUrl === "" ? "block" : "none",
+              }}
+              src={""}
+            />
+
+            <CardMedia
+              component="img"
+              sx={{
+                width: "100%",
+                display: imgUrl === exam.questionUrl ? "block" : "none",
+              }}
+              src={exam.questionUrl}
+            />
+
+            <CardMedia
+              component="img"
+              sx={{
+                width: "100%",
+                display: imgUrl === exam.answerUrl ? "block" : "none",
+              }}
+              src={exam.answerUrl}
+            />
           </Box>
         </Grid>
         <Grid
@@ -273,6 +357,7 @@ const Sheet: React.FC<PropsType> = ({
             <Button
               variant="gradient"
               sx={{ my: 1, width: "150px", mx: "auto" }}
+              onClick={handleSubmit}
             >
               Nộp bài
             </Button>

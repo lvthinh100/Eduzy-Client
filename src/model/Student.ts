@@ -11,7 +11,7 @@ export type StudentInfo = {
   crowns1: number;
   crowns2: number;
   crowns3: number;
-  _id: string;
+  _id: string | null;
 };
 
 export const defaultUser: StudentInfo = {
@@ -25,7 +25,7 @@ export const defaultUser: StudentInfo = {
   crowns1: 0,
   crowns2: 0,
   crowns3: 0,
-  _id: "",
+  _id: null,
 };
 
 export type SignUpData = {

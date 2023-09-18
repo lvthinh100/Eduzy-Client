@@ -41,3 +41,22 @@ export const registerExam = async (examId: string, studentId: string) => {
 
 //Filters
 export const getFilters = async () => axios.get(`${SERVER}/api/filters`);
+
+//Answers
+
+export const postAnswer = async (
+  examId: string,
+  examName: string,
+  questionId: string,
+  answer: string
+) => {
+  const requestData = { examId, examName, questionId, answer };
+  try {
+    const response = await axios.post(`${SERVER}/api/answers`, requestData, {
+      withCredentials: true,
+    });
+    return response.data; // You can process the response as needed
+  } catch (error) {
+    throw error; // Handle error cases here
+  }
+};
