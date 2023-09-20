@@ -1,23 +1,13 @@
 // Libs
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 // UI Component
 import CalendarContainerLeft from "./CalendarContainerLeft";
-import {
-  Box,
-  Button,
-  Stack,
-  Typography,
-  CardMedia,
-  CardActionArea,
-} from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import Reward from "./Reward";
 import { CustomSubtitleTypography, StyledButtonText } from "./style";
-import ProtectedButton from "../../components/Auth/ProtectedButton";
 import { useNavigate } from "react-router-dom";
-import gradeBoardBtn from "../../assets/gradeBoardBtn.png";
-import answerIcon from "../../assets/answerIcon.png";
 // Data
 import { UpcomingLessonType } from "../../model/Lesson";
 import { getUpcomingLesson } from "../../api";

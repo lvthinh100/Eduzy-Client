@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Grid,
@@ -19,17 +19,21 @@ import useResponsive from "../../hooks/useResponsive";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
-import { ExamType } from "../../model/Exam";
+import { AnswerEnum, AnswerType, ExamType } from "../../model/Exam";
 import { StudentInfo } from "../../model/Student";
 import { useAppDispatch } from "../../hooks/redux";
 import timeState from "./TimeState";
 import { appActions } from "../../redux/slices/appSlice";
+import { postAnswer } from "../../api";
+import { ResultType } from "../../model/Lesson";
 
 type PropsType = {
   exam: ExamType;
   student: StudentInfo;
   currentState: number;
   isAnswerSheet: boolean;
+  isSubmitted: boolean;
+  onSubmit: (r: ResultType) => void;
 };
 
 const Sheet: React.FC<PropsType> = ({
@@ -37,6 +41,8 @@ const Sheet: React.FC<PropsType> = ({
   student,
   currentState,
   isAnswerSheet,
+  isSubmitted,
+  onSubmit,
 }) => {
   const dispatch = useAppDispatch();
   const [answerSheet, setAnswerSheet] = useState(
@@ -44,14 +50,11 @@ const Sheet: React.FC<PropsType> = ({
   );
 
   const [imgUrl, setImgUrl] = useState("");
-
-  useEffect(() => {
-    setAnswerSheet(new Array(exam.numberOfQuestion).fill(""));
-  }, [exam]);
+  const [isDisabled, setIsDisabled] = useState(false); //For prevent user from click too fast
 
   useEffect(() => {
     if (!exam._id) return;
-    var newImgUrl = "";
+    let newImgUrl = "";
     if (!isAnswerSheet && currentState >= timeState.inExam)
       newImgUrl = exam.questionUrl;
 
@@ -79,7 +82,7 @@ const Sheet: React.FC<PropsType> = ({
     }
 
     setImgUrl(newImgUrl);
-  }, [exam, student, currentState, isAnswerSheet]);
+  }, [exam, student, currentState, isAnswerSheet, dispatch]);
 
   const [openAnswer, handleOpenAnswer, handleCloseAnswer] =
     useToggleOpen(false);
@@ -87,6 +90,7 @@ const Sheet: React.FC<PropsType> = ({
   const isMobile = useResponsive("down", "md");
 
   const generateChangeEventHandler = (index: number) => {
+    if (!(currentState === timeState.inExam)) return;
     const handleChangeAnswer = (event: React.ChangeEvent, value: string) => {
       const newAnswerSheet = [...answerSheet];
       newAnswerSheet[index] = value;
@@ -96,43 +100,25 @@ const Sheet: React.FC<PropsType> = ({
     return handleChangeAnswer;
   };
 
-  const handleSubmit = async () => {
-    const data = {
-      studentId: student._id,
+  const handleSubmit = useCallback(async () => {
+    setIsDisabled(true);
+    if (!exam || !exam._id || isSubmitted) return;
+
+    //Nộp bài trả về điểm và kết quả
+    const data: AnswerType = {
+      student: student._id,
       studentName: student.fullName,
-      examId: exam._id,
-      answers: answerSheet,
+      exam: exam._id,
+      answer: answerSheet.map((char) => (char === "" ? " " : char)).join(""),
+      type: exam.isUpcoming ? AnswerEnum.main : AnswerEnum.sub,
     };
 
+    console.log(data);
     try {
-      const response = await fetch("/api/submitAnswers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        // Handle a successful response, e.g., show a success message
-        dispatch(
-          appActions.showNotification({
-            variant: "success",
-            message: "Bài làm đã được nộp thành công!",
-          })
-        );
-      } else {
-        // Handle an error response, e.g., show an error message
-        const responseData = await response.json();
-        dispatch(
-          appActions.showNotification({
-            variant: "error",
-            message: responseData.message || "Có lỗi xảy ra khi nộp bài.",
-          })
-        );
-      }
+      const { data: response } = await postAnswer(data);
+      console.log("response", response);
+      onSubmit(response);
     } catch (error) {
-      // Handle a network error or any other unexpected error
       console.error("Error submitting answers:", error);
       dispatch(
         appActions.showNotification({
@@ -141,7 +127,7 @@ const Sheet: React.FC<PropsType> = ({
         })
       );
     }
-  };
+  }, [answerSheet, dispatch, exam, isSubmitted, onSubmit, student]);
 
   useEffect(() => {
     if (exam.questionUrl === "") return;
@@ -172,6 +158,16 @@ const Sheet: React.FC<PropsType> = ({
       };
     });
   }, [exam.answerUrl]);
+
+  useEffect(() => {
+    setAnswerSheet(new Array(exam.numberOfQuestion).fill(""));
+  }, [exam]);
+
+  useEffect(() => {
+    if (currentState === timeState.afterExam && isSubmitted === false) {
+      handleSubmit();
+    }
+  }, [currentState, isSubmitted, handleSubmit]);
 
   return (
     <Fragment>
@@ -234,24 +230,25 @@ const Sheet: React.FC<PropsType> = ({
               }}
               src={""}
             />
+            {imgUrl === exam.questionUrl && (
+              <CardMedia
+                component="img"
+                sx={{
+                  width: "100%",
+                }}
+                src={exam.questionUrl}
+              />
+            )}
 
-            <CardMedia
-              component="img"
-              sx={{
-                width: "100%",
-                display: imgUrl === exam.questionUrl ? "block" : "none",
-              }}
-              src={exam.questionUrl}
-            />
-
-            <CardMedia
-              component="img"
-              sx={{
-                width: "100%",
-                display: imgUrl === exam.answerUrl ? "block" : "none",
-              }}
-              src={exam.answerUrl}
-            />
+            {imgUrl === exam.answerUrl && (
+              <CardMedia
+                component="img"
+                sx={{
+                  width: "100%",
+                }}
+                src={exam.answerUrl}
+              />
+            )}
           </Box>
         </Grid>
         <Grid
@@ -294,7 +291,14 @@ const Sheet: React.FC<PropsType> = ({
                 </Stack>
               ))}
             </Box>
-            <Button variant="gradient" sx={{ my: 1, width: "150px" }}>
+            <Button
+              variant="gradient"
+              sx={{ my: 1, width: "150px" }}
+              disabled={
+                currentState === timeState.inExam && !isDisabled ? false : true
+              }
+              onClick={handleSubmit}
+            >
               {" "}
               Nộp bài{" "}
             </Button>
@@ -328,7 +332,7 @@ const Sheet: React.FC<PropsType> = ({
                 sx={{ padding: 1, my: 2, border: "1px solid #DE5173" }}
               >
                 {answerSheet.map((value, index: number) => (
-                  <Grid item xs={6}>
+                  <Grid item xs={6} key={index}>
                     <Stack
                       key={index}
                       direction="row"
@@ -357,6 +361,7 @@ const Sheet: React.FC<PropsType> = ({
             <Button
               variant="gradient"
               sx={{ my: 1, width: "150px", mx: "auto" }}
+              disabled={currentState === timeState.inExam ? false : true}
               onClick={handleSubmit}
             >
               Nộp bài

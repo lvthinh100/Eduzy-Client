@@ -1,9 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 import {
   Box,
-  Button,
-  CardMedia,
   Container,
+  Dialog,
   Divider,
   Grid,
   Stack,
@@ -19,52 +18,67 @@ import { ExamType, defaultExam } from "../../model/Exam";
 import NameDialog from "./NameDialog";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import useAuth from "../../hooks/useAuth";
-import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
 import GenderTypography from "./GenderTypography";
 import GradeLBbtn from "../../components/GradeLBbtn";
 import AnswerBtn from "../../components/AnswerBtn";
-import { StudentInfo, defaultUser } from "../../model/Student";
-import ExamIcon from "../../components/IconComponent/ExamIcon";
+import { StudentInfo, StudentLBInfo, defaultUser } from "../../model/Student";
 import { useLocation } from "react-router-dom";
-import paths from "../../constants/paths";
 import ExamBtn from "../../components/ExamBtn";
 import timeState from "./TimeState";
+import { ResultType } from "../../model/Lesson";
+import GradeRankDialog from "./GradeRankDialog";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
+import LeaderBoard from "../../components/LeaderBoard";
+import { LBEnum } from "../../model/Standard";
 
 const AnswerSheetPage = () => {
+  const dispatch = useAppDispatch();
+  const { showLeaderBoardModal } = useAppSelector((state) => state.app);
   const { id } = useParams();
   const location = useLocation();
   const [isAnswerSheet, setIsAnswerSheet] = useState(
     location.pathname.includes("/answersheet/")
   );
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
   const [exam, setExam] = useState<ExamType | null>(null);
   const [unAuthName, setUnAuthName] = useState<string | null>(null);
   const [openNameDialog, handleOpen, handleClose] = useToggleOpen(true);
+  const [isOpenGradeRankDialog, setIsOpenGradeRankDialog] =
+    useState<boolean>(false);
   const [student, setStudent] = useState<StudentInfo>(defaultUser);
   const { user } = useAuth();
   const [currentState, setCurrentState] = useState(timeState.beforeExam);
+  const [result, setResult] = useState<ResultType | null>(null);
 
   //Các state bao gồm:
-  // timeState = { beforeExam: 1, inExam: 2, afterExam: 3 };
-  // exam.isUpcoming
   // isAnswerSheet
-  // Nếu là isAnswerSheet thì timeState = 3 luôn
+  // exam.isUpcoming
+  // isSubmitted
+  // timeState = { beforeExam: 1, inExam: 2, afterExam: 3 };
 
-  useEffect(() => {
-    setCurrentState(getCurrentState());
+  // Nếu là isAnswerSheet và !exam.isUpcoming thì timeState = 3 và isSubmitted = true luôn
+  // Nếu là isAnswerSheet và exam.isUpcoming thì xét timeState
+  // Nếu !isAnswerSheet và exam.isUpcoming thì lấy startTime từ lesson
+  // Nếu !isAnswerSheet và !exam.isUpcoming thì lấy startTime từ 10s sau now()
 
-    const intervalId = setInterval(() => {
-      setCurrentState(getCurrentState());
-    }, 1000);
+  //Tính năng sau này để chống gian lận:
+  // Nếu isSubmitted và !exam.isUpcoming thì chuyển state AfterExam luôn (cho hiện chấm điểm luôn)
+  // Nếu isSubmitted và exam.isUpcoming thì phải đợi (hiện chấm điểm lúc hết giờ)
 
-    return () => clearInterval(intervalId);
-  }, [exam]);
+  //Hiện tại thì cứ nộp bài là trả về kết quả lẫn xếp hạng ( xếp hạng sẽ là stt kiểu 123/555 )
+  //update mỗi 3s một lần
 
-  function getCurrentState() {
+  const getCurrentState = useCallback(() => {
     if (!exam) return timeState.beforeExam;
-    if (isAnswerSheet && !exam.isUpcoming) return timeState.afterExam;
+    if (isAnswerSheet && !exam.isUpcoming) {
+      setIsSubmitted(true);
+      return timeState.afterExam;
+    }
 
+    if (isSubmitted) return timeState.afterExam;
     const currentTime = dayjs();
     const startTime = dayjs(exam?.startTime);
     const endTime = startTime.add(
@@ -79,7 +93,23 @@ const AnswerSheetPage = () => {
     } else {
       return timeState.afterExam;
     }
-  }
+  }, [exam, isAnswerSheet, isSubmitted]);
+
+  useEffect(() => {
+    setCurrentState(getCurrentState());
+
+    const intervalId = setInterval(() => {
+      setCurrentState(getCurrentState());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [exam, getCurrentState]);
+
+  useEffect(() => {
+    if (isSubmitted && result && currentState === timeState.afterExam) {
+      setIsOpenGradeRankDialog(true);
+    }
+  }, [isSubmitted, result, currentState]);
 
   useEffect(() => {
     if (user) {
@@ -90,7 +120,7 @@ const AnswerSheetPage = () => {
         fullName: unAuthName || defaultUser.fullName,
       });
     }
-  }, [user]);
+  }, [user, unAuthName]);
 
   useEffect(() => {
     setStudent((prevStudent) => ({
@@ -99,7 +129,7 @@ const AnswerSheetPage = () => {
     }));
   }, [unAuthName]);
 
-  function getLastName(fullName: String) {
+  function getLastName(fullName: string) {
     const nameParts = fullName.split(" ");
     if (nameParts.length < 1) {
       return "";
@@ -134,7 +164,7 @@ const AnswerSheetPage = () => {
       }
     };
     fetchExam();
-  }, [id, navigate]);
+  }, [id, navigate, user]);
   // DK hiện đề:
   /**
    * 1. isUpcoming = false
@@ -214,7 +244,9 @@ const AnswerSheetPage = () => {
                 </Typography>
                 {currentState === timeState.afterExam && (
                   <Stack>
-                    <StyledScoreLabel>8</StyledScoreLabel>
+                    <StyledScoreLabel>
+                      {result ? result.score : "_"}
+                    </StyledScoreLabel>
                     <Stack>
                       {isAnswerSheet ? (
                         <ExamBtn onChange={() => setIsAnswerSheet(false)} />
@@ -247,9 +279,15 @@ const AnswerSheetPage = () => {
                 </Typography>
                 {currentState === timeState.afterExam && (
                   <Stack>
-                    <StyledScoreLabel>8</StyledScoreLabel>
+                    <StyledScoreLabel>
+                      {result ? result.rank : "_"}
+                    </StyledScoreLabel>
                     <Stack>
-                      <GradeLBbtn onChange={() => {}} />
+                      <GradeLBbtn
+                        onChange={() =>
+                          dispatch(appActions.toggleShowLeaderBoardModal())
+                        }
+                      />
                     </Stack>
                   </Stack>
                 )}
@@ -367,6 +405,11 @@ const AnswerSheetPage = () => {
               student={student}
               currentState={currentState}
               isAnswerSheet={isAnswerSheet}
+              isSubmitted={isSubmitted}
+              onSubmit={(r) => {
+                setIsSubmitted(true);
+                setResult(r);
+              }}
             />
           </Grid>
         </Grid>
@@ -399,6 +442,30 @@ const AnswerSheetPage = () => {
           open={openNameDialog}
         />
       )}
+      <GradeRankDialog
+        handleClose={() => {
+          setIsOpenGradeRankDialog(false);
+        }}
+        open={isOpenGradeRankDialog}
+        result={result}
+      />
+      <Dialog
+        open={showLeaderBoardModal}
+        fullWidth
+        PaperProps={{
+          style: {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          },
+        }}
+        onClose={() => dispatch(appActions.toggleShowLeaderBoardModal())}
+      >
+        <LeaderBoard
+          type={LBEnum.score}
+          examId={exam && exam._id ? exam._id : undefined}
+          examName={exam ? exam.name : ""}
+        />
+      </Dialog>
     </Fragment>
   );
 };

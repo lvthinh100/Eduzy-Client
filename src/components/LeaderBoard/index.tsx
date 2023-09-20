@@ -1,118 +1,181 @@
-import React from "react";
-import { Box, Paper, Typography, Stack, List, InputBase } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Paper,
+  Typography,
+  Stack,
+  List,
+  InputBase,
+  SxProps,
+} from "@mui/material";
 import StudentInfo from "../StudentInfo";
 import { StandingBox, StyledBadge } from "../../pages/Exams/style";
 import StudentRanking from "./StudentRanking";
 import SearchIcon from "@mui/icons-material/Search";
 import landscape from "../../assets/landscape.jpg";
 import Prize from "../Prize";
+import { getStudentLBs } from "../../api";
+import { appActions } from "../../redux/slices/appSlice";
+import { useAppDispatch } from "../../hooks/redux";
+import { LBReqType } from "../../model/Exam";
+import { LBEnum } from "../../model/Standard";
+import { StudentLBInfo } from "../../model/Student";
 
-const LeaderBoard = () => {
+interface LeaderBoardStyleProps {
+  type: string;
+  paperStyle?: SxProps;
+  examId?: string;
+  examName?: string;
+}
+
+const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
+  paperStyle,
+  type,
+  examId,
+  examName,
+}) => {
+  const dispatch = useAppDispatch();
+  const [studentLBs, setStudentLBs] = useState<StudentLBInfo[] | null>(null);
+  useEffect(() => {
+    const fetchData = async (req: LBReqType) => {
+      try {
+        console.log("req", req);
+        const { data: response } = await getStudentLBs(req);
+        console.log("response", response);
+        setStudentLBs(response);
+      } catch (err) {
+        console.log(err);
+        dispatch(
+          appActions.showNotification({
+            variant: "success",
+            message: "Lỗi khi fetch leader board",
+          })
+        );
+      }
+    };
+
+    if (type) {
+      if (examId) {
+        fetchData({ type, examId });
+      } else {
+        fetchData({ type });
+      }
+    }
+  }, [type, examId, dispatch]);
+
   return (
     <Paper
       sx={{
         textAlign: "center",
-        m: 2,
         mb: 1,
         backgroundImage: `url(${landscape})`,
         backgroundSize: "750px 400px",
         backgroundPosition: "center top",
         borderRadius: 5,
-        boxShadow: "26px 26px 16px 4px rgba(110, 143, 148,0.76) !important",
+
+        ...paperStyle,
       }}
       elevation={5}
     >
-      <Typography variant="h4" >Bảng Xếp Hạng</Typography>
-      <Typography variant="subtitle2">Đề thi chính thức năm 2021</Typography>
+      <Typography variant="h4">Bảng Xếp Hạng</Typography>
+      {type === LBEnum.achievement ? (
+        <Typography variant="subtitle2">Thành tích</Typography>
+      ) : (
+        <Typography variant="subtitle2">{examName}</Typography>
+      )}
 
       {/* Leader board */}
-      <Box sx={{ position: "relative", width: "100%", height: "300px", zIndex: 0 }}>
-        <Box
-          sx={{
-            left: "50%",
-            transform: "translateX(-50%)",
-            top: "10%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            position: "absolute",
-          }}
-        >
-          <StyledBadge color="secondary" badgeContent="1" overlap="circular">
-            <Stack direction="column" alignItems="center">
-              <StudentInfo />
-              <Prize direction="row" variant="first" />
-              <Typography variant="subtitle2" >8.5</Typography>
-            </Stack>
-          </StyledBadge>
-          <StandingBox
+      <Box
+        sx={{ position: "relative", width: "100%", height: "300px", zIndex: 0 }}
+      >
+        {studentLBs?.[0] && (
+          <Box
             sx={{
-              backgroundColor: "#606d54",
-              fontFamily: "SegoeUISemiBold",
-              height: "140px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              top: "10%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              position: "absolute",
             }}
           >
-            1
-          </StandingBox>
-        </Box>
-        <Box
-          sx={{
-            position: "absolute",
-            left: "20%",
-            top: "20%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <StyledBadge color="secondary" badgeContent="2" overlap="circular">
-            <Stack direction="column" alignItems="center">
-              <StudentInfo />
-              <Prize direction="row" variant="second" />
+            <StyledBadge color="secondary" badgeContent="1" overlap="circular">
+              <Stack direction="column" alignItems="center">
+                <StudentInfo studentLB={studentLBs[0]} type={type} />
+              </Stack>
+            </StyledBadge>
+            <StandingBox
+              sx={{
+                backgroundColor: "#606d54",
+                fontFamily: "SegoeUISemiBold",
+                height: "140px",
+                width: "90px",
+              }}
+            >
+              1
+            </StandingBox>
+          </Box>
+        )}
+        {studentLBs?.[1] && (
+          <Box
+            sx={{
+              position: "absolute",
+              left: "20%",
+              top: "20%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <StyledBadge color="secondary" badgeContent="2" overlap="circular">
+              <Stack direction="column" alignItems="center">
+                <StudentInfo studentLB={studentLBs[1]} type={type} />
+              </Stack>
+            </StyledBadge>
 
-              <Typography variant="subtitle2">8.5</Typography>
-            </Stack>
-          </StyledBadge>
-          <StandingBox
+            <StandingBox
+              sx={{
+                backgroundColor: "#a9593d",
+                fontFamily: "SegoeUISemiBold",
+                height: "120px",
+                width: "90px",
+              }}
+            >
+              2
+            </StandingBox>
+          </Box>
+        )}
+        {studentLBs?.[2] && (
+          <Box
             sx={{
-              backgroundColor: "#a9593d",
-              fontFamily: "SegoeUISemiBold",
-              height: "120px",
+              position: "absolute",
+              left: "80%",
+              top: "25%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            2
-          </StandingBox>
-        </Box>
-        <Box
-          sx={{
-            position: "absolute",
-            left: "80%",
-            top: "25%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <StyledBadge color="secondary" badgeContent="3" overlap="circular">
-            <Stack direction="column" alignItems="center">
-              <StudentInfo />
-              <Prize direction="row" variant="third" />
-
-              <Typography variant="subtitle2">8.5</Typography>
-            </Stack>
-          </StyledBadge>
-          <StandingBox
-            sx={{
-              backgroundColor: "#da8100",
-              fontFamily: "SegoeUISemiBold",
-              height: "80px",
-            }}
-          >
-            3
-          </StandingBox>
-        </Box>
+            <StyledBadge color="secondary" badgeContent="3" overlap="circular">
+              <Stack direction="column" alignItems="center">
+                <StudentInfo studentLB={studentLBs[2]} type={type} />
+              </Stack>
+            </StyledBadge>
+            <StandingBox
+              sx={{
+                backgroundColor: "#da8100",
+                fontFamily: "SegoeUISemiBold",
+                height: "80px",
+                width: "90px",
+              }}
+            >
+              3
+            </StandingBox>
+          </Box>
+        )}
       </Box>
 
       {/* bottom leader board */}
@@ -123,7 +186,7 @@ const LeaderBoard = () => {
           mt: -4,
           p: 2,
           zIndex: 1,
-          position: "relative"
+          position: "relative",
         }}
       >
         <Box
@@ -135,11 +198,16 @@ const LeaderBoard = () => {
             borderRadius: 4,
           }}
         >
-          <SearchIcon sx={{
+          <SearchIcon
+            sx={{
               fontSize: 18,
               color: "#A4A4A4",
-            }}/>
-          <InputBase placeholder="Số báo danh" sx={{ width: "100%", ml: 1, fontSize:"14px" }} />
+            }}
+          />
+          <InputBase
+            placeholder="Số báo danh"
+            sx={{ width: "100%", ml: 1, fontSize: "14px" }}
+          />
         </Box>
         <List
           sx={{
@@ -150,10 +218,14 @@ const LeaderBoard = () => {
             pr: 1,
           }}
         >
-          <StudentRanking />
-          <StudentRanking />
-          <StudentRanking />
-          <StudentRanking />
+          {studentLBs?.slice(3).map((studentLB, index) => (
+            <StudentRanking
+              key={index}
+              index={index + 4}
+              studentLB={studentLB}
+              type={type}
+            />
+          ))}
         </List>
       </Box>
     </Paper>

@@ -26,6 +26,7 @@ import LeaderBoard from "../../components/LeaderBoard";
 // Data
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
+import { LBEnum } from "../../model/Standard";
 
 const HomePage = () => {
   const [openCalendar, handleOpenCalendar, handleCloseCalendar] =
@@ -128,10 +129,16 @@ const HomePage = () => {
       <Dialog
         open={showLeaderBoardModal}
         fullWidth
+        PaperProps={{
+          style: {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          },
+        }}
         onClose={() => dispatch(appActions.toggleShowLeaderBoardModal())}
       >
         <Box>
-          <LeaderBoard />
+          <LeaderBoard type={LBEnum.achievement} />
         </Box>
       </Dialog>
     </Container>

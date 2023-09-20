@@ -1,6 +1,8 @@
 import { SERVER } from "./constants/url";
 import axios from "axios";
 import { LoginData, SignUpData } from "./model/Student";
+import { type } from "os";
+import { AnswerType, LBReqType } from "./model/Exam";
 
 export const getUpcomingLesson = async (type: string) =>
   axios.get(`${SERVER}/api/lessons/upcoming/${type}`);
@@ -25,18 +27,15 @@ export const getExamById = async (id: string) =>
 
 export const registerExam = async (examId: string, studentId: string) => {
   const requestData = { examId, studentId };
-  try {
-    const response = await axios.post(
-      `${SERVER}/api/exams/registerExam`,
-      requestData,
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data; // You can process the response as needed
-  } catch (error) {
-    throw error; // Handle error cases here
-  }
+
+  const response = await axios.post(
+    `${SERVER}/api/exams/registerExam`,
+    requestData,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data; // You can process the response as needed
 };
 
 //Filters
@@ -44,19 +43,16 @@ export const getFilters = async () => axios.get(`${SERVER}/api/filters`);
 
 //Answers
 
-export const postAnswer = async (
-  examId: string,
-  examName: string,
-  questionId: string,
-  answer: string
-) => {
-  const requestData = { examId, examName, questionId, answer };
-  try {
-    const response = await axios.post(`${SERVER}/api/answers`, requestData, {
-      withCredentials: true,
-    });
-    return response.data; // You can process the response as needed
-  } catch (error) {
-    throw error; // Handle error cases here
-  }
+export const postAnswer = async (data: AnswerType) => {
+  const requestData = data;
+  const response = await axios.post(`${SERVER}/api/answer`, requestData);
+  return response.data; // You can process the response as needed
+};
+
+//Leader Board
+
+export const getStudentLBs = async (data: LBReqType) => {
+  const requestData = data;
+  const response = await axios.post(`${SERVER}/api/leaderBoard`, requestData);
+  return response.data; // You can process the response as needed
 };

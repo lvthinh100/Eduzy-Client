@@ -41,7 +41,7 @@ export const StyledListItem = styled(ListItemButton)<ListItemButtonProps>(
 export const StyledBadge = styled(Badge)<BadgeProps>(
   ({ theme, badgeContent }) => ({
     "& .MuiBadge-badge": {
-      right: 35,
+      right: "calc(50% - 20px)",
       top: 13,
       border: `2px solid ${theme.palette.background.paper}`,
       padding: "0 4px",

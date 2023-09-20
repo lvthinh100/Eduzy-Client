@@ -40,3 +40,15 @@ export type LoginData = {
   username: string;
   password: string;
 };
+
+export type StudentLBInfo = {
+  //Show in Leader Board
+  fullName: string;
+  studentCode: string;
+  coins: number;
+  crowns1: number;
+  crowns2: number;
+  crowns3: number;
+  score: number;
+  type: string;
+};

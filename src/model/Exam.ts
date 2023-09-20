@@ -14,6 +14,34 @@ export type ExamType = {
   startTime: string | null;
 };
 
+export type ResultType = {
+  score: number;
+  rank: string;
+};
+
+export type AnswerType = {
+  student: string | null;
+  studentName: string;
+  exam: string;
+  answer: string;
+  type: string;
+};
+
+export type LBReqType = {
+  type: string;
+  examId?: string;
+};
+
+export const AnswerEnum = {
+  main: "MAIN",
+  sub: "SUB",
+};
+
+export const defaultResult: ResultType = {
+  score: 0,
+  rank: "",
+};
+
 export const defaultExam: ExamType = {
   examCode: "001",
   examType: "",
