@@ -13,23 +13,26 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import CakeIcon from "@mui/icons-material/Cake";
 
-// Data
+// RHF
 import { useForm, SubmitHandler } from "react-hook-form";
-import appSlice, { appActions } from "../../redux/slices/appSlice";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+// Form Component
 import RHFTextField from "../RHF/RHFTextField";
 import FormProvider from "../RHF/FormProvider";
-import RHFDatePicker from "../RHF/RHFDatePicker";
 import RHFRadioGroup from "../RHF/RHFRadioGroup";
+import RHFDateField from "../RHF/RHFDateField";
 
+// Data
+import { signup } from "../../api";
 import { SignUpData } from "../../model/Student";
 import { Gender } from "../../model/Standard";
-import { signup } from "../../api";
+
+// Redux
+import { appActions } from "../../redux/slices/appSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { authActions } from "../../redux/slices/authSlice";
-import RHFDateField from "../RHF/RHFDateField";
 
 const RegisterModal = () => {
   const open = useAppSelector((state) => state.app.showRegisterModal);

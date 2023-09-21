@@ -27,7 +27,6 @@ import { logout } from "../../api";
 import { authActions } from "../../redux/slices/authSlice";
 import Crown from "../Crown";
 import { Stack } from "@mui/material";
-import MoneyIcon from "../IconComponent/MoneyIcon";
 import Coins from "../Coins";
 
 function ResponsiveAppBar() {
