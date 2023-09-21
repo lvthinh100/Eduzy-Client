@@ -13,8 +13,8 @@ import Sheet from "./Sheet";
 import FillingText from "./FillingText";
 import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
-import { getExamById } from "../../api";
-import { ExamType, defaultExam } from "../../model/Exam";
+import { fetchAnswer, getExamById } from "../../api";
+import { ExamType, FetchAnswerType, defaultExam } from "../../model/Exam";
 import NameDialog from "./NameDialog";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import useAuth from "../../hooks/useAuth";
@@ -59,7 +59,7 @@ const AnswerSheetPage = () => {
   // isSubmitted
   // timeState = { beforeExam: 1, inExam: 2, afterExam: 3 };
 
-  // Nếu là isAnswerSheet và !exam.isUpcoming thì timeState = 3 và isSubmitted = true luôn
+  // Nếu là isAnswerSheet và !exam.isUpcoming thì timeState = 3
   // Nếu là isAnswerSheet và exam.isUpcoming thì xét timeState
   // Nếu !isAnswerSheet và exam.isUpcoming thì lấy startTime từ lesson
   // Nếu !isAnswerSheet và !exam.isUpcoming thì lấy startTime từ 10s sau now()
@@ -74,7 +74,7 @@ const AnswerSheetPage = () => {
   const getCurrentState = useCallback(() => {
     if (!exam) return timeState.beforeExam;
     if (isAnswerSheet && !exam.isUpcoming) {
-      setIsSubmitted(true);
+      //setIsSubmitted(true);
       return timeState.afterExam;
     }
 
@@ -105,6 +105,8 @@ const AnswerSheetPage = () => {
     return () => clearInterval(intervalId);
   }, [exam, getCurrentState]);
 
+  //Fetch Result if see AnswerSheet
+
   useEffect(() => {
     if (isSubmitted && result && currentState === timeState.afterExam) {
       setIsOpenGradeRankDialog(true);
@@ -119,6 +121,7 @@ const AnswerSheetPage = () => {
         ...defaultUser,
         fullName: unAuthName || defaultUser.fullName,
       });
+      setResult(null);
     }
   }, [user, unAuthName]);
 
@@ -165,19 +168,6 @@ const AnswerSheetPage = () => {
     };
     fetchExam();
   }, [id, navigate, user]);
-  // DK hiện đề:
-  /**
-   * 1. isUpcoming = false
-   * 2. isUpcoming = true && upcomingtest.starttime + duration > curtime
-   */
-  // const isBetween =
-  //   exam &&
-  //   dayjs().isBetween(
-  //     dayjs(exam.startTime),
-  //     dayjs(exam.startTime).add(exam.duration, "minute")
-  //   );
-
-  // !exam?.isUpcoming || showTime || (exam.isUpcoming && isBetween);
 
   return (
     <Fragment>
@@ -244,9 +234,12 @@ const AnswerSheetPage = () => {
                 </Typography>
                 {currentState === timeState.afterExam && (
                   <Stack>
-                    <StyledScoreLabel>
-                      {result ? result.score : "_"}
-                    </StyledScoreLabel>
+                    {result ? (
+                      <StyledScoreLabel>{result.score}</StyledScoreLabel>
+                    ) : (
+                      <Box height={"36px"}></Box>
+                    )}
+
                     <Stack>
                       {isAnswerSheet ? (
                         <ExamBtn onChange={() => setIsAnswerSheet(false)} />
@@ -279,9 +272,11 @@ const AnswerSheetPage = () => {
                 </Typography>
                 {currentState === timeState.afterExam && (
                   <Stack>
-                    <StyledScoreLabel>
-                      {result ? result.rank : "_"}
-                    </StyledScoreLabel>
+                    {result ? (
+                      <StyledScoreLabel>{result.rank}</StyledScoreLabel>
+                    ) : (
+                      <Box height={"36px"}></Box>
+                    )}
                     <Stack>
                       <GradeLBbtn
                         onChange={() =>
@@ -406,8 +401,12 @@ const AnswerSheetPage = () => {
               currentState={currentState}
               isAnswerSheet={isAnswerSheet}
               isSubmitted={isSubmitted}
+              result={result}
               onSubmit={(r) => {
                 setIsSubmitted(true);
+                setResult(r);
+              }}
+              setResult={(r) => {
                 setResult(r);
               }}
             />

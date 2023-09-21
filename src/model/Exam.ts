@@ -27,6 +27,11 @@ export type AnswerType = {
   type: string;
 };
 
+export type FetchAnswerType = {
+  student: string;
+  exam: string;
+};
+
 export type LBReqType = {
   type: string;
   examId?: string;

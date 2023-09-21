@@ -1,14 +1,15 @@
 export type ResultType = {
-  studentId: string;
-  studentAnswerSheet: string;
+  student: string;
+  studentName: string;
+  exam: string;
+  type: string;
+  answer: string;
   score: number;
   coins: number;
-  crowns1: number;
-  crowns2: number;
-  crowns3: number;
-  ordinalNumber: number;
+  crown1: number;
+  crown2: number;
+  crown3: number;
   rank: number;
-  hasReceivedPrize: boolean;
 };
 
 export type UpcomingLessonType = {

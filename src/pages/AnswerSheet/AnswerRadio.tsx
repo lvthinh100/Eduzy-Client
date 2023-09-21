@@ -4,15 +4,16 @@ import { StyledBox } from "./style";
 
 type PropsType = {
   value: "A" | "B" | "C" | "D";
+  isGreen: boolean;
 };
 
-const AnswerRadio: React.FC<PropsType> = ({ value }) => {
+const AnswerRadio: React.FC<PropsType> = ({ value, isGreen }) => {
   return (
     <Radio
       disableRipple
       sx={{ px: 1, py: 0 }}
       icon={
-        <StyledBox>
+        <StyledBox sx={{ backgroundColor: isGreen ? "#AAD0AA" : "white" }}>
           <span>{value}</span>
         </StyledBox>
       }

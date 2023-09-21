@@ -19,12 +19,17 @@ import useResponsive from "../../hooks/useResponsive";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
-import { AnswerEnum, AnswerType, ExamType } from "../../model/Exam";
+import {
+  AnswerEnum,
+  AnswerType,
+  ExamType,
+  FetchAnswerType,
+} from "../../model/Exam";
 import { StudentInfo } from "../../model/Student";
 import { useAppDispatch } from "../../hooks/redux";
 import timeState from "./TimeState";
 import { appActions } from "../../redux/slices/appSlice";
-import { postAnswer } from "../../api";
+import { fetchAnswer, postAnswer } from "../../api";
 import { ResultType } from "../../model/Lesson";
 
 type PropsType = {
@@ -33,7 +38,9 @@ type PropsType = {
   currentState: number;
   isAnswerSheet: boolean;
   isSubmitted: boolean;
+  result: ResultType | null;
   onSubmit: (r: ResultType) => void;
+  setResult: (r: ResultType) => void;
 };
 
 const Sheet: React.FC<PropsType> = ({
@@ -43,6 +50,8 @@ const Sheet: React.FC<PropsType> = ({
   isAnswerSheet,
   isSubmitted,
   onSubmit,
+  result,
+  setResult,
 }) => {
   const dispatch = useAppDispatch();
   const [answerSheet, setAnswerSheet] = useState(
@@ -51,6 +60,41 @@ const Sheet: React.FC<PropsType> = ({
 
   const [imgUrl, setImgUrl] = useState("");
   const [isDisabled, setIsDisabled] = useState(false); //For prevent user from click too fast
+
+  useEffect(() => {
+    const fetchAnswerData = async () => {
+      if (
+        isAnswerSheet &&
+        result === null &&
+        student._id !== null &&
+        exam !== null &&
+        exam._id !== null
+      ) {
+        const data: FetchAnswerType = {
+          student: student._id,
+          exam: exam._id,
+        };
+
+        try {
+          const { data: response } = await fetchAnswer(data);
+          console.log("response", response);
+          setResult(response);
+          let charArray = response.answer.split("");
+          setAnswerSheet(charArray);
+        } catch (error) {
+          console.error("Error fetch Answer:", error);
+          dispatch(
+            appActions.showNotification({
+              variant: "error",
+              message: "Có lỗi xảy ra khi lấy bài làm.",
+            })
+          );
+        }
+      }
+    };
+
+    fetchAnswerData();
+  }, [isAnswerSheet, result, student, dispatch, exam, setResult]);
 
   useEffect(() => {
     if (!exam._id) return;
@@ -163,11 +207,18 @@ const Sheet: React.FC<PropsType> = ({
     setAnswerSheet(new Array(exam.numberOfQuestion).fill(""));
   }, [exam]);
 
+  const [prevCurrentState, setPrevCurrentState] = useState<Number | null>(null); //For check currentState change from 2 to 3
+
   useEffect(() => {
-    if (currentState === timeState.afterExam && isSubmitted === false) {
+    if (
+      prevCurrentState === timeState.inExam &&
+      currentState === timeState.afterExam &&
+      isSubmitted === false
+    ) {
       handleSubmit();
     }
-  }, [currentState, isSubmitted, handleSubmit]);
+    setPrevCurrentState(currentState);
+  }, [currentState, isSubmitted, handleSubmit, prevCurrentState]);
 
   return (
     <Fragment>
@@ -272,7 +323,14 @@ const Sheet: React.FC<PropsType> = ({
                   direction="row"
                   alignItems="center"
                   justifyContent="space-between"
-                  sx={{}}
+                  sx={{
+                    backgroundColor:
+                      currentState === timeState.afterExam && result
+                        ? answerSheet[index] === exam.answerSheet[index]
+                          ? "#AAD0AA"
+                          : "#EAC8C8"
+                        : "white",
+                  }}
                 >
                   <Typography fontFamily="Times New Roman">
                     {" "}
@@ -283,10 +341,42 @@ const Sheet: React.FC<PropsType> = ({
                     row
                     onChange={generateChangeEventHandler(index)}
                   >
-                    <AnswerRadio value="A" />
-                    <AnswerRadio value="B" />
-                    <AnswerRadio value="C" />
-                    <AnswerRadio value="D" />
+                    <AnswerRadio
+                      value="A"
+                      isGreen={
+                        currentState === timeState.afterExam &&
+                        result !== null &&
+                        answerSheet[index] !== exam.answerSheet[index] &&
+                        exam.answerSheet[index] === "A"
+                      }
+                    />
+                    <AnswerRadio
+                      value="B"
+                      isGreen={
+                        currentState === timeState.afterExam &&
+                        result !== null &&
+                        answerSheet[index] !== exam.answerSheet[index] &&
+                        exam.answerSheet[index] === "B"
+                      }
+                    />
+                    <AnswerRadio
+                      value="C"
+                      isGreen={
+                        currentState === timeState.afterExam &&
+                        result !== null &&
+                        answerSheet[index] !== exam.answerSheet[index] &&
+                        exam.answerSheet[index] === "C"
+                      }
+                    />
+                    <AnswerRadio
+                      value="D"
+                      isGreen={
+                        currentState === timeState.afterExam &&
+                        result !== null &&
+                        answerSheet[index] !== exam.answerSheet[index] &&
+                        exam.answerSheet[index] === "D"
+                      }
+                    />
                   </RadioGroup>
                 </Stack>
               ))}
@@ -329,6 +419,7 @@ const Sheet: React.FC<PropsType> = ({
             <Box sx={{ px: 2 }}>
               <Grid
                 container
+                direction="column"
                 sx={{ padding: 1, my: 2, border: "1px solid #DE5173" }}
               >
                 {answerSheet.map((value, index: number) => (
@@ -338,6 +429,14 @@ const Sheet: React.FC<PropsType> = ({
                       direction="row"
                       alignItems="center"
                       justifyContent="center"
+                      sx={{
+                        backgroundColor:
+                          currentState === timeState.afterExam && result
+                            ? answerSheet[index] === exam.answerSheet[index]
+                              ? "#AAD0AA"
+                              : "#EAC8C8"
+                            : "white",
+                      }}
                     >
                       <Typography fontFamily="Times New Roman" minWidth={20}>
                         {index + 1}
@@ -347,10 +446,42 @@ const Sheet: React.FC<PropsType> = ({
                         row
                         onChange={generateChangeEventHandler(index)}
                       >
-                        <AnswerRadio value="A" />
-                        <AnswerRadio value="B" />
-                        <AnswerRadio value="C" />
-                        <AnswerRadio value="D" />
+                        <AnswerRadio
+                          value="A"
+                          isGreen={
+                            currentState === timeState.afterExam &&
+                            result !== null &&
+                            answerSheet[index] !== exam.answerSheet[index] &&
+                            exam.answerSheet[index] === "A"
+                          }
+                        />
+                        <AnswerRadio
+                          value="B"
+                          isGreen={
+                            currentState === timeState.afterExam &&
+                            result !== null &&
+                            answerSheet[index] !== exam.answerSheet[index] &&
+                            exam.answerSheet[index] === "B"
+                          }
+                        />
+                        <AnswerRadio
+                          value="C"
+                          isGreen={
+                            currentState === timeState.afterExam &&
+                            result !== null &&
+                            answerSheet[index] !== exam.answerSheet[index] &&
+                            exam.answerSheet[index] === "C"
+                          }
+                        />
+                        <AnswerRadio
+                          value="D"
+                          isGreen={
+                            currentState === timeState.afterExam &&
+                            result !== null &&
+                            answerSheet[index] !== exam.answerSheet[index] &&
+                            exam.answerSheet[index] === "D"
+                          }
+                        />
                       </RadioGroup>
                     </Stack>
                   </Grid>

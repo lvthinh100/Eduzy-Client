@@ -13,7 +13,6 @@ import { StandingBox, StyledBadge } from "../../pages/Exams/style";
 import StudentRanking from "./StudentRanking";
 import SearchIcon from "@mui/icons-material/Search";
 import landscape from "../../assets/landscape.jpg";
-import Prize from "../Prize";
 import { getStudentLBs } from "../../api";
 import { appActions } from "../../redux/slices/appSlice";
 import { useAppDispatch } from "../../hooks/redux";

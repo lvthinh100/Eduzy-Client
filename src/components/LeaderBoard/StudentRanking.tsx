@@ -47,7 +47,7 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
               m: "4px",
             }}
           />
-          <Stack ml={1} justifyContent="center" alignItems="center">
+          <Stack ml={1} justifyContent="center">
             <Typography fontSize="14px" fontFamily="SegoeUISemiBold">
               {studentLB.fullName}
             </Typography>
