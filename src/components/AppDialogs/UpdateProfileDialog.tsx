@@ -1,19 +1,25 @@
-import React, { ChangeEvent, LegacyRef, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Avatar,
   Box,
   Dialog,
   Button,
   Stack,
+  InputAdornment,
   Theme,
   Typography,
   IconButton,
 } from "@mui/material";
 import landscape from "../../assets/landscape.jpg";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import CakeIcon from "@mui/icons-material/Cake";
+
 // RHF
 import FormProvider from "../RHF/FormProvider";
 import RHFInput from "../RHF/RHFTextField";
+import RHFRadioGroup from "../RHF/RHFRadioGroup";
+import RHFDateField from "../RHF/RHFDateField";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -23,15 +29,36 @@ import { StyledPaper } from "./style";
 import Crown from "../Crown";
 
 // Data
-import { SignUpData } from "../../model/Student";
+import { StudentInfo } from "../../model/Student";
 import { Gender } from "../../model/Standard";
+import dayjs, { Dayjs } from "dayjs";
+import content from "../../constants/content";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { MODAL, appActions } from "../../redux/slices/appSlice";
 // Redux
 
-const UpdateProfileDialog = () => {
+type PropsType = {
+  user: StudentInfo;
+};
+
+type UpdateFormType = {
+  name: string;
+  birth: Date;
+  gender: Gender;
+};
+
+const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
+  const dispatch = useAppDispatch();
+
   const avatarRef = useRef(null);
   const [selectedAvatarImg, setSelectedAvatarImg] = useState<null | string>(
     null
   );
+  const { showUpdateProfileModal } = useAppSelector((state) => state.app);
+
+  const handleCloseModal = () => {
+    dispatch(appActions.closeModal(MODAL.UPDATE_PROFILE));
+  };
 
   const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -40,35 +67,36 @@ const UpdateProfileDialog = () => {
     }
   };
 
+  const submitFormHandler: SubmitHandler<UpdateFormType> = (
+    data: UpdateFormType
+  ) => {
+    console.log(data);
+  };
+
   const schema = yup.object().shape({
-    name: yup.string().required("Vui lòng nhập tài khoản"),
-    password: yup
-      .string()
-      .min(6, "Mật khẩu phải ít nhất 6 ký tự")
-      .required("Vui long nhap mật khẩu"),
+    name: yup.string().required("Vui lòng nhập tên"),
     birth: yup
       .date()
       .typeError("Vui lòng nhập ngày sinh hợp lệ")
       .required("Vui lòng chọn ngày sinh")
       .max(new Date(), "Vui lòng nhập ngày sinh ở quá khứ"),
     gender: yup.mixed<Gender>().required("Vui lòng chọn giới tính"),
-    expiredTime: yup.date().default(() => new Date("2024-01-01")),
   });
 
   const methods = useForm({
     mode: "onChange",
     defaultValues: {
-      name: "",
-      password: "",
-      birth: new Date(),
-      gender: "Nam" as Gender,
-      expiredTime: new Date("2024-01-01"),
+      name: user.fullName,
+      birth: new Date(
+        dayjs(user.dateOfBirth, content.birthFormat).toISOString()
+      ),
+      gender: user.gender,
     },
     resolver: yupResolver(schema),
   });
 
   return (
-    <Dialog open={true}>
+    <Dialog open={showUpdateProfileModal} onClose={handleCloseModal}>
       <StyledPaper
         sx={{
           backgroundImage: `url(${landscape})`,
@@ -92,9 +120,9 @@ const UpdateProfileDialog = () => {
                 border: "3px solid",
                 borderColor: (theme: Theme) => theme.palette.highlighter.main,
               }}
-              src={selectedAvatarImg ? selectedAvatarImg : "nah"}
+              src={selectedAvatarImg ? selectedAvatarImg : user.avatar}
             >
-              T
+              <AccountCircleIcon />
             </Avatar>
             <IconButton
               component="label"
@@ -122,9 +150,9 @@ const UpdateProfileDialog = () => {
           </Box>
 
           <Typography fontWeight="bold" fontSize={12}>
-            Lê Văn Thịnh
+            {user.fullName}
           </Typography>
-          <Typography fontSize={12}>#000009</Typography>
+          <Typography fontSize={12}>#{user.studentCode}</Typography>
           <Stack direction="row" spacing={1}>
             <Crown quantity={1} variant="first" />
             <Crown quantity={1} variant="second" />
@@ -134,10 +162,32 @@ const UpdateProfileDialog = () => {
         <Box
           sx={{ p: 3, backgroundColor: "white", borderRadius: "30px 30px 0 0" }}
         >
-          <FormProvider<SignUpData> methods={methods} handler={() => {}}>
+          <FormProvider<UpdateFormType>
+            methods={methods}
+            handler={submitFormHandler}
+          >
             <RHFInput fullWidth name="name" label="Tên" />
-            <RHFInput fullWidth name="birth" label="Ngày sinh" />
-            <RHFInput fullWidth name="gender" label="Giới tính" />
+            <RHFDateField
+              name="birth"
+              label="Ngày sinh"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <CakeIcon />
+                  </InputAdornment>
+                ),
+              }}
+              disableFuture
+            />
+            <RHFRadioGroup
+              name="gender"
+              label="Giới tính"
+              options={[
+                { value: "Nam", label: "Nam" },
+                { value: "Nữ", label: "Nữ" },
+              ]}
+              row
+            />
             <Button
               variant="gradient"
               type="submit"
