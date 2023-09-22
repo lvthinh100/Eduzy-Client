@@ -2,7 +2,12 @@ import { SERVER } from "./constants/url";
 import axios from "axios";
 import { LoginData, SignUpData } from "./model/Student";
 import { type } from "os";
-import { AnswerType, FetchAnswerType, LBReqType } from "./model/Exam";
+import {
+  AnswerType,
+  FetchAnswerIdType,
+  FetchAnswerType,
+  LBReqType,
+} from "./model/Exam";
 
 export const getUpcomingLesson = async (type: string) =>
   axios.get(`${SERVER}/api/lessons/upcoming/${type}`);
@@ -38,7 +43,7 @@ export const registerExam = async (examId: string, studentId: string) => {
       withCredentials: true,
     }
   );
-  return response.data; // You can process the response as needed
+  return response.data;
 };
 
 //Filters
@@ -49,14 +54,23 @@ export const getFilters = async () => axios.get(`${SERVER}/api/filters`);
 export const postAnswer = async (data: AnswerType) => {
   const requestData = data;
   const response = await axios.post(`${SERVER}/api/answer`, requestData);
-  return response.data; // You can process the response as needed
+  return response.data;
 };
 
 export const fetchAnswer = async (data: FetchAnswerType) => {
   const requestData = data;
   const response = await axios.post(`${SERVER}/api/answer/fetch`, requestData);
-  return response.data; // You can process the response as needed
-};
+  return response.data;
+}; //Dùng khi xem đáp án, lấy kết quả cao nhất
+
+export const fetchAnswerById = async (data: FetchAnswerIdType) => {
+  const requestData = data;
+  const response = await axios.post(
+    `${SERVER}/api/answer/fetchId`,
+    requestData
+  );
+  return response.data;
+}; //Dùng khi mới kiểm tra xong, cần lấy để xem phát thưởng chưa
 
 //Leader Board
 

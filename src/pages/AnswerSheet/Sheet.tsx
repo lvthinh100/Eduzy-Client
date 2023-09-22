@@ -23,6 +23,7 @@ import {
   AnswerEnum,
   AnswerType,
   ExamType,
+  FetchAnswerIdType,
   FetchAnswerType,
   defaultResult,
 } from "../../model/Exam";
@@ -30,7 +31,7 @@ import { StudentInfo } from "../../model/Student";
 import { useAppDispatch } from "../../hooks/redux";
 import timeState from "./TimeState";
 import { appActions } from "../../redux/slices/appSlice";
-import { fetchAnswer, postAnswer } from "../../api";
+import { fetchAnswer, fetchAnswerById, postAnswer } from "../../api";
 import { ResultType } from "../../model/Exam";
 
 type PropsType = {
@@ -61,6 +62,58 @@ const Sheet: React.FC<PropsType> = ({
 
   const [imgUrl, setImgUrl] = useState("");
   const [isDisabled, setIsDisabled] = useState(false); //For prevent user from click too fast
+
+  const [isPrize, setIsPrize] = useState(false);
+
+  const fetchResult = useCallback(async () => {
+    if (
+      isPrize === false &&
+      exam.isUpcoming &&
+      exam._id &&
+      isSubmitted &&
+      result &&
+      currentState === timeState.afterExam
+    ) {
+      console.log("fetch Rank");
+      const data: FetchAnswerIdType = {
+        _id: result._id,
+        exam: exam._id,
+      };
+      try {
+        const { data: response } = await fetchAnswerById(data);
+        console.log("response", response);
+        setResult(response);
+        if (response.isPrized) {
+          //Hiện form tổng kết ở đây
+          setIsPrize(response.isPrized);
+        }
+      } catch (error) {
+        //console.error("Error fetch Answer:", error);
+      }
+    }
+  }, [isPrize, exam, isSubmitted, result, currentState, setResult]);
+
+  useEffect(() => {
+    if (
+      !(
+        isPrize === false &&
+        exam.isUpcoming &&
+        isSubmitted &&
+        result &&
+        result._id !== "" &&
+        currentState === timeState.afterExam
+      )
+    )
+      return;
+
+    fetchResult();
+
+    const intervalId = setInterval(() => {
+      fetchResult();
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [fetchResult, isPrize, exam, isSubmitted, result, currentState]);
 
   useEffect(() => {
     const fetchAnswerData = async () => {
@@ -249,9 +302,17 @@ const Sheet: React.FC<PropsType> = ({
                   <Countdown date={dayjs(exam.startTime)} />
                 </>
               )}
-              {currentState === timeState.inExam && (
+              {currentState === timeState.inExam && !isSubmitted && (
                 <>
                   Thời gian còn lại:
+                  <Countdown
+                    date={dayjs(exam.startTime).add(exam.duration, "minute")}
+                  />
+                </>
+              )}
+              {currentState === timeState.inExam && isSubmitted && (
+                <>
+                  Kết quả sẽ có sau:
                   <Countdown
                     date={dayjs(exam.startTime).add(exam.duration, "minute")}
                   />

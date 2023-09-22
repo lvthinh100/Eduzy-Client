@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
 import {
   Box,
+  Button,
   Container,
   Dialog,
   Divider,
@@ -53,7 +54,8 @@ const AnswerSheetPage = () => {
   const { user } = useAuth();
   const [currentState, setCurrentState] = useState(timeState.beforeExam);
   const [result, setResult] = useState<ResultType | null>(null);
-
+  const [hasOpen, sethasOpen] = useState(false); //Để form điểm hiện đúng 1 lần
+  const [showBtn, setShowBtn] = useState(false);
   //Các state bao gồm:
   // isAnswerSheet
   // exam.isUpcoming
@@ -73,13 +75,13 @@ const AnswerSheetPage = () => {
   //update mỗi 3s một lần
 
   const getCurrentState = useCallback(() => {
-    if (!exam) return timeState.beforeExam;
+    if (!exam || !exam.startTime) return timeState.beforeExam;
     if (isAnswerSheet && !exam.isUpcoming) {
       //setIsSubmitted(true);
       return timeState.afterExam;
     }
 
-    if (isSubmitted) return timeState.afterExam;
+    if (isSubmitted && !exam.isUpcoming) return timeState.afterExam;
     const currentTime = dayjs();
     const startTime = dayjs(exam?.startTime);
     const endTime = startTime.add(
@@ -109,10 +111,16 @@ const AnswerSheetPage = () => {
   //Fetch Result if see AnswerSheet
 
   useEffect(() => {
-    if (isSubmitted && result && currentState === timeState.afterExam) {
+    if (
+      !hasOpen &&
+      isSubmitted &&
+      result &&
+      currentState === timeState.afterExam
+    ) {
       setIsOpenGradeRankDialog(true);
+      sethasOpen(false);
     }
-  }, [isSubmitted, result, currentState]);
+  }, [isSubmitted, result, currentState, hasOpen]);
 
   useEffect(() => {
     if (user) {
@@ -153,13 +161,14 @@ const AnswerSheetPage = () => {
     const fetchExam = async () => {
       try {
         if (!normalizedName) return;
-        console.log("normalizedName", normalizedName);
+
         const { data: response } = await getExamByName(normalizedName);
         //Nếu là luyện tập thì gán startTime + 10s từ now
         const fetchedExam = response.data;
 
         if (!fetchedExam.startTime && !fetchedExam.isUpcoming) {
-          fetchedExam.startTime = dayjs().add(10, "second").toString();
+          //fetchedExam.startTime = dayjs().add(10, "second").toString();
+          setShowBtn(true);
         }
 
         setExam(response.data);
@@ -171,6 +180,13 @@ const AnswerSheetPage = () => {
     fetchExam();
   }, [normalizedName, navigate, user]);
 
+  const handleStart = useCallback(() => {
+    if (!exam) return;
+    let newExam = exam;
+    newExam.startTime = dayjs().add(5, "second").toString();
+    setExam(newExam);
+    setShowBtn(false);
+  }, [exam]);
   return (
     <Fragment>
       <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
@@ -392,43 +408,67 @@ const AnswerSheetPage = () => {
                 flexItem
               />
             </Grid>
-
-            <Sheet
-              exam={exam ? exam : defaultExam}
-              student={student}
-              currentState={currentState}
-              isAnswerSheet={isAnswerSheet}
-              isSubmitted={isSubmitted}
-              result={result}
-              onSubmit={(r) => {
-                setIsSubmitted(true);
-                setResult(r);
-              }}
-              setResult={(r) => {
-                setResult(r);
-              }}
-            />
+            {showBtn ? (
+              <Fragment>
+                <Grid item md={12} xs={12}>
+                  <Typography
+                    textAlign="center"
+                    fontWeight="bold"
+                    color="purple"
+                    fontFamily="Times New Roman"
+                    fontSize="18px"
+                  >
+                    Nhấn nút để bắt đầu làm bài
+                  </Typography>
+                </Grid>
+                <Grid
+                  container
+                  spacing={1}
+                  my={2}
+                  bgcolor="#fae9ea"
+                  height="500px"
+                >
+                  <Grid item xs>
+                    <Box
+                      sx={{
+                        maxHeight: "calc(100vh + 50px)",
+                        overflowY: "scroll",
+                        border: "1px solid #DE5173",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Button
+                        variant="gradient"
+                        sx={{ my: 1, width: "150px" }}
+                        onClick={handleStart}
+                      >
+                        {" "}
+                        Bắt đầu{" "}
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Fragment>
+            ) : (
+              <Sheet
+                exam={exam ? exam : defaultExam}
+                student={student}
+                currentState={currentState}
+                isAnswerSheet={isAnswerSheet}
+                isSubmitted={isSubmitted}
+                result={result}
+                onSubmit={(r) => {
+                  setIsSubmitted(true);
+                  setResult(r);
+                }}
+                setResult={(r) => {
+                  setResult(r);
+                }}
+              />
+            )}
           </Grid>
         </Grid>
       </Container>
-
-      {/* {!showExam && (
-        <Box textAlign="center" bgcolor="white" py={3}>
-          <Typography variant="h4">Đề thi sẽ hiện sau: </Typography>
-          <Typography>
-            <Countdown
-              date={dayjs().add(10, "second")}
-              onTimeout={() => setShowTime(true)}
-            />
-          </Typography>
-        </Box>
-      )}
-      <Grid item md={12}>
-        <Divider
-          sx={{ my: 1, width: "100%", backgroundColor: "#DE5173" }}
-          flexItem
-        />
-      </Grid> */}
 
       {!user && !isAnswerSheet && currentState < timeState.afterExam && (
         <NameDialog

@@ -15,6 +15,7 @@ export type ExamType = {
 };
 
 export type ResultType = {
+  _id: string;
   student: string;
   studentName: string;
   exam: string;
@@ -26,6 +27,7 @@ export type ResultType = {
   crown2: number;
   crown3: number;
   rank: string;
+  isPrized: boolean;
 };
 
 export type AnswerType = {
@@ -41,6 +43,11 @@ export type FetchAnswerType = {
   exam: string;
 };
 
+export type FetchAnswerIdType = {
+  _id: string;
+  exam: string;
+};
+
 export type LBReqType = {
   type: string;
   examId?: string;
@@ -52,6 +59,7 @@ export const AnswerEnum = {
 };
 
 export const defaultResult: ResultType = {
+  _id: "",
   student: "",
   studentName: "",
   exam: "",
@@ -63,6 +71,7 @@ export const defaultResult: ResultType = {
   crown2: 0,
   crown3: 0,
   rank: "",
+  isPrized: false,
 };
 
 export const defaultExam: ExamType = {
