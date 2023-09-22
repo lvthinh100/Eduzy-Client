@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { StyledScoreLabel } from "./style";
-import { ResultType } from "../../model/Lesson";
+import { ResultType } from "../../model/Exam";
 
 type PropsType = {
   result: ResultType | null;

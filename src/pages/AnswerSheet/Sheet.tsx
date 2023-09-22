@@ -24,13 +24,14 @@ import {
   AnswerType,
   ExamType,
   FetchAnswerType,
+  defaultResult,
 } from "../../model/Exam";
 import { StudentInfo } from "../../model/Student";
 import { useAppDispatch } from "../../hooks/redux";
 import timeState from "./TimeState";
 import { appActions } from "../../redux/slices/appSlice";
 import { fetchAnswer, postAnswer } from "../../api";
-import { ResultType } from "../../model/Lesson";
+import { ResultType } from "../../model/Exam";
 
 type PropsType = {
   exam: ExamType;
@@ -82,13 +83,11 @@ const Sheet: React.FC<PropsType> = ({
           let charArray = response.answer.split("");
           setAnswerSheet(charArray);
         } catch (error) {
-          console.error("Error fetch Answer:", error);
-          dispatch(
-            appActions.showNotification({
-              variant: "error",
-              message: "Có lỗi xảy ra khi lấy bài làm.",
-            })
-          );
+          setResult(defaultResult);
+          const spacesString = " ".repeat(exam.numberOfQuestion);
+          const charArray = spacesString.split("");
+          setAnswerSheet(charArray);
+          //console.error("Error fetch Answer:", error);
         }
       }
     };

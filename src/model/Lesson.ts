@@ -1,16 +1,30 @@
-export type ResultType = {
-  student: string;
-  studentName: string;
-  exam: string;
-  type: string;
-  answer: string;
-  score: number;
-  coins: number;
-  crown1: number;
-  crown2: number;
-  crown3: number;
-  rank: number;
-};
+// export type ResultType = {
+//   student: string;
+//   studentName: string;
+//   exam: string;
+//   type: string;
+//   answer: string;
+//   score: number;
+//   coins: number;
+//   crown1: number;
+//   crown2: number;
+//   crown3: number;
+//   rank: number;
+// };
+
+// export const defaultResult: ResultType = {
+//   student: "",
+//   studentName: "",
+//   exam: "",
+//   type: "",
+//   answer: "",
+//   score: 0,
+//   coins: 0,
+//   crown1: 0,
+//   crown2: 0,
+//   crown3: 0,
+//   rank: 0,
+// };
 
 export type UpcomingLessonType = {
   lessonContent: string;
@@ -24,10 +38,11 @@ export type UpcomingLessonType = {
     examCode: string;
     examType: string;
     name: string;
+    normalizedName: string;
     price: number;
     subject: string;
     _id: string;
-    listOfMainResult: ResultType[];
+    //listOfMainResult: ResultType[];
   } | null;
 };
 

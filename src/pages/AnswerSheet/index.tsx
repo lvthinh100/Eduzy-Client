@@ -13,7 +13,7 @@ import Sheet from "./Sheet";
 import FillingText from "./FillingText";
 import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchAnswer, getExamById } from "../../api";
+import { fetchAnswer, getExamById, getExamByName } from "../../api";
 import { ExamType, FetchAnswerType, defaultExam } from "../../model/Exam";
 import NameDialog from "./NameDialog";
 import useToggleOpen from "../../hooks/useToggleOpen";
@@ -26,7 +26,7 @@ import { StudentInfo, StudentLBInfo, defaultUser } from "../../model/Student";
 import { useLocation } from "react-router-dom";
 import ExamBtn from "../../components/ExamBtn";
 import timeState from "./TimeState";
-import { ResultType } from "../../model/Lesson";
+import { ResultType } from "../../model/Exam";
 import GradeRankDialog from "./GradeRankDialog";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
@@ -36,7 +36,8 @@ import { LBEnum } from "../../model/Standard";
 const AnswerSheetPage = () => {
   const dispatch = useAppDispatch();
   const { showLeaderBoardModal } = useAppSelector((state) => state.app);
-  const { id } = useParams();
+  const { normalizedName } = useParams();
+  console.log("normalizedName", normalizedName);
   const location = useLocation();
   const [isAnswerSheet, setIsAnswerSheet] = useState(
     location.pathname.includes("/answersheet/")
@@ -151,8 +152,9 @@ const AnswerSheetPage = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        if (!id) return;
-        const { data: response } = await getExamById(id);
+        if (!normalizedName) return;
+        console.log("normalizedName", normalizedName);
+        const { data: response } = await getExamByName(normalizedName);
         //Nếu là luyện tập thì gán startTime + 10s từ now
         const fetchedExam = response.data;
 
@@ -167,7 +169,7 @@ const AnswerSheetPage = () => {
       }
     };
     fetchExam();
-  }, [id, navigate, user]);
+  }, [normalizedName, navigate, user]);
 
   return (
     <Fragment>
@@ -234,11 +236,9 @@ const AnswerSheetPage = () => {
                 </Typography>
                 {currentState === timeState.afterExam && (
                   <Stack>
-                    {result ? (
-                      <StyledScoreLabel>{result.score}</StyledScoreLabel>
-                    ) : (
-                      <Box height={"36px"}></Box>
-                    )}
+                    <Box sx={{ minHeight: "36px" }}>
+                      <StyledScoreLabel>{result?.score}</StyledScoreLabel>
+                    </Box>
 
                     <Stack>
                       {isAnswerSheet ? (
@@ -272,11 +272,9 @@ const AnswerSheetPage = () => {
                 </Typography>
                 {currentState === timeState.afterExam && (
                   <Stack>
-                    {result ? (
-                      <StyledScoreLabel>{result.rank}</StyledScoreLabel>
-                    ) : (
-                      <Box height={"36px"}></Box>
-                    )}
+                    <Box sx={{ minHeight: "36px" }}>
+                      <StyledScoreLabel>{result?.rank}</StyledScoreLabel>
+                    </Box>
                     <Stack>
                       <GradeLBbtn
                         onChange={() =>

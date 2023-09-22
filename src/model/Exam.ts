@@ -15,7 +15,16 @@ export type ExamType = {
 };
 
 export type ResultType = {
-  score: number;
+  student: string;
+  studentName: string;
+  exam: string;
+  type: string;
+  answer: string;
+  score: string;
+  coins: number;
+  crown1: number;
+  crown2: number;
+  crown3: number;
   rank: string;
 };
 
@@ -43,7 +52,16 @@ export const AnswerEnum = {
 };
 
 export const defaultResult: ResultType = {
-  score: 0,
+  student: "",
+  studentName: "",
+  exam: "",
+  type: "",
+  answer: "",
+  score: "",
+  coins: 0,
+  crown1: 0,
+  crown2: 0,
+  crown3: 0,
   rank: "",
 };
 

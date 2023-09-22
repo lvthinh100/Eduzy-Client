@@ -35,7 +35,7 @@ const UpcomingEvent = () => {
         dispatch(
           appActions.showNotification({
             variant: "success",
-            message: "Lỗi khi fetch upcoming lesson",
+            message: "Chưa mở khóa học",
           })
         );
       }
@@ -48,7 +48,8 @@ const UpcomingEvent = () => {
   };
 
   const handleShowExam = () => {
-    navigate(`/sheet/${upcomingLesson?.examId?._id}`);
+    console.log("upcomingLesson", upcomingLesson);
+    navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
   };
 
   return (

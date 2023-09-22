@@ -25,6 +25,9 @@ export const getExams = async () => axios.get(`${SERVER}/api/exams`);
 export const getExamById = async (id: string) =>
   axios.get(`${SERVER}/api/exams/${id}`);
 
+export const getExamByName = async (name: string) =>
+  axios.get(`${SERVER}/api/exams/name/${name}`);
+
 export const registerExam = async (examId: string, studentId: string) => {
   const requestData = { examId, studentId };
 
