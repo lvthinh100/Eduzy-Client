@@ -168,7 +168,7 @@ function ResponsiveAppBar() {
           </Stack>
         </Stack>
         <IconButton onClick={handleOpenUserActionMenu} sx={{ p: 0 }}>
-          <Avatar>
+          <Avatar src={user?.avatar}>
             <AccountCircleIcon />
           </Avatar>
         </IconButton>

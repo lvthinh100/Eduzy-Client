@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, RefObject, LegacyRef } from "react";
 import {
   Avatar,
   Box,
@@ -29,28 +29,24 @@ import { StyledPaper } from "./style";
 import Crown from "../Crown";
 
 // Data
-import { StudentInfo } from "../../model/Student";
+import { StudentInfo, UpdateProfileData } from "../../model/Student";
 import { Gender } from "../../model/Standard";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import content from "../../constants/content";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { MODAL, appActions } from "../../redux/slices/appSlice";
+import { updateProfile } from "../../api";
+import { authActions } from "../../redux/slices/authSlice";
 // Redux
 
 type PropsType = {
   user: StudentInfo;
 };
 
-type UpdateFormType = {
-  name: string;
-  birth: Date;
-  gender: Gender;
-};
-
 const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
   const dispatch = useAppDispatch();
 
-  const avatarRef = useRef(null);
+  const avatarRef = useRef<HTMLInputElement>(null);
   const [selectedAvatarImg, setSelectedAvatarImg] = useState<null | string>(
     null
   );
@@ -67,15 +63,9 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
     }
   };
 
-  const submitFormHandler: SubmitHandler<UpdateFormType> = (
-    data: UpdateFormType
-  ) => {
-    console.log(data);
-  };
-
   const schema = yup.object().shape({
-    name: yup.string().required("Vui lòng nhập tên"),
-    birth: yup
+    fullName: yup.string().required("Vui lòng nhập tên"),
+    dateOfBirth: yup
       .date()
       .typeError("Vui lòng nhập ngày sinh hợp lệ")
       .required("Vui lòng chọn ngày sinh")
@@ -86,14 +76,50 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
   const methods = useForm({
     mode: "onChange",
     defaultValues: {
-      name: user.fullName,
-      birth: new Date(
-        dayjs(user.dateOfBirth, content.birthFormat).toISOString()
-      ),
+      fullName: user.fullName,
+      dateOfBirth: dayjs(user.dateOfBirth, content.birthFormat).toDate(),
       gender: user.gender,
     },
     resolver: yupResolver(schema),
   });
+
+  const submitFormHandler: SubmitHandler<UpdateProfileData> = async (
+    data: UpdateProfileData
+  ) => {
+    try {
+      const formData = new FormData();
+      if (avatarRef.current?.files)
+        formData.append("image", avatarRef.current.files[0]);
+
+      for (const [key, value] of Object.entries(data)) {
+        if (typeof value !== "string") {
+          formData.append(key, value.toISOString());
+          continue;
+        }
+        formData.append(key, value.toString());
+      }
+
+      const { data: response } = await updateProfile(formData);
+      console.log(response.data.user);
+      dispatch(authActions.setUser({ user: response.data.user }));
+      dispatch(appActions.closeModal(MODAL.UPDATE_PROFILE));
+      dispatch(
+        appActions.showNotification({
+          variant: "success",
+          message: "Cập nhật thông tin thành công",
+        })
+      );
+      setSelectedAvatarImg(null);
+    } catch (err) {
+      dispatch(appActions.closeModal(MODAL.UPDATE_PROFILE));
+      dispatch(
+        appActions.showNotification({
+          variant: "success",
+          message: "Cập nhật thông tin thất bại",
+        })
+      );
+    }
+  };
 
   return (
     <Dialog open={showUpdateProfileModal} onClose={handleCloseModal}>
@@ -162,13 +188,13 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
         <Box
           sx={{ p: 3, backgroundColor: "white", borderRadius: "30px 30px 0 0" }}
         >
-          <FormProvider<UpdateFormType>
+          <FormProvider<UpdateProfileData>
             methods={methods}
             handler={submitFormHandler}
           >
-            <RHFInput fullWidth name="name" label="Tên" />
+            <RHFInput fullWidth name="fullName" label="Tên" />
             <RHFDateField
-              name="birth"
+              name="dateOfBirth"
               label="Ngày sinh"
               InputProps={{
                 startAdornment: (

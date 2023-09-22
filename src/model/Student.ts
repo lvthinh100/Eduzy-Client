@@ -28,3 +28,9 @@ export type LoginData = {
   username: string;
   password: string;
 };
+
+export type UpdateProfileData = {
+  fullName: string;
+  dateOfBirth: Date;
+  gender: Gender;
+};
