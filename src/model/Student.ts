@@ -28,6 +28,7 @@ export const defaultUser: StudentInfo = {
   crowns2: 0,
   crowns3: 0,
   _id: null,
+  avatar: "nah",
 };
 
 export type SignUpData = {
