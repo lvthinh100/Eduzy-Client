@@ -5,6 +5,7 @@ import Prize from "../Prize";
 import { StudentLBInfo } from "../../model/Student";
 import { AnswerEnum, LBEnum } from "../../model/Standard";
 import Crown from "../Crown";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 interface StudentRankingProps {
   studentLB: StudentLBInfo;
@@ -32,13 +33,18 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
           borderRadius: 3,
         }}
       >
-        <Typography fontFamily="SegoeUISemiBold" fontSize="18px" marginX={1.3}>
+        <Typography
+          fontFamily="SegoeUISemiBold"
+          fontSize="18px"
+          marginX={1.3}
+          color="#472422"
+        >
           {index.toString().length < 2
             ? "0" + index.toString()
             : index.toString()}
         </Typography>
         <Stack direction="row" alignItems="center" flexGrow={1}>
-          <Avatar
+          {/* <Avatar
             src={img}
             sx={{
               border: (theme) => `2px solid ${theme.palette.prize.first}`,
@@ -46,12 +52,30 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
               height: "56px",
               m: "4px",
             }}
-          />
+          /> */}
+          <Avatar
+            src={studentLB?.avatar}
+            sx={{
+              width: "56px",
+              height: "56px",
+              m: "4px",
+              backgroundColor: "#fff",
+            }}
+          ></Avatar>
           <Stack ml={1} justifyContent="center">
-            <Typography fontSize="14px" fontFamily="SegoeUISemiBold">
+            <Typography
+              fontSize="14px"
+              fontFamily="SegoeUISemiBold"
+              color="#472422"
+            >
               {studentLB.fullName}
             </Typography>
-            <Typography fontSize="12px" fontFamily="SegoeUISemiBold" mb={0.3}>
+            <Typography
+              fontSize="10px"
+              fontFamily="SegoeUISemiBold"
+              color="#472422"
+              mb={0.3}
+            >
               #{studentLB.studentCode}
             </Typography>
             {studentLB.crowns1 > 0 && type === LBEnum.score && (
@@ -85,7 +109,7 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
           </Stack>
         </Stack>
         {type === LBEnum.score && (
-          <Typography variant="subtitle2" marginX={1}>
+          <Typography variant="subtitle2" fontFamily="HandWriting" marginX={1}>
             {studentLB.score}
           </Typography>
         )}

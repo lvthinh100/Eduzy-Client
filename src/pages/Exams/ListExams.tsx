@@ -9,6 +9,7 @@ import { ExamType } from "../../model/Exam";
 import { useNavigate } from "react-router-dom";
 import LeaderBoard from "../../components/LeaderBoard";
 import { LBEnum } from "../../model/Standard";
+import AnswerBtn from "../../components/AnswerBtn";
 
 const ListExams = () => {
   const [exams, setExams] = useState<ExamType[]>([]);
@@ -93,13 +94,6 @@ const ListExams = () => {
               spacing={1}
               marginTop={2}
             >
-              <Button variant="gradient" sx={{ flexGrow: 1 }} disabled>
-                {/* <Typography marginRight={1} fontWeight="bold">
-              Mua đề
-            </Typography>
-            <Prize crown={false} /> */}
-                Mua đề
-              </Button>
               <Button
                 variant="gradient"
                 sx={{ flexGrow: 1 }}
@@ -107,9 +101,10 @@ const ListExams = () => {
               >
                 Làm bài
               </Button>
-              <Button variant="gradient" sx={{ flexGrow: 1 }}>
+              {/* <Button variant="gradient" sx={{ flexGrow: 1 }}>
                 Xem kết quả
-              </Button>
+              </Button> */}
+              <AnswerBtn onChange={() => {}} />
             </Stack>
           </Paper>
         </Stack>

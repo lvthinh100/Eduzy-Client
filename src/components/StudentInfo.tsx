@@ -5,6 +5,7 @@ import Prize from "./Prize";
 import { StudentLBInfo } from "../model/Student";
 import { LBEnum } from "../model/Standard";
 import Crown from "./Crown";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 interface StudentInfoProps {
   studentLB: StudentLBInfo;
@@ -14,7 +15,7 @@ interface StudentInfoProps {
 const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
   return (
     <Stack direction="column" alignItems="center">
-      <Avatar
+      {/* <Avatar
         src={img}
         sx={{
           border: (theme) => `2px solid ${theme.palette.prize.first}`,
@@ -22,7 +23,16 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
           height: "56px",
           m: "4px",
         }}
-      />
+      /> */}
+      <Avatar
+        src={studentLB?.avatar}
+        sx={{
+          width: "56px",
+          height: "56px",
+          m: "4px",
+          backgroundColor: "#fff",
+        }}
+      ></Avatar>
       <Typography
         fontSize="14px"
         fontFamily="SegoeUISemiBold"
@@ -30,10 +40,11 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
         overflow="hidden"
         textOverflow="ellipsis"
         whiteSpace="nowrap"
+        color="#472422"
       >
         {studentLB.fullName}
       </Typography>
-      <Typography fontSize="12px" fontFamily="SegoeUISemiBold">
+      <Typography fontSize="10px" fontFamily="SegoeUISemiBold" color="#472422">
         #{studentLB.studentCode}
       </Typography>
       {studentLB.crowns1 > 0 && type === LBEnum.score && (
@@ -65,7 +76,13 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
         </Stack>
       )}
       {type === LBEnum.score && (
-        <Typography variant="subtitle2">{studentLB.score}</Typography>
+        <Typography
+          variant="subtitle2"
+          fontFamily="HandWriting"
+          color="#472422"
+        >
+          {studentLB.score}
+        </Typography>
       )}
     </Stack>
   );
