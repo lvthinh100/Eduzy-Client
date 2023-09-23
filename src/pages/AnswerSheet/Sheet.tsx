@@ -33,6 +33,7 @@ import timeState from "./TimeState";
 import { appActions } from "../../redux/slices/appSlice";
 import { fetchAnswer, fetchAnswerById, postAnswer } from "../../api";
 import { ResultType } from "../../model/Exam";
+import SlotMachineDialog from "./SlotMachineDialog";
 
 type PropsType = {
   exam: ExamType;
@@ -43,6 +44,7 @@ type PropsType = {
   result: ResultType | null;
   onSubmit: (r: ResultType) => void;
   setResult: (r: ResultType) => void;
+  reloadUser: () => void;
 };
 
 const Sheet: React.FC<PropsType> = ({
@@ -54,6 +56,7 @@ const Sheet: React.FC<PropsType> = ({
   onSubmit,
   result,
   setResult,
+  reloadUser,
 }) => {
   const dispatch = useAppDispatch();
   const [answerSheet, setAnswerSheet] = useState(
@@ -64,6 +67,9 @@ const Sheet: React.FC<PropsType> = ({
   const [isDisabled, setIsDisabled] = useState(false); //For prevent user from click too fast
 
   const [isPrize, setIsPrize] = useState(false);
+  const [isOpenSlotMachineDialog, setIsOpenSlotMachineDialog] = useState(false);
+
+  const [colorProp, setColorProp] = useState(0);
 
   const fetchResult = useCallback(async () => {
     if (
@@ -74,24 +80,27 @@ const Sheet: React.FC<PropsType> = ({
       result &&
       currentState === timeState.afterExam
     ) {
-      console.log("fetch Rank");
       const data: FetchAnswerIdType = {
         _id: result._id,
         exam: exam._id,
       };
       try {
         const { data: response } = await fetchAnswerById(data);
-        console.log("response", response);
         setResult(response);
         if (response.isPrized) {
           //Hiện form tổng kết ở đây
+          if (response.coins > 0) {
+            if (response.crown1 > 0) setColorProp(0);
+            if (response.crown2 > 0) setColorProp(1);
+            if (response.crown3 > 0) setColorProp(2);
+            setIsOpenSlotMachineDialog(true);
+            reloadUser();
+          }
           setIsPrize(response.isPrized);
         }
-      } catch (error) {
-        //console.error("Error fetch Answer:", error);
-      }
+      } catch (error) {}
     }
-  }, [isPrize, exam, isSubmitted, result, currentState, setResult]);
+  }, [isPrize, exam, isSubmitted, result, currentState, setResult, reloadUser]);
 
   useEffect(() => {
     if (
@@ -122,7 +131,8 @@ const Sheet: React.FC<PropsType> = ({
         result === null &&
         student._id !== null &&
         exam !== null &&
-        exam._id !== null
+        exam._id !== null &&
+        currentState === timeState.afterExam
       ) {
         const data: FetchAnswerType = {
           student: student._id,
@@ -131,22 +141,22 @@ const Sheet: React.FC<PropsType> = ({
 
         try {
           const { data: response } = await fetchAnswer(data);
-          console.log("response", response);
           setResult(response);
           let charArray = response.answer.split("");
+          console.log("charArray", charArray);
           setAnswerSheet(charArray);
         } catch (error) {
+          console.log("error");
           setResult(defaultResult);
           const spacesString = " ".repeat(exam.numberOfQuestion);
           const charArray = spacesString.split("");
           setAnswerSheet(charArray);
-          //console.error("Error fetch Answer:", error);
         }
       }
     };
 
     fetchAnswerData();
-  }, [isAnswerSheet, result, student, dispatch, exam, setResult]);
+  }, [isAnswerSheet, result, student, dispatch, exam, setResult, currentState]);
 
   useEffect(() => {
     if (!exam._id) return;
@@ -200,7 +210,6 @@ const Sheet: React.FC<PropsType> = ({
     setIsDisabled(true);
     if (!exam || !exam._id || isSubmitted) return;
 
-    //Nộp bài trả về điểm và kết quả
     const data: AnswerType = {
       student: student._id,
       studentName: student.fullName,
@@ -208,14 +217,10 @@ const Sheet: React.FC<PropsType> = ({
       answer: answerSheet.map((char) => (char === "" ? " " : char)).join(""),
       type: exam.isUpcoming ? AnswerEnum.main : AnswerEnum.sub,
     };
-
-    console.log(data);
     try {
       const { data: response } = await postAnswer(data);
-      console.log("response", response);
       onSubmit(response);
     } catch (error) {
-      console.error("Error submitting answers:", error);
       dispatch(
         appActions.showNotification({
           variant: "error",
@@ -234,7 +239,6 @@ const Sheet: React.FC<PropsType> = ({
         resolve(true);
       };
       img.onerror = () => {
-        console.error("Failed to preload question image:", exam.questionUrl);
         resolve(false);
       };
     });
@@ -249,15 +253,15 @@ const Sheet: React.FC<PropsType> = ({
         resolve(true);
       };
       img.onerror = () => {
-        console.error("Failed to preload answer image:", exam.answerUrl);
         resolve(false);
       };
     });
   }, [exam.answerUrl]);
 
   useEffect(() => {
+    if (currentState > timeState.beforeExam) return;
     setAnswerSheet(new Array(exam.numberOfQuestion).fill(""));
-  }, [exam]);
+  }, [exam, currentState]);
 
   const [prevCurrentState, setPrevCurrentState] = useState<Number | null>(null); //For check currentState change from 2 to 3
 
@@ -573,6 +577,12 @@ const Sheet: React.FC<PropsType> = ({
           </Dialog>
         </Fragment>
       )}
+      <SlotMachineDialog
+        colorProp={colorProp}
+        coinsValue={result ? result.coins : 11000}
+        open={isOpenSlotMachineDialog}
+        handleClose={() => setIsOpenSlotMachineDialog(false)}
+      />
     </Fragment>
   );
 };

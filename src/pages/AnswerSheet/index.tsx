@@ -14,8 +14,8 @@ import Sheet from "./Sheet";
 import FillingText from "./FillingText";
 import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchAnswer, getExamById, getExamByName } from "../../api";
-import { ExamType, FetchAnswerType, defaultExam } from "../../model/Exam";
+import { getExamByName, getMe } from "../../api";
+import { ExamType, defaultExam } from "../../model/Exam";
 import NameDialog from "./NameDialog";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import useAuth from "../../hooks/useAuth";
@@ -23,7 +23,7 @@ import dayjs from "dayjs";
 import GenderTypography from "./GenderTypography";
 import GradeLBbtn from "../../components/GradeLBbtn";
 import AnswerBtn from "../../components/AnswerBtn";
-import { StudentInfo, StudentLBInfo, defaultUser } from "../../model/Student";
+import { StudentInfo, defaultUser } from "../../model/Student";
 import { useLocation } from "react-router-dom";
 import ExamBtn from "../../components/ExamBtn";
 import timeState from "./TimeState";
@@ -33,12 +33,12 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
 import LeaderBoard from "../../components/LeaderBoard";
 import { LBEnum } from "../../model/Standard";
+import { authActions } from "../../redux/slices/authSlice";
 
 const AnswerSheetPage = () => {
   const dispatch = useAppDispatch();
   const { showLeaderBoardModal } = useAppSelector((state) => state.app);
   const { normalizedName } = useParams();
-  console.log("normalizedName", normalizedName);
   const location = useLocation();
   const [isAnswerSheet, setIsAnswerSheet] = useState(
     location.pathname.includes("/answersheet/")
@@ -54,7 +54,7 @@ const AnswerSheetPage = () => {
   const { user } = useAuth();
   const [currentState, setCurrentState] = useState(timeState.beforeExam);
   const [result, setResult] = useState<ResultType | null>(null);
-  const [hasOpen, sethasOpen] = useState(false); //Để form điểm hiện đúng 1 lần
+  const [hasOpen, setHasOpen] = useState(false); //Để form điểm hiện đúng 1 lần
   const [showBtn, setShowBtn] = useState(false);
   //Các state bao gồm:
   // isAnswerSheet
@@ -75,11 +75,13 @@ const AnswerSheetPage = () => {
   //update mỗi 3s một lần
 
   const getCurrentState = useCallback(() => {
-    if (!exam || !exam.startTime) return timeState.beforeExam;
+    if (!exam) return timeState.beforeExam;
+    if (currentState === timeState.afterExam) return timeState.afterExam; //Không cho set ngược về
     if (isAnswerSheet && !exam.isUpcoming) {
       //setIsSubmitted(true);
       return timeState.afterExam;
     }
+    if (!exam.startTime) return timeState.beforeExam;
 
     if (isSubmitted && !exam.isUpcoming) return timeState.afterExam;
     const currentTime = dayjs();
@@ -96,7 +98,7 @@ const AnswerSheetPage = () => {
     } else {
       return timeState.afterExam;
     }
-  }, [exam, isAnswerSheet, isSubmitted]);
+  }, [exam, isAnswerSheet, isSubmitted, currentState]);
 
   useEffect(() => {
     setCurrentState(getCurrentState());
@@ -118,7 +120,7 @@ const AnswerSheetPage = () => {
       currentState === timeState.afterExam
     ) {
       setIsOpenGradeRankDialog(true);
-      sethasOpen(false);
+      setHasOpen(true);
     }
   }, [isSubmitted, result, currentState, hasOpen]);
 
@@ -163,22 +165,24 @@ const AnswerSheetPage = () => {
         if (!normalizedName) return;
 
         const { data: response } = await getExamByName(normalizedName);
-        //Nếu là luyện tập thì gán startTime + 10s từ now
+
         const fetchedExam = response.data;
 
-        if (!fetchedExam.startTime && !fetchedExam.isUpcoming) {
-          //fetchedExam.startTime = dayjs().add(10, "second").toString();
+        if (
+          !fetchedExam.startTime &&
+          !fetchedExam.isUpcoming &&
+          !location.pathname.includes("/answersheet/")
+        ) {
           setShowBtn(true);
         }
 
         setExam(response.data);
-        if (user) setStudent(user);
       } catch (err) {
         navigate("/error");
       }
     };
     fetchExam();
-  }, [normalizedName, navigate, user]);
+  }, [normalizedName, navigate, location.pathname]);
 
   const handleStart = useCallback(() => {
     if (!exam) return;
@@ -463,6 +467,11 @@ const AnswerSheetPage = () => {
                 }}
                 setResult={(r) => {
                   setResult(r);
+                }}
+                reloadUser={async () => {
+                  if (!student._id) return;
+                  const { data: response } = await getMe();
+                  dispatch(authActions.setUser({ user: response.data.data }));
                 }}
               />
             )}
