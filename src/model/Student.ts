@@ -12,8 +12,22 @@ export type StudentInfo = {
   crowns1: number;
   crowns2: number;
   crowns3: number;
-  _id: string;
   avatar: string;
+  _id: string | null;
+};
+
+export const defaultUser: StudentInfo = {
+  dateOfBirth: "1/1/2006",
+  fullName: "",
+  gender: "Nam", // Set the default gender here
+  studentCode: "000000",
+  studentType: "",
+  username: "",
+  coins: 0,
+  crowns1: 0,
+  crowns2: 0,
+  crowns3: 0,
+  _id: null,
 };
 
 export type SignUpData = {
@@ -27,6 +41,18 @@ export type SignUpData = {
 export type LoginData = {
   username: string;
   password: string;
+};
+
+export type StudentLBInfo = {
+  //Show in Leader Board
+  fullName: string;
+  studentCode: string;
+  coins: number;
+  crowns1: number;
+  crowns2: number;
+  crowns3: number;
+  score: number;
+  type: string;
 };
 
 export type UpdateProfileData = {

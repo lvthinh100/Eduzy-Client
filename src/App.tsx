@@ -4,6 +4,7 @@ import MyRouter from "./routes";
 import { getMe } from "./api";
 import { useAppDispatch } from "./hooks/redux";
 import { authActions } from "./redux/slices/authSlice";
+import React from "react";
 
 function App() {
   const dispatch = useAppDispatch();

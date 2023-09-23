@@ -1,12 +1,9 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import Crown from "./Crown";
 
 import { CrownVariantType } from "../model/Crown";
 import MoneyIcon from "./IconComponent/MoneyIcon";
 import { formatCoins } from "../utils/coinFormat";
-
-type direction = "row" | "column";
 
 interface PropsType {
   variant?: CrownVariantType;

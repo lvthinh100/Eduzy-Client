@@ -2,7 +2,8 @@ const paths = {
   HOME: "/",
   AUTH: "/auth",
   EXAMS: "/exams",
-  ANSWER_SHEET: "/sheet/:id",
+  EXAM_SHEET: "/sheet/:normalizedName",
+  ANSWER_SHEET: "/answersheet/:normalizedName",
 };
 
 export default paths;

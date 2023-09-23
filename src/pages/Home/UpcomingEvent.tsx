@@ -1,30 +1,21 @@
 // Libs
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 // UI Component
 import CalendarContainerLeft from "./CalendarContainerLeft";
-import {
-  Box,
-  Button,
-  Stack,
-  Typography,
-  CardMedia,
-  CardActionArea,
-} from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import Reward from "./Reward";
 import { CustomSubtitleTypography, StyledButtonText } from "./style";
-import ProtectedButton from "../../components/Auth/ProtectedButton";
 import { useNavigate } from "react-router-dom";
-import gradeBoardBtn from "../../assets/gradeBoardBtn.png";
-import answerIcon from "../../assets/answerIcon.png";
 // Data
 import { UpcomingLessonType } from "../../model/Lesson";
 import { getUpcomingLesson } from "../../api";
 import Countdown from "../../components/Countdown";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
-import CoupleButtons from "../../components/CoupleButtons";
+import GradeLBbtn from "../../components/GradeLBbtn";
+import AnswerBtn from "../../components/AnswerBtn";
 
 const UpcomingEvent = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +35,7 @@ const UpcomingEvent = () => {
         dispatch(
           appActions.showNotification({
             variant: "success",
-            message: "Lỗi khi fetch upcoming lesson",
+            message: "Chưa mở khóa học",
           })
         );
       }
@@ -57,7 +48,8 @@ const UpcomingEvent = () => {
   };
 
   const handleShowExam = () => {
-    navigate(`/sheet/${upcomingLesson?.examId?._id}`);
+    console.log("upcomingLesson", upcomingLesson);
+    navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
   };
 
   return (
@@ -129,7 +121,10 @@ const UpcomingEvent = () => {
                   <StyledButtonText>LUYỆN ĐỀ</StyledButtonText>
                 </Stack>
               </Button>
-              <CoupleButtons />
+              <Stack direction="row">
+                <GradeLBbtn onChange={() => {}} />
+                <AnswerBtn onChange={() => {}} />
+              </Stack>
             </Fragment>
           )}
 

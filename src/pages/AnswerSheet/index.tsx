@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Button,
-  CardMedia,
   Container,
+  Dialog,
   Divider,
   Grid,
   Stack,
@@ -14,74 +14,136 @@ import Sheet from "./Sheet";
 import FillingText from "./FillingText";
 import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
-import { getExamById } from "../../api";
-import { ExamType } from "../../model/Exam";
+import { fetchAnswer, getExamById, getExamByName } from "../../api";
+import { ExamType, FetchAnswerType, defaultExam } from "../../model/Exam";
 import NameDialog from "./NameDialog";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import useAuth from "../../hooks/useAuth";
-import Countdown from "../../components/Countdown";
 import dayjs from "dayjs";
 import GenderTypography from "./GenderTypography";
-import CoupleButtons from "../../components/CoupleButtons";
 import GradeLBbtn from "../../components/GradeLBbtn";
 import AnswerBtn from "../../components/AnswerBtn";
-import { StudentInfo } from "../../model/Student";
-import ExamIcon from "../../components/IconComponent/ExamIcon";
+import { StudentInfo, StudentLBInfo, defaultUser } from "../../model/Student";
+import { useLocation } from "react-router-dom";
+import ExamBtn from "../../components/ExamBtn";
+import timeState from "./TimeState";
+import { ResultType } from "../../model/Exam";
+import GradeRankDialog from "./GradeRankDialog";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
+import LeaderBoard from "../../components/LeaderBoard";
+import { LBEnum } from "../../model/Standard";
 
 const AnswerSheetPage = () => {
-  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const { showLeaderBoardModal } = useAppSelector((state) => state.app);
+  const { normalizedName } = useParams();
+  console.log("normalizedName", normalizedName);
+  const location = useLocation();
+  const [isAnswerSheet, setIsAnswerSheet] = useState(
+    location.pathname.includes("/answersheet/")
+  );
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
   const [exam, setExam] = useState<ExamType | null>(null);
   const [unAuthName, setUnAuthName] = useState<string | null>(null);
   const [openNameDialog, handleOpen, handleClose] = useToggleOpen(true);
-  const [showTime, setShowTime] = useState<boolean>(false);
-  const [student, setStudent] = useState<StudentInfo | null>(null);
-
+  const [isOpenGradeRankDialog, setIsOpenGradeRankDialog] =
+    useState<boolean>(false);
+  const [student, setStudent] = useState<StudentInfo>(defaultUser);
   const { user } = useAuth();
+  const [currentState, setCurrentState] = useState(timeState.beforeExam);
+  const [result, setResult] = useState<ResultType | null>(null);
+  const [hasOpen, sethasOpen] = useState(false); //Để form điểm hiện đúng 1 lần
+  const [showBtn, setShowBtn] = useState(false);
+  //Các state bao gồm:
+  // isAnswerSheet
+  // exam.isUpcoming
+  // isSubmitted
+  // timeState = { beforeExam: 1, inExam: 2, afterExam: 3 };
+
+  // Nếu là isAnswerSheet và !exam.isUpcoming thì timeState = 3
+  // Nếu là isAnswerSheet và exam.isUpcoming thì xét timeState
+  // Nếu !isAnswerSheet và exam.isUpcoming thì lấy startTime từ lesson
+  // Nếu !isAnswerSheet và !exam.isUpcoming thì lấy startTime từ 10s sau now()
+
+  //Tính năng sau này để chống gian lận:
+  // Nếu isSubmitted và !exam.isUpcoming thì chuyển state AfterExam luôn (cho hiện chấm điểm luôn)
+  // Nếu isSubmitted và exam.isUpcoming thì phải đợi (hiện chấm điểm lúc hết giờ)
+
+  //Hiện tại thì cứ nộp bài là trả về kết quả lẫn xếp hạng ( xếp hạng sẽ là stt kiểu 123/555 )
+  //update mỗi 3s một lần
+
+  const getCurrentState = useCallback(() => {
+    if (!exam || !exam.startTime) return timeState.beforeExam;
+    if (isAnswerSheet && !exam.isUpcoming) {
+      //setIsSubmitted(true);
+      return timeState.afterExam;
+    }
+
+    if (isSubmitted && !exam.isUpcoming) return timeState.afterExam;
+    const currentTime = dayjs();
+    const startTime = dayjs(exam?.startTime);
+    const endTime = startTime.add(
+      exam?.duration ? exam.duration : 50,
+      "minute"
+    );
+
+    if (currentTime.isBefore(startTime)) {
+      return timeState.beforeExam;
+    } else if (currentTime.isBetween(startTime, endTime)) {
+      return timeState.inExam;
+    } else {
+      return timeState.afterExam;
+    }
+  }, [exam, isAnswerSheet, isSubmitted]);
+
+  useEffect(() => {
+    setCurrentState(getCurrentState());
+
+    const intervalId = setInterval(() => {
+      setCurrentState(getCurrentState());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [exam, getCurrentState]);
+
+  //Fetch Result if see AnswerSheet
+
+  useEffect(() => {
+    if (
+      !hasOpen &&
+      isSubmitted &&
+      result &&
+      currentState === timeState.afterExam
+    ) {
+      setIsOpenGradeRankDialog(true);
+      sethasOpen(false);
+    }
+  }, [isSubmitted, result, currentState, hasOpen]);
 
   useEffect(() => {
     if (user) {
       setStudent(user);
     } else {
-      const defaultUser: StudentInfo = {
-        dateOfBirth: "1/1/2006",
-        fullName: "",
-        gender: "Nam", // Set the default gender here
-        studentCode: "000000",
-        studentType: "",
-        username: "",
-        coins: 0,
-        crowns1: 0,
-        crowns2: 0,
-        crowns3: 0,
-        _id: "",
-        avatar: "",
-      };
-      setStudent(defaultUser);
+      setStudent({
+        ...defaultUser,
+        fullName: unAuthName || defaultUser.fullName,
+      });
+      setResult(null);
     }
-  }, [user]);
+  }, [user, unAuthName]);
 
   useEffect(() => {
-    const defaultUser: StudentInfo = {
-      dateOfBirth: "1/1/2006",
-      fullName: unAuthName ? unAuthName : "___",
-      gender: "Nam", // Set the default gender here
-      studentCode: "000000",
-      studentType: "",
-      username: "",
-      coins: 0,
-      crowns1: 0,
-      crowns2: 0,
-      crowns3: 0,
-      _id: "",
-      avatar: "",
-    };
-    setStudent(defaultUser);
+    setStudent((prevStudent) => ({
+      ...prevStudent,
+      fullName: unAuthName || prevStudent.fullName,
+    }));
   }, [unAuthName]);
 
-  function getLastName(fullName: String) {
+  function getLastName(fullName: string) {
     const nameParts = fullName.split(" ");
-    if (nameParts.length <= 1) {
+    if (nameParts.length < 1) {
       return "";
     }
     const lastName = nameParts[nameParts.length - 1];
@@ -98,254 +160,317 @@ const AnswerSheetPage = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        if (!id) return;
-        const { data: response } = await getExamById(id);
+        if (!normalizedName) return;
+
+        const { data: response } = await getExamByName(normalizedName);
+        //Nếu là luyện tập thì gán startTime + 10s từ now
+        const fetchedExam = response.data;
+
+        if (!fetchedExam.startTime && !fetchedExam.isUpcoming) {
+          //fetchedExam.startTime = dayjs().add(10, "second").toString();
+          setShowBtn(true);
+        }
+
         setExam(response.data);
+        if (user) setStudent(user);
       } catch (err) {
         navigate("/error");
       }
     };
     fetchExam();
-  }, [id, navigate]);
-  // DK hiện đề:
-  /**
-   * 1. isUpcoming = false
-   * 2. isUpcoming = true && upcomingtest.starttime + duration > curtime
-   */
-  const isBetween =
-    exam &&
-    dayjs().isBetween(
-      dayjs(exam.startTime),
-      dayjs(exam.startTime).add(exam.duration, "minute")
-    );
+  }, [normalizedName, navigate, user]);
 
-  // !exam?.isUpcoming || showTime || (exam.isUpcoming && isBetween);
-
+  const handleStart = useCallback(() => {
+    if (!exam) return;
+    let newExam = exam;
+    newExam.startTime = dayjs().add(5, "second").toString();
+    setExam(newExam);
+    setShowBtn(false);
+  }, [exam]);
   return (
     <Fragment>
-      {
-        <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
-          <Stack direction="column" alignItems="center" mb={2}>
-            <Typography variant="h3" fontFamily="Times New Roman">
-              PHIẾU TRẢ LỜI TRẮC NGHIỆM
-            </Typography>
+      <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
+        <Stack direction="column" alignItems="center" mb={2}>
+          <Typography variant="h3" fontFamily="Times New Roman">
+            PHIẾU TRẢ LỜI TRẮC NGHIỆM
+          </Typography>
+          <FillingText
+            label="Kỳ thi"
+            text="Luyện thi trung học phổ thông quốc gia"
+            paddingLeft={1}
+          />
+          <Stack direction="row">
             <FillingText
-              label="Kỳ thi"
-              text="Luyện thi trung học phổ thông quốc gia"
-              paddingLeft={1}
+              label="Bài thi"
+              text={exam?.subject || "Vật Lý"}
+              sx={{ mr: 1 }}
+              paddingLeft={2}
             />
-            <Stack direction="row">
-              <FillingText
-                label="Bài thi"
-                text={exam?.subject || "Vật Lý"}
-                sx={{ mr: 1 }}
-                paddingLeft={2}
-              />
-              <FillingText
-                label="Ngày thi"
-                text={
-                  exam && exam.startTime
-                    ? dayjs(exam.startTime).format("DD/MM/YYYY").toString()
-                    : dayjs().format("DD/MM/YYYY").toString()
-                }
-                paddingLeft={2}
-              />
-            </Stack>
+            <FillingText
+              label="Ngày thi"
+              text={
+                exam && exam.startTime
+                  ? dayjs(exam.startTime).format("DD/MM/YYYY").toString()
+                  : dayjs().format("DD/MM/YYYY").toString()
+              }
+              paddingLeft={2}
+            />
           </Stack>
-          <Grid
-            container
-            spacing={1}
-            sx={{
-              justifyContent: "center",
-            }}
-          >
-            <Grid item style={{ width: "200px" }}>
-              <Stack
+        </Stack>
+        <Grid
+          container
+          spacing={1}
+          sx={{
+            justifyContent: "center",
+          }}
+        >
+          <Grid item style={{ width: "200px" }}>
+            <Stack
+              sx={{
+                direction: "column",
+                justifyContent: "center",
+                height: "100%",
+                border: "1px solid #DE5173",
+                display: "flex", // Make the Stack a flex container
+                flexDirection: "column",
+              }}
+            >
+              <Box
                 sx={{
-                  direction: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                  border: "1px solid #DE5173",
+                  p: 1,
+                  textAlign: "center",
+                  mb: "auto",
+                  flex: 1,
                 }}
               >
-                <Box
-                  sx={{
-                    p: 1,
-                    textAlign: "center",
-                    mb: "auto",
-                  }}
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
                 >
-                  <Typography
-                    variant="subtitle2"
-                    fontFamily="Times New Roman"
-                    fontSize={18}
-                  >
-                    Kết quả
-                  </Typography>
-                  <StyledScoreLabel>8</StyledScoreLabel>
+                  Kết quả
+                </Typography>
+                {currentState === timeState.afterExam && (
                   <Stack>
-                    <AnswerBtn />
-                  </Stack>
-                </Box>
-                <Divider sx={{ width: "100%", backgroundColor: "#DE5173" }} />
-                <Box
-                  sx={{
-                    p: 1,
-                    textAlign: "center",
-                    mt: 1,
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    fontFamily="Times New Roman"
-                    fontSize={18}
-                  >
-                    Xếp hạng
-                  </Typography>
-                  <StyledScoreLabel>8</StyledScoreLabel>
-                  {/* <Button variant="gradient">Xem đáp án</Button> */}
+                    <Box sx={{ minHeight: "36px" }}>
+                      <StyledScoreLabel>{result?.score}</StyledScoreLabel>
+                    </Box>
 
-                  <Stack>
-                    <GradeLBbtn />
+                    <Stack>
+                      {isAnswerSheet ? (
+                        <ExamBtn onChange={() => setIsAnswerSheet(false)} />
+                      ) : (
+                        <AnswerBtn
+                          onChange={() => {
+                            setIsAnswerSheet(true);
+                          }}
+                        />
+                      )}
+                    </Stack>
                   </Stack>
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid
-              item
-              xs
-              sx={{
-                display: { md: "block", xs: "none" },
-              }}
+                )}
+              </Box>
+              <Divider sx={{ width: "100%", backgroundColor: "#DE5173" }} />
+              <Box
+                sx={{
+                  p: 1,
+                  textAlign: "center",
+                  mt: 1,
+                  flex: 1,
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
+                >
+                  Xếp hạng
+                </Typography>
+                {currentState === timeState.afterExam && (
+                  <Stack>
+                    <Box sx={{ minHeight: "36px" }}>
+                      <StyledScoreLabel>{result?.rank}</StyledScoreLabel>
+                    </Box>
+                    <Stack>
+                      <GradeLBbtn
+                        onChange={() =>
+                          dispatch(appActions.toggleShowLeaderBoardModal())
+                        }
+                      />
+                    </Stack>
+                  </Stack>
+                )}
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            xs
+            sx={{
+              display: { md: "block", xs: "none" },
+            }}
+          >
+            <Stack
+              direction="column"
+              alignItems="flex-start"
+              justifyContent="space-between"
+              sx={{ height: "100%", p: 1, border: "1px solid #DE5173" }}
             >
+              <FillingText
+                width="100%"
+                paddingLeft={2}
+                label="1.Hội Đồng thi"
+                text="Eduzy"
+                sx={{ width: "100%" }}
+              />
+              <FillingText
+                sx={{ width: "100%" }}
+                paddingLeft={2}
+                label="2.Điểm thi"
+                text="Eduzy"
+              />
+              <FillingText
+                sx={{ width: "100%" }}
+                paddingLeft={2}
+                label="3.Phòng thi số"
+                text="Eduzy001"
+              />
+              <FillingText
+                sx={{ width: "100%" }}
+                paddingLeft={2}
+                label="4.Họ và tên thí sinh"
+                text={student?.fullName || "___"}
+              />
+              <Stack direction="row">
+                <FillingText
+                  sx={{ width: "100%" }}
+                  paddingLeft={2}
+                  label="5.Ngày sinh"
+                  text={student?.dateOfBirth || "1/1/2006"}
+                />
+                <GenderTypography isMale={false} />
+              </Stack>
+
+              <FillingText
+                sx={{ width: "100%", fontWeight: "bold" }}
+                paddingLeft={2}
+                label="6.Chữ ký của thí sinh"
+                text={getLastName(student.fullName)}
+                fontFamily="Signature"
+              />
+              {/* <FillingText label="Ngày thi" text="3/8/2023" paddingLeft={2} /> */}
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              width: "240px",
+              mt: { md: -3, xs: 0 },
+              display: { md: "block", xs: "none" },
+            }}
+          >
+            <Stack direction="row">
               <Stack
                 direction="column"
-                alignItems="flex-start"
-                justifyContent="space-between"
-                sx={{ height: "100%", p: 1, border: "1px solid #DE5173" }}
+                mr={2}
+                justifyContent="center"
+                alignItems="center"
               >
-                <FillingText
-                  width="100%"
-                  paddingLeft={2}
-                  label="1.Hội Đồng thi"
-                  text="Eduzy"
-                  sx={{ width: "100%" }}
-                />
-                <FillingText
-                  sx={{ width: "100%" }}
-                  paddingLeft={2}
-                  label="2.Điểm thi"
-                  text="Eduzy"
-                />
-                <FillingText
-                  sx={{ width: "100%" }}
-                  paddingLeft={2}
-                  label="3.Phòng thi số"
-                  text="Eduzy001"
-                />
-                <FillingText
-                  sx={{ width: "100%" }}
-                  paddingLeft={2}
-                  label="4.Họ và tên thí sinh"
-                  text={student?.fullName || "___"}
-                />
-                <Stack direction="row">
-                  <FillingText
-                    sx={{ width: "100%" }}
-                    paddingLeft={2}
-                    label="5.Ngày sinh"
-                    text={student?.dateOfBirth || "1/1/2006"}
-                  />
-                  <GenderTypography isMale={false} />
-                </Stack>
-
-                <FillingText
-                  sx={{ width: "100%", fontWeight: "bold" }}
-                  paddingLeft={2}
-                  label="6.Chữ ký của thí sinh"
-                  text={getLastName(student?.fullName || "__") || "__"}
-                  fontFamily="Signature"
-                />
-                {/* <FillingText label="Ngày thi" text="3/8/2023" paddingLeft={2} /> */}
-              </Stack>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                width: "240px",
-                mt: { md: -3, xs: 0 },
-                display: { md: "block", xs: "none" },
-              }}
-            >
-              <Stack direction="row">
-                <Stack
-                  direction="column"
-                  mr={2}
-                  justifyContent="center"
-                  alignItems="center"
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
                 >
-                  <Typography
-                    variant="subtitle2"
-                    fontFamily="Times New Roman"
-                    fontSize={18}
-                  >
-                    7.Số báo danh:{" "}
-                  </Typography>
-                  <CodeFilling id="000123" />
-                </Stack>
-                <Stack
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Typography
-                    variant="subtitle2"
-                    fontFamily="Times New Roman"
-                    fontSize={18}
-                  >
-                    8.Mã đề thi:{" "}
-                  </Typography>
-                  <CodeFilling id="003" />
-                </Stack>
+                  7.Số báo danh:{" "}
+                </Typography>
+                <CodeFilling id={student.studentCode} />
               </Stack>
-            </Grid>
-            <Grid container>
-              <Grid item md={12}>
-                <Divider
-                  sx={{ my: 1, width: "100%", backgroundColor: "red" }}
-                  flexItem
-                />
-              </Grid>
-
-              {exam && student ? (
-                <Sheet exam={exam} student={student} />
-              ) : (
-                "Loading"
-              )}
-            </Grid>
+              <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography
+                  variant="subtitle2"
+                  fontFamily="Times New Roman"
+                  fontSize={18}
+                >
+                  8.Mã đề thi:{" "}
+                </Typography>
+                <CodeFilling id={exam ? exam.examCode : "000"} />
+              </Stack>
+            </Stack>
           </Grid>
-        </Container>
-      }
+          <Grid container>
+            <Grid item md={12}>
+              <Divider
+                sx={{ my: 1, width: "100%", backgroundColor: "red" }}
+                flexItem
+              />
+            </Grid>
+            {showBtn ? (
+              <Fragment>
+                <Grid item md={12} xs={12}>
+                  <Typography
+                    textAlign="center"
+                    fontWeight="bold"
+                    color="purple"
+                    fontFamily="Times New Roman"
+                    fontSize="18px"
+                  >
+                    Nhấn nút để bắt đầu làm bài
+                  </Typography>
+                </Grid>
+                <Grid
+                  container
+                  spacing={1}
+                  my={2}
+                  bgcolor="#fae9ea"
+                  height="500px"
+                >
+                  <Grid item xs>
+                    <Box
+                      sx={{
+                        maxHeight: "calc(100vh + 50px)",
+                        overflowY: "scroll",
+                        border: "1px solid #DE5173",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Button
+                        variant="gradient"
+                        sx={{ my: 1, width: "150px" }}
+                        onClick={handleStart}
+                      >
+                        {" "}
+                        Bắt đầu{" "}
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Fragment>
+            ) : (
+              <Sheet
+                exam={exam ? exam : defaultExam}
+                student={student}
+                currentState={currentState}
+                isAnswerSheet={isAnswerSheet}
+                isSubmitted={isSubmitted}
+                result={result}
+                onSubmit={(r) => {
+                  setIsSubmitted(true);
+                  setResult(r);
+                }}
+                setResult={(r) => {
+                  setResult(r);
+                }}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Container>
 
-      {/* {!showExam && (
-        <Box textAlign="center" bgcolor="white" py={3}>
-          <Typography variant="h4">Đề thi sẽ hiện sau: </Typography>
-          <Typography>
-            <Countdown
-              date={dayjs().add(10, "second")}
-              onTimeout={() => setShowTime(true)}
-            />
-          </Typography>
-        </Box>
-      )}
-      <Grid item md={12}>
-        <Divider
-          sx={{ my: 1, width: "100%", backgroundColor: "#DE5173" }}
-          flexItem
-        />
-      </Grid> */}
-
-      {!user && (
+      {!user && !isAnswerSheet && currentState < timeState.afterExam && (
         <NameDialog
           onSubmitName={(name: string) => {
             setUnAuthName(name);
@@ -354,6 +479,30 @@ const AnswerSheetPage = () => {
           open={openNameDialog}
         />
       )}
+      <GradeRankDialog
+        handleClose={() => {
+          setIsOpenGradeRankDialog(false);
+        }}
+        open={isOpenGradeRankDialog}
+        result={result}
+      />
+      <Dialog
+        open={showLeaderBoardModal}
+        fullWidth
+        PaperProps={{
+          style: {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          },
+        }}
+        onClose={() => dispatch(appActions.toggleShowLeaderBoardModal())}
+      >
+        <LeaderBoard
+          type={LBEnum.score}
+          examId={exam && exam._id ? exam._id : undefined}
+          examName={exam ? exam.name : ""}
+        />
+      </Dialog>
     </Fragment>
   );
 };

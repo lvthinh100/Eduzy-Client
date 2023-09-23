@@ -1,5 +1,12 @@
 import { SERVER } from "./constants/url";
 import axios from "axios";
+import { type } from "os";
+import {
+  AnswerType,
+  FetchAnswerIdType,
+  FetchAnswerType,
+  LBReqType,
+} from "./model/Exam";
 import { LoginData, SignUpData, UpdateProfileData } from "./model/Student";
 
 export const getUpcomingLesson = async (type: string) =>
@@ -31,21 +38,52 @@ export const getExams = async () => axios.get(`${SERVER}/api/exams`);
 export const getExamById = async (id: string) =>
   axios.get(`${SERVER}/api/exams/${id}`);
 
+export const getExamByName = async (name: string) =>
+  axios.get(`${SERVER}/api/exams/name/${name}`);
+
 export const registerExam = async (examId: string, studentId: string) => {
   const requestData = { examId, studentId };
-  try {
-    const response = await axios.post(
-      `${SERVER}/api/exams/registerExam`,
-      requestData,
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data; // You can process the response as needed
-  } catch (error) {
-    throw error; // Handle error cases here
-  }
+
+  const response = await axios.post(
+    `${SERVER}/api/exams/registerExam`,
+    requestData,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
 };
 
 //Filters
 export const getFilters = async () => axios.get(`${SERVER}/api/filters`);
+
+//Answers
+
+export const postAnswer = async (data: AnswerType) => {
+  const requestData = data;
+  const response = await axios.post(`${SERVER}/api/answer`, requestData);
+  return response.data;
+};
+
+export const fetchAnswer = async (data: FetchAnswerType) => {
+  const requestData = data;
+  const response = await axios.post(`${SERVER}/api/answer/fetch`, requestData);
+  return response.data;
+}; //Dùng khi xem đáp án, lấy kết quả cao nhất
+
+export const fetchAnswerById = async (data: FetchAnswerIdType) => {
+  const requestData = data;
+  const response = await axios.post(
+    `${SERVER}/api/answer/fetchId`,
+    requestData
+  );
+  return response.data;
+}; //Dùng khi mới kiểm tra xong, cần lấy để xem phát thưởng chưa
+
+//Leader Board
+
+export const getStudentLBs = async (data: LBReqType) => {
+  const requestData = data;
+  const response = await axios.post(`${SERVER}/api/leaderBoard`, requestData);
+  return response.data; // You can process the response as needed
+};
