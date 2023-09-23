@@ -2,7 +2,7 @@ import React from "react";
 
 import { createSvgIcon } from "@mui/material";
 
-const ExamIcon = createSvgIcon(
+const CrownIcon = createSvgIcon(
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -14,4 +14,4 @@ const ExamIcon = createSvgIcon(
   "Crown"
 );
 
-export default ExamIcon;
+export default CrownIcon;

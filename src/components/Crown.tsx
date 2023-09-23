@@ -7,15 +7,16 @@ interface PropsType {
   quantity: number | undefined;
   variant?: CrownVariantType;
   style?: React.CSSProperties;
+  fontSize?: number;
 }
 
-const Crown: React.FC<PropsType> = ({ quantity, variant, style }) => {
+const Crown: React.FC<PropsType> = ({ quantity, variant, style, fontSize }) => {
   return (
     <Stack
       direction="row"
       alignItems="center"
       sx={{
-        fontSize: "12px",
+        fontSize: fontSize || "12px",
         color: (theme) => theme.palette.prize[variant || "normal"],
         ...style,
       }}
@@ -28,13 +29,17 @@ const Crown: React.FC<PropsType> = ({ quantity, variant, style }) => {
       >
         {quantity ?? 0}
       </Typography>
-      <CrownIcon sx={{ width: 12, height: 12 }} color="inherit" />
+      <CrownIcon
+        sx={{ width: fontSize || 12, height: fontSize || 12 }}
+        color="inherit"
+      />
     </Stack>
   );
 };
 
 Crown.defaultProps = {
   variant: "normal",
+  fontSize: 12,
 };
 
 export default Crown;

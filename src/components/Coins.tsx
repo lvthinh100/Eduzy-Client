@@ -8,16 +8,17 @@ import { formatCoins } from "../utils/coinFormat";
 interface PropsType {
   variant?: CrownVariantType;
   value?: number;
+  fontSize?: number;
 }
 
-const Coins: React.FC<PropsType> = ({ variant, value }) => {
+const Coins: React.FC<PropsType> = ({ variant, value, fontSize }) => {
   const formattedValue = value ? formatCoins(value) : "0";
   return (
     <Stack
       direction="row"
       alignItems="center"
       sx={{
-        fontSize: "12px",
+        fontSize: fontSize || "12px",
         color: (theme) => theme.palette.prize[variant ?? "normal"],
       }}
     >
@@ -30,7 +31,7 @@ const Coins: React.FC<PropsType> = ({ variant, value }) => {
         {formattedValue}
         {/* {value || 11000} */}
       </Typography>
-      <MoneyIcon sx={{ width: 12, height: 12 }} />
+      <MoneyIcon sx={{ width: fontSize || 12, height: fontSize || 12 }} />
     </Stack>
   );
 };
@@ -38,6 +39,7 @@ const Coins: React.FC<PropsType> = ({ variant, value }) => {
 Coins.defaultProps = {
   variant: "normal",
   value: 11000,
+  fontSize: 12,
 };
 
 export default Coins;

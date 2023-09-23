@@ -13,21 +13,28 @@ interface PropsType {
   direction?: direction;
   crown?: boolean;
   value?: number;
+  fontSize?: number;
 }
 
-const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
+const Prize: React.FC<PropsType> = ({
+  variant,
+  direction,
+  crown,
+  value,
+  fontSize,
+}) => {
   const formattedValue = value ? formatCoins(value) : "11.000";
 
   return (
     <Stack
       sx={{
-        fontSize: "12px",
+        fontSize: fontSize || "12px",
         color: (theme) => theme.palette.prize[variant ?? "normal"],
       }}
       alignItems="center"
       direction={direction}
     >
-      {crown && <Crown quantity={1} variant={variant} />}
+      {crown && <Crown quantity={1} variant={variant} fontSize={fontSize} />}
       <Stack
         direction="row"
         alignItems="center"
@@ -43,7 +50,7 @@ const Prize: React.FC<PropsType> = ({ variant, direction, crown, value }) => {
           {formattedValue}
           {/* {value || 11000} */}
         </Typography>
-        <MoneyIcon sx={{ width: 12, height: 12 }} />
+        <MoneyIcon sx={{ width: fontSize, height: fontSize }} />
       </Stack>
     </Stack>
   );
@@ -54,6 +61,7 @@ Prize.defaultProps = {
   direction: "column",
   variant: "normal",
   value: 11000,
+  fontSize: 12,
 };
 
 export default Prize;
