@@ -71,7 +71,7 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
         backgroundSize: "750px 400px",
         backgroundPosition: "center top",
         borderRadius: 5,
-
+        color: "#472422",
         ...paperStyle,
       }}
       elevation={5}
@@ -99,11 +99,12 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
               position: "absolute",
             }}
           >
-            <StyledBadge color="secondary" badgeContent="1" overlap="circular">
-              <Stack direction="column" alignItems="center">
-                <StudentInfo studentLB={studentLBs[0]} type={type} />
-              </Stack>
-            </StyledBadge>
+            {/* <StyledBadge color="secondary" badgeContent="1" overlap="circular">
+
+            </StyledBadge> */}
+            <Stack direction="column" alignItems="center">
+              <StudentInfo studentLB={studentLBs[0]} type={type} />
+            </Stack>
             <StandingBox
               sx={{
                 backgroundColor: "#606d54",
@@ -128,12 +129,12 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
               alignItems: "center",
             }}
           >
-            <StyledBadge color="secondary" badgeContent="2" overlap="circular">
-              <Stack direction="column" alignItems="center">
-                <StudentInfo studentLB={studentLBs[1]} type={type} />
-              </Stack>
-            </StyledBadge>
+            {/* <StyledBadge color="secondary" badgeContent="2" overlap="circular">
 
+            </StyledBadge> */}
+            <Stack direction="column" alignItems="center">
+              <StudentInfo studentLB={studentLBs[1]} type={type} />
+            </Stack>
             <StandingBox
               sx={{
                 backgroundColor: "#a9593d",
@@ -158,11 +159,12 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
               alignItems: "center",
             }}
           >
-            <StyledBadge color="secondary" badgeContent="3" overlap="circular">
-              <Stack direction="column" alignItems="center">
-                <StudentInfo studentLB={studentLBs[2]} type={type} />
-              </Stack>
-            </StyledBadge>
+            {/* <StyledBadge color="secondary" badgeContent="3" overlap="circular">
+
+            </StyledBadge> */}
+            <Stack direction="column" alignItems="center">
+              <StudentInfo studentLB={studentLBs[2]} type={type} />
+            </Stack>
             <StandingBox
               sx={{
                 backgroundColor: "#da8100",

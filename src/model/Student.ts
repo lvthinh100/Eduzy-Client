@@ -54,6 +54,7 @@ export type StudentLBInfo = {
   crowns3: number;
   score: number;
   type: string;
+  avatar: string;
 };
 
 export type UpdateProfileData = {

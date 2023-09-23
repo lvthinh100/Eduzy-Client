@@ -35,9 +35,9 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
         <Stack direction="column" alignItems="flex-start">
           <StyledTypo> {exam.name} </StyledTypo>
           <StyledTypo mb={0.4}>{exam.duration}m - 40 câu</StyledTypo>
-          <Prize crown={false} variant="first" value={exam.price} />
+          {/* <Prize crown={false} variant="first" value={exam.price} /> */}
         </Stack>
-        <StyledTypo>Lượt mua: 0</StyledTypo>
+        <StyledTypo>Lượt làm bài: 0</StyledTypo>
       </Stack>
     </StyledListItem>
   );
