@@ -6,6 +6,7 @@ import Notification from "../components/Notification";
 import RegisterModal from "../components/Auth/RegisterModal";
 import useAuth from "../hooks/useAuth";
 import OkCancelNotification from "../components/OKCancelNotification";
+import AppDialogs from "../components/AppDialogs";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <OkCancelNotification />
       {!user && <LoginModal />}
       {!user && <RegisterModal />}
+      <AppDialogs />
     </Fragment>
   );
 };

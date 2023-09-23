@@ -20,26 +20,33 @@ import content from "../../constants/content";
 import Logo from "../Logo";
 import useResponsive from "../../hooks/useResponsive";
 import { useAppDispatch } from "../../hooks/redux";
-import { appActions } from "../../redux/slices/appSlice";
+import { MODAL, appActions } from "../../redux/slices/appSlice";
 import useAuth from "../../hooks/useAuth";
 import MESSAGE from "../../constants/message";
 import { logout } from "../../api";
 import { authActions } from "../../redux/slices/authSlice";
 import Crown from "../Crown";
 import { Stack } from "@mui/material";
-import MoneyIcon from "../IconComponent/MoneyIcon";
 import Coins from "../Coins";
 
 function ResponsiveAppBar() {
+  const dispatch = useAppDispatch();
   const isDesktop = useResponsive("up", "md");
   const [openNav, setOpenNav] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const userActions = [
+    {
+      label: "Cập nhật thông tin",
+      handler: () => {
+        dispatch(appActions.showModal(MODAL.UPDATE_PROFILE));
+        setAnchorElUser(null);
+      },
+    },
+  ];
 
   const { user } = useAuth();
-
-  const dispatch = useAppDispatch();
 
   // Mobile
   const handleOpenNavMenu = () => {
@@ -161,7 +168,7 @@ function ResponsiveAppBar() {
           </Stack>
         </Stack>
         <IconButton onClick={handleOpenUserActionMenu} sx={{ p: 0 }}>
-          <Avatar>
+          <Avatar src={user?.avatar}>
             <AccountCircleIcon />
           </Avatar>
         </IconButton>
@@ -180,9 +187,9 @@ function ResponsiveAppBar() {
           open={Boolean(anchorElUserAction)}
           onClose={handleCloseUserActionMenu}
         >
-          {content.USERS.map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserActionMenu}>
-              <Typography textAlign="center">{setting}</Typography>
+          {userActions.map((setting, index) => (
+            <MenuItem key={index} onClick={setting.handler}>
+              <Typography textAlign="center">{setting.label}</Typography>
             </MenuItem>
           ))}
           {/* {content.NAV_AUTH.map((link) => (

@@ -1,6 +1,6 @@
 import { SERVER } from "./constants/url";
 import axios from "axios";
-import { LoginData, SignUpData } from "./model/Student";
+import { LoginData, SignUpData, UpdateProfileData } from "./model/Student";
 
 export const getUpcomingLesson = async (type: string) =>
   axios.get(`${SERVER}/api/lessons/upcoming/${type}`);
@@ -17,6 +17,14 @@ export const logout = async () =>
 
 export const getMe = async () =>
   axios.get(`${SERVER}/api/students/me`, { withCredentials: true });
+
+export const updateProfile = async (data: FormData) =>
+  axios.patch(`${SERVER}/api/students/updateMe`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+  });
 
 // Exams
 export const getExams = async () => axios.get(`${SERVER}/api/exams`);

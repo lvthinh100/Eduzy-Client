@@ -55,6 +55,7 @@ const AnswerSheetPage = () => {
         crowns2: 0,
         crowns3: 0,
         _id: "",
+        avatar: "",
       };
       setStudent(defaultUser);
     }
@@ -73,6 +74,7 @@ const AnswerSheetPage = () => {
       crowns2: 0,
       crowns3: 0,
       _id: "",
+      avatar: "",
     };
     setStudent(defaultUser);
   }, [unAuthName]);
