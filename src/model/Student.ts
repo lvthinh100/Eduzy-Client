@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { Gender } from "./Standard";
 
 export type StudentInfo = {
@@ -11,6 +12,7 @@ export type StudentInfo = {
   crowns1: number;
   crowns2: number;
   crowns3: number;
+  avatar: string;
   _id: string | null;
 };
 
@@ -51,4 +53,10 @@ export type StudentLBInfo = {
   crowns3: number;
   score: number;
   type: string;
+};
+
+export type UpdateProfileData = {
+  fullName: string;
+  dateOfBirth: Date;
+  gender: Gender;
 };

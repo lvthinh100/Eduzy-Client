@@ -1,9 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+export const MODAL = {
+  UPDATE_PROFILE: "UPDATE_PROFILE" as "UPDATE_PROFILE",
+  LOGIN: "LOGIN" as "LOGIN",
+  REGISTER: "REGISTER" as "REGISTER",
+};
+type Modal = "UPDATE_PROFILE" | "LOGIN" | "REGISTER";
 
 const initialState = {
   showLoginModal: false,
   showLeaderBoardModal: false,
   showRegisterModal: false,
+  showUpdateProfileModal: false,
   notification: {
     open: false,
     variant: "success",
@@ -48,6 +56,38 @@ const appSlice = createSlice({
     },
     toggleShowLeaderBoardModal(state) {
       state.showLeaderBoardModal = !state.showLeaderBoardModal;
+    },
+    showModal(state, action: PayloadAction<Modal>) {
+      switch (action.payload) {
+        case MODAL.UPDATE_PROFILE:
+          state.showUpdateProfileModal = true;
+          break;
+        case MODAL.LOGIN:
+          state.showLoginModal = true;
+          break;
+        case MODAL.REGISTER:
+          state.showRegisterModal = true;
+          break;
+
+        default:
+          break;
+      }
+    },
+    closeModal(state, action: PayloadAction<Modal>) {
+      switch (action.payload) {
+        case MODAL.UPDATE_PROFILE:
+          state.showUpdateProfileModal = false;
+          break;
+        case MODAL.LOGIN:
+          state.showLoginModal = false;
+          break;
+        case MODAL.REGISTER:
+          state.showRegisterModal = false;
+          break;
+
+        default:
+          break;
+      }
     },
   },
 });
