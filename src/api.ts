@@ -11,6 +11,10 @@ import { LoginData, SignUpData, UpdateProfileData } from "./model/Student";
 
 export const getUpcomingLesson = async (type: string) =>
   axios.get(`${SERVER}/api/lessons/upcoming/${type}`);
+
+export const getPrevLesson = async (type: string) =>
+  axios.get(`${SERVER}/api/lessons/prev/${type}`);
+
 export const getAllLesson = async () => axios.get(`${SERVER}/api/lessons`);
 
 export const signup = async (data: SignUpData) =>
@@ -40,6 +44,9 @@ export const getExamById = async (id: string) =>
 
 export const getExamByName = async (name: string) =>
   axios.get(`${SERVER}/api/exams/name/${name}`);
+
+export const getExamsByType = async (type: string) =>
+  axios.get(`${SERVER}/api/exams/type/${type}`);
 
 export const registerExam = async (examId: string, studentId: string) => {
   const requestData = { examId, studentId };

@@ -1,7 +1,9 @@
 export type ExamType = {
   examCode: string; //"001"
   examType: string; //"LuyenDe"
+  examTimes: number;
   name: string; //"Đề luyện thi 1"
+  normalizedName: string;
   subject: string; //"Vật Lý"
   duration: number; //"50" unit of minute
   price: number; //"2000" unit of Ecoin, 1 Ecoin = 1 VND
@@ -77,7 +79,9 @@ export const defaultResult: ResultType = {
 export const defaultExam: ExamType = {
   examCode: "001",
   examType: "",
+  examTimes: 0,
   name: "",
+  normalizedName: "",
   subject: "",
   duration: 50,
   price: 0,

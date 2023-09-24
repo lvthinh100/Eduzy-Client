@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Avatar,
@@ -12,16 +12,38 @@ import computer from "../../assets/computer.jpg";
 import img from "../../assets/avatar.jpg";
 import leaderboardBtn from "../../assets/leaderboardBtn.png";
 import { motion } from "framer-motion";
-
-// Data
 import { useAppDispatch } from "../../hooks/redux";
 import { appActions } from "../../redux/slices/appSlice";
+import { getStudentLBs } from "../../api";
+import { LBReqType } from "../../model/Exam";
+import { StudentLBInfo } from "../../model/Student";
+import { LBEnum } from "../../model/Standard";
 
 const Leader = () => {
   const dispatch = useAppDispatch();
   const handleClick = () => {
     dispatch(appActions.toggleShowLeaderBoardModal());
   };
+  const [studentLB, setStudentLB] = useState<StudentLBInfo | null>(null);
+  useEffect(() => {
+    const fetchData = async (req: LBReqType) => {
+      try {
+        const { data: response } = await getStudentLBs(req);
+        const studentLBs: StudentLBInfo[] = response;
+        if (studentLBs.length > 0) setStudentLB(studentLBs[0]);
+      } catch (err) {
+        console.log(err);
+        dispatch(
+          appActions.showNotification({
+            variant: "success",
+            message: "Lỗi khi fetch leader board",
+          })
+        );
+      }
+    };
+
+    fetchData({ type: LBEnum.achievement });
+  }, [dispatch]);
   return (
     <Box
       sx={{
@@ -59,14 +81,14 @@ const Leader = () => {
             }}
           >
             <Avatar
-              src={img}
+              src={studentLB?.avatar}
               sx={{
-                border: (theme) => `1px solid ${theme.palette.prize.first}`,
                 width: "40px",
                 height: "40px",
                 m: "4px",
+                backgroundColor: "#fff",
               }}
-            />
+            ></Avatar>
           </Badge>
         </Box>
         <Typography
@@ -87,19 +109,19 @@ const Leader = () => {
           }}
           transition={{ duration: 10, repeat: Infinity, delay: 3 }}
         >
-          Trần Văn Thông
+          {studentLB?.fullName}
         </Typography>
         <Typography
           fontWeight="500"
           fontSize={12}
           sx={{ color: "prize.first" }}
         >
-          #00006
+          #{studentLB?.studentCode}
         </Typography>
         <Stack direction="row" alignItems="center" gap={1} mt={0.2}>
-          <Crown quantity={1} variant="first" />
-          <Crown quantity={5} variant="second" />
-          <Crown quantity={0} variant="third" />
+          <Crown quantity={studentLB?.crowns1} variant="first" />
+          <Crown quantity={studentLB?.crowns2} variant="second" />
+          <Crown quantity={studentLB?.crowns3} variant="third" />
         </Stack>
       </Box>
       <CardMedia

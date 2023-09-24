@@ -37,6 +37,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { MODAL, appActions } from "../../redux/slices/appSlice";
 import { updateProfile } from "../../api";
 import { authActions } from "../../redux/slices/authSlice";
+import Coins from "../Coins";
 // Redux
 
 type PropsType = {
@@ -137,7 +138,7 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
         >
           Chỉnh sửa thông tin
         </Typography>
-        <Stack direction="column" alignItems="center" mb={3}>
+        <Stack direction="column" alignItems="center" mb={1}>
           <Box position="relative">
             <Avatar
               sx={{
@@ -175,15 +176,27 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
             </IconButton>
           </Box>
 
-          <Typography fontWeight="bold" fontSize={12}>
+          <Typography
+            fontSize="14px"
+            fontFamily="SegoeUISemiBold"
+            color="#472422"
+          >
             {user.fullName}
           </Typography>
-          <Typography fontSize={12}>#{user.studentCode}</Typography>
-          <Stack direction="row" spacing={1}>
-            <Crown quantity={1} variant="first" />
-            <Crown quantity={1} variant="second" />
-            <Crown quantity={1} variant="third" />
+          <Typography
+            fontSize="10px"
+            fontFamily="SegoeUISemiBold"
+            color="#472422"
+          >
+            #{user.studentCode}
+          </Typography>
+          <Stack direction="row" spacing={1} mb={0.5}>
+            <Crown quantity={user.crowns1} variant="first" />
+            <Crown quantity={user.crowns2} variant="second" />
+            <Crown quantity={user.crowns3} variant="third" />
           </Stack>
+
+          <Coins variant="first" value={user.coins} />
         </Stack>
         <Box
           sx={{ p: 3, backgroundColor: "white", borderRadius: "30px 30px 0 0" }}

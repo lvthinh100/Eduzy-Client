@@ -3,7 +3,7 @@ import { UpcomingLessonType } from "../../model/Lesson";
 
 const initialState = {
   upcoming: {} as UpcomingLessonType,
-  code: "LuyenDe",
+  code: "LuyenDeTHPT",
   fetching: true,
 };
 

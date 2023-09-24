@@ -4,30 +4,32 @@ import { StyledList } from "./style";
 
 import Exam from "./Exam";
 import SelectClassType from "../../components/SelectClassType";
-import { getExams } from "../../api";
+import { getExams, getExamsByType } from "../../api";
 import { ExamType } from "../../model/Exam";
 import { useNavigate } from "react-router-dom";
 import LeaderBoard from "../../components/LeaderBoard";
 import { LBEnum } from "../../model/Standard";
 import AnswerBtn from "../../components/AnswerBtn";
+import { useAppSelector } from "../../hooks/redux";
 
 const ListExams = () => {
+  const { code } = useAppSelector((state) => state.lesson);
   const [exams, setExams] = useState<ExamType[]>([]);
   const [selectedExam, setSelectedExam] = useState<ExamType | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchExams = async () => {
+    const fetchExams = async (code: string) => {
       try {
-        const { data: response } = await getExams();
+        const { data: response } = await getExamsByType(code);
         setExams(response.data);
         setSelectedExam(response[0]);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchExams();
-  }, []);
+    fetchExams(code);
+  }, [code]);
 
   const handleChangeSelectedExam = (exam: ExamType) => {
     setSelectedExam(exam);
@@ -35,7 +37,12 @@ const ListExams = () => {
 
   const handleShowExam = () => {
     if (!selectedExam) return;
-    navigate(`/sheet/${selectedExam._id}`);
+    navigate(`/sheet/${selectedExam.normalizedName}`);
+  };
+
+  const handleShowAnswerSheet = () => {
+    if (!selectedExam) return;
+    navigate(`/answersheet/${selectedExam.normalizedName}`);
   };
 
   return (
@@ -104,7 +111,11 @@ const ListExams = () => {
               {/* <Button variant="gradient" sx={{ flexGrow: 1 }}>
                 Xem kết quả
               </Button> */}
-              <AnswerBtn onChange={() => {}} />
+              <AnswerBtn
+                onChange={() => {
+                  handleShowAnswerSheet();
+                }}
+              />
             </Stack>
           </Paper>
         </Stack>

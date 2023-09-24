@@ -3,6 +3,8 @@ export type UpcomingLessonType = {
   lessonType: string;
   lessonCode: string;
   startTime: string;
+  duration: number;
+  subject: string;
   lessonMeetingUrl: string;
   _id: string;
   examId: {

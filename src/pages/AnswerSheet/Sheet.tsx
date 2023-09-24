@@ -143,10 +143,8 @@ const Sheet: React.FC<PropsType> = ({
           const { data: response } = await fetchAnswer(data);
           setResult(response);
           let charArray = response.answer.split("");
-          console.log("charArray", charArray);
           setAnswerSheet(charArray);
         } catch (error) {
-          console.log("error");
           setResult(defaultResult);
           const spacesString = " ".repeat(exam.numberOfQuestion);
           const charArray = spacesString.split("");
