@@ -29,7 +29,7 @@ const Notification = () => {
           m={3}
           mx={5}
           variant="h4"
-          fontFamily="_SegoeUI"
+          fontFamily="_SegoeUINormal"
           component="div"
           sx={{ textAlign: "center" }}
         >

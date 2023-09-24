@@ -38,9 +38,7 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
   useEffect(() => {
     const fetchData = async (req: LBReqType) => {
       try {
-        console.log("req", req);
         const { data: response } = await getStudentLBs(req);
-        console.log("response", response);
         setStudentLBs(response);
       } catch (err) {
         console.log(err);
@@ -66,7 +64,6 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
     <Paper
       sx={{
         textAlign: "center",
-        mb: 1,
         backgroundImage: `url(${landscape})`,
         backgroundSize: "750px 400px",
         backgroundPosition: "center top",
@@ -76,7 +73,7 @@ const LeaderBoard: React.FC<LeaderBoardStyleProps> = ({
       }}
       elevation={5}
     >
-      <Typography variant="h4">Bảng Xếp Hạng</Typography>
+      <Typography variant="h4">BẢNG XẾP HẠNG</Typography>
       {type === LBEnum.achievement ? (
         <Typography variant="subtitle2">Thành tích</Typography>
       ) : (

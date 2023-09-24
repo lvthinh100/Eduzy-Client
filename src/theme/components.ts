@@ -5,9 +5,8 @@ import Digital from "../assets/Fonts/digital.ttf";
 import ArialRounded from "../assets/Fonts/ARLRDBD.ttf";
 import SegoeUISemiBold from "../assets/Fonts/SegoeUI-SemiBold.ttf";
 import ArialUnicodeMS from "../assets/Fonts/ArialUnicodeMS.ttf";
-import SegoeUIBold from "../assets/Fonts/Segoe-UI-Bold.ttf";
-import SegoeUINormal from "../assets/Fonts/Segoe-UI.ttf";
-import _SegoeUI from "../assets/Fonts/SVN-Segoe-UI.ttf";
+import _SegoeUIBold from "../assets/Fonts/Segoe-UI-Bold.ttf";
+import _SegoeUINormal from "../assets/Fonts/SVN-Segoe-UI.ttf";
 import HandWriting from "../assets/Fonts/Merienda-VariableFont_wght.ttf";
 import Signature from "../assets/Fonts/BrothersideSignature-w13o6.otf";
 import OswaldSemiBold from "../assets/Fonts/Oswald-SemiBold.ttf";
@@ -123,26 +122,18 @@ const components = {
         src: url(${SegoeUISemiBold}) format('truetype');
       }
       @font-face {
-        font-family: '_SegoeUI';
-        font-style: normal;
-        font-display: swap;
-        font-weight: 400;
-        src: url(${_SegoeUI}) format('truetype');
-      }
-
-      @font-face {
         font-family: '_SegoeUIBold';
         font-style: normal;
         font-display: swap;
-        font-weight: 900;
-        src: url(${SegoeUIBold}) format('truetype');
+        font-weight: 800;
+        src: url(${_SegoeUIBold}) format('truetype');
       }
       @font-face {
         font-family: '_SegoeUINormal';
         font-style: normal;
         font-display: swap;
         font-weight: 400;
-        src: url(${SegoeUINormal}) format('truetype');
+        src: url(${_SegoeUINormal}) format('truetype');
       }
       @font-face {
         font-family: 'ArialUnicodeMS';
