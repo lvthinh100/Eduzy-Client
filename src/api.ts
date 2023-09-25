@@ -6,6 +6,7 @@ import {
   FetchAnswerIdType,
   FetchAnswerType,
   LBReqType,
+  UpdateHardLevelType,
 } from "./model/Exam";
 import { LoginData, SignUpData, UpdateProfileData } from "./model/Student";
 
@@ -86,6 +87,15 @@ export const fetchAnswerById = async (data: FetchAnswerIdType) => {
   );
   return response.data;
 }; //Dùng khi mới kiểm tra xong, cần lấy để xem phát thưởng chưa
+
+export const updateHardLevel = async (data: UpdateHardLevelType) => {
+  const requestData = data;
+  const response = await axios.post(
+    `${SERVER}/api/answer/updateHardLevel`,
+    requestData
+  );
+  return response.data;
+}; //Dùng khi sau kiểm tra, update đánh giá
 
 //Leader Board
 

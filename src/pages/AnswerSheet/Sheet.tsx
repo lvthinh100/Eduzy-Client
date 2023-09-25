@@ -215,6 +215,7 @@ const Sheet: React.FC<PropsType> = ({
       answer: answerSheet.map((char) => (char === "" ? " " : char)).join(""),
       type: exam.isUpcoming ? AnswerEnum.main : AnswerEnum.sub,
     };
+    console.log("data", data);
     try {
       const { data: response } = await postAnswer(data);
       onSubmit(response);
