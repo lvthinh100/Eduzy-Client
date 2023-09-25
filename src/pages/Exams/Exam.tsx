@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, ListItemButtonProps } from "@mui/material";
+import { Stack, ListItemButtonProps, Rating, Box } from "@mui/material";
 import { StyledListItem, StyledTypo } from "./style";
 import Prize from "../../components/Prize";
 import { ExamType } from "../../model/Exam";
@@ -13,7 +13,13 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
   const handleSelect = () => {
     onSelectExam(exam);
   };
-
+  const labels: { [index: string]: string } = {
+    1: "Rất dễ",
+    2: "Dễ",
+    3: "Trung bình",
+    4: "Khó",
+    5: "Rất khó",
+  };
   return (
     <StyledListItem
       sx={{
@@ -37,6 +43,21 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
           <StyledTypo mb={0.4}>
             {exam.duration}m - {exam.numberOfQuestion} câu
           </StyledTypo>
+          <Stack direction="row">
+            <Rating
+              name="read-only"
+              value={exam.rating}
+              precision={0.1}
+              readOnly
+              size="small"
+              sx={{ mr: 0.1 }}
+            />{" "}
+            <StyledTypo>({exam.ratingCount})</StyledTypo>
+            {/* {exam.ratingCount > 0 && (
+              <StyledTypo sx={{ ml: 1 }}> - {labels[exam.rating]}</StyledTypo>
+            )} */}
+          </Stack>
+
           {/* <Prize crown={false} variant="first" value={exam.price} /> */}
         </Stack>
         <StyledTypo>Lượt làm bài: {exam.examTimes}</StyledTypo>

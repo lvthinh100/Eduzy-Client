@@ -14,6 +14,8 @@ export type ExamType = {
   isUpcoming: boolean;
   _id: string | null;
   startTime: string | null;
+  rating: number;
+  ratingCount: number;
 };
 
 export type ResultType = {
@@ -48,6 +50,11 @@ export type FetchAnswerType = {
 export type FetchAnswerIdType = {
   _id: string;
   exam: string;
+};
+
+export type UpdateHardLevelType = {
+  _id: string;
+  hardLevel: number | null;
 };
 
 export type LBReqType = {
@@ -92,4 +99,6 @@ export const defaultExam: ExamType = {
   isUpcoming: true,
   _id: null,
   startTime: null,
+  rating: 0,
+  ratingCount: 0,
 };

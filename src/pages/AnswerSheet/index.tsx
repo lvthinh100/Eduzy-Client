@@ -14,8 +14,8 @@ import Sheet from "./Sheet";
 import FillingText from "./FillingText";
 import { StyledScoreLabel } from "./style";
 import { useNavigate, useParams } from "react-router-dom";
-import { getExamByName, getMe } from "../../api";
-import { ExamType, defaultExam } from "../../model/Exam";
+import { getExamByName, getMe, updateHardLevel } from "../../api";
+import { ExamType, UpdateHardLevelType, defaultExam } from "../../model/Exam";
 import NameDialog from "./NameDialog";
 import useToggleOpen from "../../hooks/useToggleOpen";
 import useAuth from "../../hooks/useAuth";
@@ -191,6 +191,22 @@ const AnswerSheetPage = () => {
     setExam(newExam);
     setShowBtn(false);
   }, [exam]);
+
+  const submitRating = useCallback(
+    async (rating: number | null) => {
+      if (result?._id) {
+        const data: UpdateHardLevelType = {
+          _id: result._id,
+          hardLevel: rating,
+        };
+        try {
+          await updateHardLevel(data);
+        } catch (error) {}
+      }
+    },
+    [result]
+  );
+
   return (
     <Fragment>
       <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
@@ -489,8 +505,9 @@ const AnswerSheetPage = () => {
         />
       )}
       <GradeRankDialog
-        handleClose={() => {
+        handleClose={(rating) => {
           setIsOpenGradeRankDialog(false);
+          submitRating(rating);
         }}
         open={isOpenGradeRankDialog}
         result={result}
