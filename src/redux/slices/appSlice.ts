@@ -1,34 +1,38 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const MODAL = {
-  UPDATE_PROFILE: "UPDATE_PROFILE" as "UPDATE_PROFILE",
-  LOGIN: "LOGIN" as "LOGIN",
-  REGISTER: "REGISTER" as "REGISTER",
+  UPDATE_PROFILE: 'UPDATE_PROFILE' as 'UPDATE_PROFILE',
+  LOGIN: 'LOGIN' as 'LOGIN',
+  REGISTER: 'REGISTER' as 'REGISTER',
 };
-type Modal = "UPDATE_PROFILE" | "LOGIN" | "REGISTER";
+type Modal = 'UPDATE_PROFILE' | 'LOGIN' | 'REGISTER';
 
 const initialState = {
+  timediff: null as number | null,
   showLoginModal: false,
   showLeaderBoardModal: false,
   showRegisterModal: false,
   showUpdateProfileModal: false,
   notification: {
     open: false,
-    variant: "success",
-    message: "Hello world",
+    variant: 'success',
+    message: 'Hello world',
   },
   okCancelNotification: {
     open: false,
     isOK: false,
-    variant: "success",
-    message: "Hello world",
+    variant: 'success',
+    message: 'Hello world',
   },
 };
 
 const appSlice = createSlice({
-  name: "app",
+  name: 'app',
   initialState,
   reducers: {
+    setTimeDiff(state, action: PayloadAction<number>) {
+      state.timediff = action.payload;
+    },
     toggleShowLoginModal(state) {
       state.showLoginModal = !state.showLoginModal;
     },

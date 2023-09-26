@@ -1,29 +1,29 @@
-import React from "react";
-import dayjs from "dayjs";
-import img from "../assets/KeSach2.jpg";
+import React from 'react';
+import dayjs from 'dayjs';
+import img from '../assets/KeSach2.jpg';
 
-import { Box, Typography, CardMedia, Stack } from "@mui/material";
+import { Box, Typography, CardMedia, Stack } from '@mui/material';
+import { useAppSelector } from '../hooks/redux';
 
 const Clock = () => {
-  const format = "HH:mm:ss";
-  const [current, setCurrent] = React.useState(dayjs().format(format));
-  // React.useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCurrent(dayjs().format(format));
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, []);
-  const startUpdatingClock = () => {
-    const timer = setInterval(() => {
-      setCurrent(dayjs().format(format));
-    }, 1000);
-    return timer;
-  };
+  const format = 'HH:mm:ss';
+  const { timediff } = useAppSelector((state) => state.app);
+  const [current, setCurrent] = React.useState(
+    dayjs()
+      .add(timediff ? timediff : 0, 'second')
+      .format(format)
+  );
 
   React.useEffect(() => {
-    const now = dayjs();
+    if (timediff === null) return;
+    const startUpdatingClock = () => {
+      const timer = setInterval(() => {
+        setCurrent(dayjs().add(timediff, 'second').format(format));
+      }, 1000);
+      return timer;
+    };
+
+    const now = dayjs().add(timediff, 'second');
     const timeUntilNextSecond = 1000 - now.millisecond();
 
     const timeout = setTimeout(() => {
@@ -36,17 +36,17 @@ const Clock = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [timediff]);
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box sx={{ position: 'relative' }}>
       <CardMedia
         component="img"
         sx={{
           height: 130,
-          objectFit: "contain",
-          width: "fit-content",
-          position: "relative",
+          objectFit: 'contain',
+          width: 'fit-content',
+          position: 'relative',
         }}
         src={img}
       />
@@ -55,26 +55,26 @@ const Clock = () => {
         fontWeight="bold"
         color="white"
         sx={{
-          position: "absolute",
+          position: 'absolute',
           top: 58,
           right: 48,
         }}
       >
-        {current.split("").map((text, i) => (
+        {current.split('').map((text, i) => (
           <Box
             sx={{
-              position: "relative",
-              width: text === ":" ? "5px" : "10px",
-              height: "14px",
+              position: 'relative',
+              width: text === ':' ? '5px' : '10px',
+              height: '14px',
             }}
             key={i}
           >
             <Typography
               sx={(theme) => ({
-                position: "absolute",
-                fontFamily: "Digital",
-                fontSize: "22px",
-                textAlign: "right",
+                position: 'absolute',
+                fontFamily: 'Digital',
+                fontSize: '22px',
+                textAlign: 'right',
                 right: 0,
                 color: theme.palette.digital.main,
               })}
@@ -83,16 +83,16 @@ const Clock = () => {
             </Typography>
             <Typography
               sx={{
-                position: "absolute",
-                fontFamily: "Digital",
-                fontSize: "22px",
-                textAlign: "right",
+                position: 'absolute',
+                fontFamily: 'Digital',
+                fontSize: '22px',
+                textAlign: 'right',
                 right: 0,
                 opacity: 0.3,
-                color: "digital.main",
+                color: 'digital.main',
               }}
             >
-              {text !== ":" ? "8" : ":"}
+              {text !== ':' ? '8' : ':'}
             </Typography>
           </Box>
         ))}

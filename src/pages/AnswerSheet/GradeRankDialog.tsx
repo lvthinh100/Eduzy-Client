@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -8,14 +8,15 @@ import {
   Paper,
   Rating,
   Stack,
+  TextField,
   Typography,
-} from "@mui/material";
-import { StyledScoreLabel } from "./style";
-import { ResultType } from "../../model/Exam";
+} from '@mui/material';
+import { StyledScoreLabel } from './style';
+import { ResultType } from '../../model/Exam';
 
 type PropsType = {
   result: ResultType | null;
-  handleClose: (rating: number | null) => void;
+  handleClose: (rating: number | null, fb: string) => void;
 };
 
 const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
@@ -25,12 +26,13 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
 }) => {
   const [userRating, setUserRating] = useState<number | null>(null);
   const [hover, setHover] = React.useState(-1);
+  const [fb, setFb] = React.useState('');
   const labels: { [index: string]: string } = {
-    1: "Rất dễ",
-    2: "Dễ",
-    3: "Trung bình",
-    4: "Khó",
-    5: "Rất khó",
+    1: 'Rất dễ',
+    2: 'Dễ',
+    3: 'Trung bình',
+    4: 'Khó',
+    5: 'Rất khó',
   };
   // Function to handle rating change
   // const handleRatingChange = (
@@ -40,11 +42,11 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
   //   setUserRating(newValue);
   // };
   function getLabelText(value: number) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
   }
   return (
     <Dialog maxWidth="sm" {...dialogProps}>
-      <Paper sx={{ padding: 3, backgroundColor: "white", maxWidth: 360 }}>
+      <Paper sx={{ padding: 3, backgroundColor: 'white', maxWidth: 360 }}>
         <Typography
           fontSize="30px"
           color="#39393A"
@@ -57,19 +59,19 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
         </Typography>
         <Stack
           sx={{
-            direction: "column",
-            justifyContent: "center",
-            height: "100%",
-            border: "1px solid #DE5173",
-            display: "flex", // Make the Stack a flex container
-            flexDirection: "column",
+            direction: 'column',
+            justifyContent: 'center',
+            height: '100%',
+            border: '1px solid #DE5173',
+            display: 'flex', // Make the Stack a flex container
+            flexDirection: 'column',
           }}
         >
           <Box
             sx={{
               p: 1,
-              textAlign: "center",
-              mb: "auto",
+              textAlign: 'center',
+              mb: 'auto',
               flex: 1,
             }}
           >
@@ -82,14 +84,14 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
             </Typography>
 
             <Stack>
-              <StyledScoreLabel>{result ? result.score : "_"}</StyledScoreLabel>
+              <StyledScoreLabel>{result ? result.score : '_'}</StyledScoreLabel>
             </Stack>
           </Box>
-          <Divider sx={{ width: "100%", backgroundColor: "#DE5173" }} />
+          <Divider sx={{ width: '100%', backgroundColor: '#DE5173' }} />
           <Box
             sx={{
               p: 1,
-              textAlign: "center",
+              textAlign: 'center',
               mt: 1,
               flex: 1,
             }}
@@ -103,16 +105,16 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
             </Typography>
 
             <Stack>
-              <StyledScoreLabel>{result ? result.rank : "_"}</StyledScoreLabel>
+              <StyledScoreLabel>{result ? result.rank : '_'}</StyledScoreLabel>
             </Stack>
           </Box>
-          <Divider sx={{ width: "100%", backgroundColor: "#DE5173" }} />
+          <Divider sx={{ width: '100%', backgroundColor: '#DE5173' }} />
           <Box
             sx={{
               p: 1,
-              textAlign: "center",
-              alignItems: "center",
-              justifyContent: "center",
+              textAlign: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
               mt: 1,
               flex: 1,
             }}
@@ -138,16 +140,49 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
             />
             {userRating !== null ? (
               <Box>{labels[hover !== -1 ? hover : userRating]}</Box>
+            ) : hover !== -1 ? (
+              <Box>{labels[hover]}</Box>
             ) : (
-              <Box>{hover !== -1 ? labels[hover] : ""}</Box>
+              <Box>&nbsp;</Box>
             )}
+          </Box>
+          <Divider sx={{ width: '100%', backgroundColor: '#DE5173' }} />
+          <Box
+            sx={{
+              p: 1,
+              textAlign: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mt: 1,
+              flex: 1,
+            }}
+          >
+            <Typography
+              variant="subtitle2"
+              fontFamily="Times New Roman"
+              fontSize={18}
+            >
+              Gửi phản hồi
+            </Typography>
+            <TextField
+              id="outlined-textarea"
+              label="Phản hồi"
+              placeholder="Câu hỏi thắc mắc"
+              value={fb}
+              onChange={(event) => {
+                setFb(event.target.value);
+              }}
+              multiline
+              fullWidth
+              variant="standard"
+            />
           </Box>
         </Stack>
         <Button
           variant="gradient2"
-          sx={{ p: 1.25, width: "100%", fontSize: "12px", mt: 4 }}
+          sx={{ p: 1.25, width: '100%', fontSize: '12px', mt: 4 }}
           type="submit"
-          onClick={() => handleClose(userRating)}
+          onClick={() => handleClose(userRating, fb)}
         >
           Đồng ý
         </Button>

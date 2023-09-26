@@ -1,32 +1,40 @@
 // Libs
-import { Fragment, useEffect, useState } from "react";
-import dayjs from "dayjs";
+import { Fragment, useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 // UI Component
-import CalendarContainerLeft from "./CalendarContainerLeft";
-import { Box, Button, Dialog, Stack, Typography } from "@mui/material";
-import Reward from "./Reward";
-import { CustomSubtitleTypography, StyledButtonText } from "./style";
-import { useNavigate } from "react-router-dom";
+import CalendarContainerLeft from './CalendarContainerLeft';
+import { Box, Button, Dialog, Paper, Stack, Typography } from '@mui/material';
+import Reward from './Reward';
+import { CustomSubtitleTypography, StyledButtonText } from './style';
+import { useNavigate } from 'react-router-dom';
 // Data
-import { UpcomingLessonType } from "../../model/Lesson";
-import { getPrevLesson, getUpcomingLesson } from "../../api";
-import Countdown from "../../components/Countdown";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { appActions } from "../../redux/slices/appSlice";
-import GradeLBbtn from "../../components/GradeLBbtn";
-import AnswerBtn from "../../components/AnswerBtn";
-import LeaderBoard from "../../components/LeaderBoard";
-import { LBEnum } from "../../model/Standard";
+import { UpcomingLessonType } from '../../model/Lesson';
+import {
+  getClosestUpcomingLesson,
+  getPrevLesson,
+  getUpcomingLesson,
+} from '../../api';
+import Countdown from '../../components/Countdown';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import GradeLBbtn from '../../components/GradeLBbtn';
+import AnswerBtn from '../../components/AnswerBtn';
+import LeaderBoard from '../../components/LeaderBoard';
+import { LBEnum } from '../../model/Standard';
 
 const UpcomingEvent = () => {
+  const { timediff } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const { fetching, code } = useAppSelector((state) => state.lesson);
   const [upcomingLesson, setUpComingLesson] =
     useState<UpcomingLessonType | null>(null);
   const [prevLesson, setPrevLesson] = useState<UpcomingLessonType | null>(null);
-  const isLyThuyet = upcomingLesson?.lessonType === "LyThuyet";
+  const [closestLesson, setClosestLesson] = useState<UpcomingLessonType | null>(
+    null
+  );
+  const isLyThuyet = upcomingLesson?.lessonType === 'LyThuyet';
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +58,26 @@ const UpcomingEvent = () => {
     fetchPrevLesson(code);
   }, [code, fetching, dispatch]);
 
+  useEffect(() => {
+    const fetchClosestLesson = async () => {
+      try {
+        const { data: response } = await getClosestUpcomingLesson();
+        if (
+          dayjs(response.data.startTime).diff(
+            dayjs().add(timediff ? timediff : 0, 'second'),
+            'minutes'
+          ) <= 15
+        ) {
+          setClosestLesson(response.data);
+          setIsNotifyOpen(true);
+        }
+      } catch (err) {
+        setClosestLesson(null);
+      }
+    };
+    fetchClosestLesson();
+  }, [dispatch, timediff]);
+
   const handleShowPrevLeaderBoard = () => {
     setIsOpen(true);
   };
@@ -67,23 +95,23 @@ const UpcomingEvent = () => {
       {upcomingLesson ? (
         <Box
           sx={{
-            textAlign: "center",
+            textAlign: 'center',
             pb: 4,
-            position: "relative",
-            color: "#5A7F8F",
+            position: 'relative',
+            color: '#5A7F8F',
           }}
         >
           <Typography
             variant="h4"
             textTransform="uppercase"
             sx={{
-              fontFamily: "ArialUnicodeMS",
-              fontWeight: "600",
-              fontSize: "24px !important",
-              letterSpacing: ".05rem",
+              fontFamily: 'ArialUnicodeMS',
+              fontWeight: '600',
+              fontSize: '24px !important',
+              letterSpacing: '.05rem',
             }}
           >
-            {!isLyThuyet ? upcomingLesson.lessonContent : "HỌC LÝ THUYẾT"}
+            {!isLyThuyet ? upcomingLesson.lessonContent : 'HỌC LÝ THUYẾT'}
           </Typography>
 
           <CustomSubtitleTypography variant="subtitle2">
@@ -91,7 +119,7 @@ const UpcomingEvent = () => {
           </CustomSubtitleTypography>
 
           <CustomSubtitleTypography variant="subtitle2">
-            Ngày {dayjs(upcomingLesson?.startTime).format("DD-MM-YYYY - HH:mm")}
+            Ngày {dayjs(upcomingLesson?.startTime).format('DD-MM-YYYY - HH:mm')}
           </CustomSubtitleTypography>
           <Typography fontSize={28}>
             {!isLyThuyet
@@ -100,7 +128,7 @@ const UpcomingEvent = () => {
           </Typography>
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: "Segoe UI", fontWeight: "600", fontSize: "12px" }}
+            sx={{ fontFamily: 'Segoe UI', fontWeight: '600', fontSize: '12px' }}
           >
             <Countdown
               key={upcomingLesson?._id}
@@ -112,9 +140,9 @@ const UpcomingEvent = () => {
               <Typography
                 variant="subtitle1"
                 sx={{
-                  fontFamily: "Segoe UI",
-                  fontWeight: "700",
-                  fontSize: "14px",
+                  fontFamily: 'Segoe UI',
+                  fontWeight: '700',
+                  fontSize: '14px',
                   my: 2,
                 }}
               >
@@ -167,21 +195,21 @@ const UpcomingEvent = () => {
       ) : (
         <Box
           sx={{
-            textAlign: "center",
+            textAlign: 'center',
             py: 9,
-            position: "relative",
-            color: "#5A7F8F",
-            height: "200px",
+            position: 'relative',
+            color: '#5A7F8F',
+            height: '200px',
           }}
         >
           <Typography
             variant="h4"
             textTransform="uppercase"
             sx={{
-              fontFamily: "ArialUnicodeMS",
-              fontWeight: "600",
-              fontSize: "24px !important",
-              letterSpacing: ".05rem",
+              fontFamily: 'ArialUnicodeMS',
+              fontWeight: '600',
+              fontSize: '24px !important',
+              letterSpacing: '.05rem',
             }}
           >
             CHƯA CÓ BÀI HỌC MỚI
@@ -193,8 +221,8 @@ const UpcomingEvent = () => {
         fullWidth
         PaperProps={{
           style: {
-            backgroundColor: "transparent",
-            boxShadow: "none",
+            backgroundColor: 'transparent',
+            boxShadow: 'none',
           },
         }}
         onClose={() => setIsOpen(false)}
@@ -204,8 +232,47 @@ const UpcomingEvent = () => {
           examId={
             prevLesson && prevLesson.examId ? prevLesson.examId._id : undefined
           }
-          examName={prevLesson ? prevLesson.examId?.name : ""}
+          examName={prevLesson ? prevLesson.examId?.name : ''}
         />
+      </Dialog>
+      <Dialog
+        maxWidth="sm"
+        open={isNotifyOpen}
+        onClose={() => setIsNotifyOpen(false)}
+      >
+        <Paper sx={{ padding: 3, backgroundColor: 'white', maxWidth: 360 }}>
+          <Typography
+            fontSize="24px"
+            color="#39393A"
+            fontFamily="SegoeUISemiBold"
+            fontWeight="bold"
+            textAlign="center"
+            mb={3}
+          >
+            "{closestLesson?.examId?.name}" sắp diễn ra trong
+          </Typography>
+          <Typography
+            fontSize="24px"
+            color="#39393A"
+            fontFamily="SegoeUISemiBold"
+            fontWeight="bold"
+            textAlign="center"
+            mb={3}
+          >
+            <Countdown date={dayjs(closestLesson?.startTime)} />
+          </Typography>
+          <Button
+            variant="gradient2"
+            sx={{ p: 1.25, width: '100%', fontSize: '12px', mt: 4 }}
+            type="submit"
+            onClick={() => {
+              setIsNotifyOpen(false);
+              navigate(`/sheet/${closestLesson?.examId?.normalizedName}`);
+            }}
+          >
+            Tham gia ngay
+          </Button>
+        </Paper>
       </Dialog>
     </CalendarContainerLeft>
   );

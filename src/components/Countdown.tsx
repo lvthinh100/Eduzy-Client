@@ -1,6 +1,7 @@
-import dayjs, { Dayjs } from "dayjs";
-import duration from "dayjs/plugin/duration";
-import React, { useCallback } from "react";
+import dayjs, { Dayjs } from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import React, { useCallback } from 'react';
+import { useAppSelector } from '../hooks/redux';
 
 dayjs.extend(duration);
 
@@ -10,11 +11,11 @@ type PropsType = {
 };
 
 const Countdown: React.FC<PropsType> = ({ date, onTimeout }) => {
-  const [value, setValue] = React.useState("00:00:00");
+  const [value, setValue] = React.useState('00:00:00');
+  const { timediff } = useAppSelector((state) => state.app);
   const startUpdatingCountdown = useCallback(() => {
     const timer = setInterval(() => {
       const milisecond = date.diff() + 1000;
-
       // This trigger stop countdown
       if (milisecond < 0) {
         clearInterval(timer);
@@ -23,14 +24,14 @@ const Countdown: React.FC<PropsType> = ({ date, onTimeout }) => {
       }
 
       milisecond > 86400000
-        ? setValue(dayjs.duration(milisecond).format("DD:HH:mm:ss"))
-        : setValue(dayjs.duration(milisecond).format("HH:mm:ss"));
+        ? setValue(dayjs.duration(milisecond).format('DD:HH:mm:ss'))
+        : setValue(dayjs.duration(milisecond).format('HH:mm:ss'));
     }, 1000);
     return timer;
   }, [date, onTimeout]);
 
   React.useEffect(() => {
-    const now = dayjs();
+    const now = dayjs().add(timediff ? timediff : 0, 'second');
     const timeUntilNextSecond = 1000 - now.millisecond();
     const timeout = setTimeout(() => {
       const timer = startUpdatingCountdown();
@@ -42,7 +43,7 @@ const Countdown: React.FC<PropsType> = ({ date, onTimeout }) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [date, startUpdatingCountdown]);
+  }, [date, startUpdatingCountdown, timediff]);
 
   return <React.Fragment>{value}</React.Fragment>;
 };
