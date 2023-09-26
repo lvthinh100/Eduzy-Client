@@ -1,17 +1,19 @@
-import { SERVER } from "./constants/url";
-import axios from "axios";
-import { type } from "os";
+import { SERVER } from './constants/url';
+import axios from 'axios';
 import {
   AnswerType,
   FetchAnswerIdType,
   FetchAnswerType,
   LBReqType,
   UpdateHardLevelType,
-} from "./model/Exam";
-import { LoginData, SignUpData, UpdateProfileData } from "./model/Student";
+} from './model/Exam';
+import { LoginData, SignUpData } from './model/Student';
 
 export const getUpcomingLesson = async (type: string) =>
   axios.get(`${SERVER}/api/lessons/upcoming/${type}`);
+
+export const getClosestUpcomingLesson = async () =>
+  axios.get(`${SERVER}/api/lessons/upcoming`);
 
 export const getPrevLesson = async (type: string) =>
   axios.get(`${SERVER}/api/lessons/prev/${type}`);
@@ -33,7 +35,7 @@ export const getMe = async () =>
 export const updateProfile = async (data: FormData) =>
   axios.patch(`${SERVER}/api/students/updateMe`, data, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
     withCredentials: true,
   });
@@ -102,5 +104,17 @@ export const updateHardLevel = async (data: UpdateHardLevelType) => {
 export const getStudentLBs = async (data: LBReqType) => {
   const requestData = data;
   const response = await axios.post(`${SERVER}/api/leaderBoard`, requestData);
+  return response.data; // You can process the response as needed
+};
+
+//Feedback
+
+export const postFb = async (data: {
+  feedBack: string;
+  student: string;
+  exam: string;
+}) => {
+  const requestData = data;
+  const response = await axios.post(`${SERVER}/api/feedBack`, requestData);
   return response.data; // You can process the response as needed
 };

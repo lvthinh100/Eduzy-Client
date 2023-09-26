@@ -1,20 +1,24 @@
 // Libs
-import React from "react";
-import dayjs, { Dayjs } from "dayjs";
+import React from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 
 // UI
-import { Box, Paper, Typography, Stack } from "@mui/material";
-import { DateCalendar } from "@mui/x-date-pickers";
-import CustomDay from "../../components/CustomComponent/CustomPickerDay";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import { Box, Paper, Typography, Stack } from '@mui/material';
+import { DateCalendar } from '@mui/x-date-pickers';
+import CustomDay from '../../components/CustomComponent/CustomPickerDay';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 // Data
-import { getAllLesson } from "../../api";
-import { LessonType } from "../../model/Lesson";
+import { getAllLesson } from '../../api';
+import { LessonType } from '../../model/Lesson';
+import { useAppSelector } from '../../hooks/redux';
 
 const Schedule = () => {
-  const targetDate = dayjs("2024-06-27");
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
+  const { timediff } = useAppSelector((state) => state.app);
+  const targetDate = dayjs('2024-06-27');
+  const [value, setValue] = React.useState<Dayjs | null>(
+    dayjs().add(timediff ? timediff : 0, 'second')
+  );
   const [lessons, setLessons] = React.useState<[LessonType] | null>(null);
 
   React.useEffect(() => {
@@ -25,10 +29,13 @@ const Schedule = () => {
     fetchAllLesson();
   }, []);
 
-  const dayDifference = targetDate.diff(dayjs(), "day");
+  const dayDifference = targetDate.diff(
+    dayjs().add(timediff ? timediff : 0, 'second'),
+    'day'
+  );
 
   return (
-    <Box sx={{ textAlign: "center", p: 1, pt: 0.3, color: "#5A7F8F" }}>
+    <Box sx={{ textAlign: 'center', p: 1, pt: 0.3, color: '#5A7F8F' }}>
       <Typography variant="subtitle2" fontFamily="SegoeUISemiBold">
         Ngày thi - Chính Thức - 27/6/2024
       </Typography>
@@ -43,11 +50,11 @@ const Schedule = () => {
       </Typography>
       <Paper
         sx={{
-          backgroundColor: "#FDF5FA",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          color: "#494969",
+          backgroundColor: '#FDF5FA',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          color: '#494969',
         }}
       >
         {lessons && (
@@ -69,7 +76,7 @@ const Schedule = () => {
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
-              color: "date.exam",
+              color: 'date.exam',
             })}
           />
           <Typography
@@ -83,7 +90,7 @@ const Schedule = () => {
           <RadioButtonUncheckedIcon
             fontSize="small"
             sx={(theme) => ({
-              color: "date.lesson",
+              color: 'date.lesson',
             })}
           />
           <Typography
