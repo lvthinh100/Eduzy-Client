@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import './App.css';
 import MyRouter from './routes';
-import { getMe } from './api';
+import { getMe, getTime } from './api';
 import { useAppDispatch } from './hooks/redux';
 import { authActions } from './redux/slices/authSlice';
 import React from 'react';
 import dayjs from 'dayjs';
 import { appActions } from './redux/slices/appSlice';
+import { SERVER } from './constants/url';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -19,19 +20,15 @@ function App() {
         console.log(err);
       }
     };
-    const fetchTime = () => {
-      fetch('http://worldtimeapi.org/api/ip')
-        .then((response) => response.json())
-        .then((data) => {
-          const currentDatetime = data.datetime;
-          console.log('Current Datetime:', currentDatetime);
-          const timediff = dayjs(currentDatetime).diff(dayjs(), 'seconds');
-          console.log('timediff', timediff);
-          dispatch(appActions.setTimeDiff(timediff));
-        })
-        .catch((error) => {
-          console.error('Error fetching current time:', error);
-        });
+    const fetchTime = async () => {
+      try {
+        const { data: response } = await getTime();
+        const currentDatetime = response.datetime;
+        const timediff = dayjs(currentDatetime).diff(dayjs(), 'seconds');
+        dispatch(appActions.setTimeDiff(timediff));
+      } catch (error) {
+        console.error('Error fetching current time:', error);
+      }
     };
     fetchUser();
     fetchTime();
