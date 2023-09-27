@@ -1,4 +1,4 @@
-import React, { useRef, useState, RefObject, LegacyRef } from "react";
+import React, { useRef, useState, RefObject, LegacyRef } from 'react';
 import {
   Avatar,
   Box,
@@ -9,35 +9,35 @@ import {
   Theme,
   Typography,
   IconButton,
-} from "@mui/material";
-import landscape from "../../assets/landscape.jpg";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import CakeIcon from "@mui/icons-material/Cake";
+} from '@mui/material';
+import landscape from '../../assets/landscape.jpg';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CakeIcon from '@mui/icons-material/Cake';
 
 // RHF
-import FormProvider from "../RHF/FormProvider";
-import RHFInput from "../RHF/RHFTextField";
-import RHFRadioGroup from "../RHF/RHFRadioGroup";
-import RHFDateField from "../RHF/RHFDateField";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, SubmitHandler } from "react-hook-form";
+import FormProvider from '../RHF/FormProvider';
+import RHFInput from '../RHF/RHFTextField';
+import RHFRadioGroup from '../RHF/RHFRadioGroup';
+import RHFDateField from '../RHF/RHFDateField';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 // App Component
-import { StyledPaper } from "./style";
-import Crown from "../Crown";
+import { StyledPaper } from './style';
+import Crown from '../Crown';
 
 // Data
-import { StudentInfo, UpdateProfileData } from "../../model/Student";
-import { Gender } from "../../model/Standard";
-import dayjs from "dayjs";
-import content from "../../constants/content";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { MODAL, appActions } from "../../redux/slices/appSlice";
-import { updateProfile } from "../../api";
-import { authActions } from "../../redux/slices/authSlice";
-import Coins from "../Coins";
+import { StudentInfo, UpdateProfileData } from '../../model/Student';
+import { Gender } from '../../model/Standard';
+import dayjs from 'dayjs';
+import content from '../../constants/content';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { MODAL, appActions } from '../../redux/slices/appSlice';
+import { updateProfile } from '../../api';
+import { authActions } from '../../redux/slices/authSlice';
+import Coins from '../Coins';
 // Redux
 
 type PropsType = {
@@ -65,17 +65,17 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
   };
 
   const schema = yup.object().shape({
-    fullName: yup.string().required("Vui lòng nhập tên"),
+    fullName: yup.string().required('Vui lòng nhập tên'),
     dateOfBirth: yup
       .date()
-      .typeError("Vui lòng nhập ngày sinh hợp lệ")
-      .required("Vui lòng chọn ngày sinh")
-      .max(new Date(), "Vui lòng nhập ngày sinh ở quá khứ"),
-    gender: yup.mixed<Gender>().required("Vui lòng chọn giới tính"),
+      .typeError('Vui lòng nhập ngày sinh hợp lệ')
+      .required('Vui lòng chọn ngày sinh')
+      .max(new Date(), 'Vui lòng nhập ngày sinh ở quá khứ'),
+    gender: yup.mixed<Gender>().required('Vui lòng chọn giới tính'),
   });
 
   const methods = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
       fullName: user.fullName,
       dateOfBirth: dayjs(user.dateOfBirth, content.birthFormat).toDate(),
@@ -90,24 +90,22 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
     try {
       const formData = new FormData();
       if (avatarRef.current?.files)
-        formData.append("image", avatarRef.current.files[0]);
+        formData.append('image', avatarRef.current.files[0]);
 
       for (const [key, value] of Object.entries(data)) {
-        if (typeof value !== "string") {
+        if (typeof value !== 'string') {
           formData.append(key, value.toISOString());
           continue;
         }
         formData.append(key, value.toString());
       }
-
       const { data: response } = await updateProfile(formData);
-      console.log(response.data.user);
       dispatch(authActions.setUser({ user: response.data.user }));
       dispatch(appActions.closeModal(MODAL.UPDATE_PROFILE));
       dispatch(
         appActions.showNotification({
-          variant: "success",
-          message: "Cập nhật thông tin thành công",
+          variant: 'success',
+          message: 'Cập nhật thông tin thành công',
         })
       );
       setSelectedAvatarImg(null);
@@ -115,8 +113,8 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
       dispatch(appActions.closeModal(MODAL.UPDATE_PROFILE));
       dispatch(
         appActions.showNotification({
-          variant: "success",
-          message: "Cập nhật thông tin thất bại",
+          variant: 'success',
+          message: 'Cập nhật thông tin thất bại',
         })
       );
     }
@@ -127,8 +125,8 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
       <StyledPaper
         sx={{
           backgroundImage: `url(${landscape})`,
-          backgroundSize: "400px 400px",
-          backgroundPosition: "center top",
+          backgroundSize: '400px 400px',
+          backgroundPosition: 'center top',
         }}
       >
         <Typography
@@ -144,7 +142,7 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
               sx={{
                 width: 80,
                 height: 80,
-                border: "3px solid",
+                border: '3px solid',
                 borderColor: (theme: Theme) => theme.palette.highlighter.main,
               }}
               src={selectedAvatarImg ? selectedAvatarImg : user.avatar}
@@ -154,18 +152,18 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
             <IconButton
               component="label"
               sx={{
-                position: "absolute",
+                position: 'absolute',
                 bottom: 0,
                 right: 0,
-                padding: "3px",
+                padding: '3px',
                 backgroundColor: (theme: Theme) =>
                   `${theme.palette.highlighter.main} !important`,
-                "&:hover": {
+                '&:hover': {
                   opacity: 0.8,
                 },
               }}
             >
-              <CameraAltIcon sx={{ width: 25, height: 25, color: "black" }} />
+              <CameraAltIcon sx={{ width: 25, height: 25, color: 'black' }} />
               <input
                 type="file"
                 hidden
@@ -199,7 +197,7 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
           <Coins variant="first" value={user.coins} />
         </Stack>
         <Box
-          sx={{ p: 3, backgroundColor: "white", borderRadius: "30px 30px 0 0" }}
+          sx={{ p: 3, backgroundColor: 'white', borderRadius: '30px 30px 0 0' }}
         >
           <FormProvider<UpdateProfileData>
             methods={methods}
@@ -222,15 +220,15 @@ const UpdateProfileDialog: React.FC<PropsType> = ({ user }) => {
               name="gender"
               label="Giới tính"
               options={[
-                { value: "Nam", label: "Nam" },
-                { value: "Nữ", label: "Nữ" },
+                { value: 'Nam', label: 'Nam' },
+                { value: 'Nữ', label: 'Nữ' },
               ]}
               row
             />
             <Button
               variant="gradient"
               type="submit"
-              sx={{ display: "block", mx: "auto" }}
+              sx={{ display: 'block', mx: 'auto' }}
             >
               Xác nhận
             </Button>

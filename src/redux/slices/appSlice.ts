@@ -1,11 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const MODAL = {
+  CHANGE_PASSWORD: 'CHANGE_PASSWORD' as 'CHANGE_PASSWORD',
   UPDATE_PROFILE: 'UPDATE_PROFILE' as 'UPDATE_PROFILE',
   LOGIN: 'LOGIN' as 'LOGIN',
   REGISTER: 'REGISTER' as 'REGISTER',
 };
-type Modal = 'UPDATE_PROFILE' | 'LOGIN' | 'REGISTER';
+type Modal = 'CHANGE_PASSWORD' | 'UPDATE_PROFILE' | 'LOGIN' | 'REGISTER';
 
 const initialState = {
   timediff: null as number | null,
@@ -13,6 +14,7 @@ const initialState = {
   showLeaderBoardModal: false,
   showRegisterModal: false,
   showUpdateProfileModal: false,
+  showChangePasswordModal: false,
   notification: {
     open: false,
     variant: 'success',
@@ -66,6 +68,9 @@ const appSlice = createSlice({
         case MODAL.UPDATE_PROFILE:
           state.showUpdateProfileModal = true;
           break;
+        case MODAL.CHANGE_PASSWORD:
+          state.showChangePasswordModal = true;
+          break;
         case MODAL.LOGIN:
           state.showLoginModal = true;
           break;
@@ -81,6 +86,9 @@ const appSlice = createSlice({
       switch (action.payload) {
         case MODAL.UPDATE_PROFILE:
           state.showUpdateProfileModal = false;
+          break;
+        case MODAL.CHANGE_PASSWORD:
+          state.showChangePasswordModal = false;
           break;
         case MODAL.LOGIN:
           state.showLoginModal = false;

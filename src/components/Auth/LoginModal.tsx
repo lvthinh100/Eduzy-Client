@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   Paper,
@@ -12,44 +12,53 @@ import {
   Divider,
   IconButton,
   Box,
-} from "@mui/material";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import CloseIcon from "@mui/icons-material/Close";
+} from '@mui/material';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Data
-import { useForm, SubmitHandler } from "react-hook-form";
-import { appActions } from "../../redux/slices/appSlice";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { appActions } from '../../redux/slices/appSlice';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import RHFTextField from "../RHF/RHFTextField";
-import FormProvider from "../RHF/FormProvider";
+import RHFTextField from '../RHF/RHFTextField';
+import FormProvider from '../RHF/FormProvider';
 
-import { LoginData } from "../../model/Student";
-import { login } from "../../api";
-import { authActions } from "../../redux/slices/authSlice";
-import MESSAGE from "../../constants/message";
+import { LoginData } from '../../model/Student';
+import { login } from '../../api';
+import { authActions } from '../../redux/slices/authSlice';
+import MESSAGE from '../../constants/message';
 
 const LoginModal = () => {
   const open = useAppSelector((state) => state.app.showLoginModal);
   const dispatch = useAppDispatch();
   const schema = yup.object().shape({
-    username: yup.string().required("Vui lòng nhập tài khoản"),
+    username: yup.string().required('Vui lòng nhập tài khoản'),
     password: yup
       .string()
-      .min(6, "Mật khẩu phải ít nhất 6 ký tự")
-      .required("Vui lòng nhập mật khẩu"),
+      .min(6, 'Mật khẩu phải ít nhất 6 ký tự')
+      .required('Vui lòng nhập mật khẩu'),
   });
   const methods = useForm({
-    mode: "onChange",
-    defaultValues: { username: "", password: "" },
+    mode: 'onChange',
+    defaultValues: { username: '', password: '' },
     resolver: yupResolver(schema),
   });
 
   const handleClose = () => {
     dispatch(appActions.toggleShowLoginModal());
+  };
+
+  const handleForget = () => {
+    dispatch(
+      appActions.showNotification({
+        variant: 'error',
+        message: 'Vui lòng liên hệ fanpage để lấy lại mật khẩu',
+      })
+    );
   };
 
   const handleSubmitForm: SubmitHandler<LoginData> = async (
@@ -59,8 +68,8 @@ const LoginModal = () => {
       const { data: response } = await login(data);
       dispatch(
         appActions.showNotification({
-          variant: "success",
-          message: "Đăng nhập thành công",
+          variant: 'success',
+          message: 'Đăng nhập thành công',
         })
       );
       dispatch(
@@ -74,7 +83,7 @@ const LoginModal = () => {
     } catch (err) {
       dispatch(
         appActions.showNotification({
-          variant: "error",
+          variant: 'error',
           message: MESSAGE.WRONG_AUTH_INFO,
         })
       );
@@ -83,7 +92,7 @@ const LoginModal = () => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <Paper sx={{ padding: 3, backgroundColor: "white", maxWidth: 360 }}>
+      <Paper sx={{ padding: 3, backgroundColor: 'white', maxWidth: 360 }}>
         <Typography
           fontSize="30px"
           color="#39393A"
@@ -125,23 +134,24 @@ const LoginModal = () => {
               control={<Checkbox defaultChecked sx={{ p: 1, pr: 0.5 }} />}
               label="Ghi nhớ đăng nhập"
               sx={{
-                "& .MuiSvgIcon-root": { fontSize: 14 },
-                "& .MuiTypography-root": { fontSize: 12 },
+                '& .MuiSvgIcon-root': { fontSize: 14 },
+                '& .MuiTypography-root': { fontSize: 12 },
                 opacity: 0.6,
-                fontFamily: "_SegoeUINormal",
+                fontFamily: '_SegoeUINormal',
               }}
             />
 
             <Link
               sx={{
                 fontSize: 12,
-                fontFamily: "_SegoeUINormal",
-                "&:hover": {
+                fontFamily: '_SegoeUINormal',
+                '&:hover': {
                   opacity: 0.8,
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 },
-                textDecoration: "none",
+                textDecoration: 'none',
               }}
+              onClick={handleForget}
             >
               Quên mật khẩu?
             </Link>
@@ -150,7 +160,7 @@ const LoginModal = () => {
           <Stack mt={4} alignItems="center">
             <Button
               variant="gradient2"
-              sx={{ p: 1.25, width: "100%", fontSize: "12px" }}
+              sx={{ p: 1.25, width: '100%', fontSize: '12px' }}
               type="submit"
             >
               Đăng nhập
@@ -164,7 +174,7 @@ const LoginModal = () => {
         <IconButton
           aria-label="close"
           sx={{
-            position: "absolute",
+            position: 'absolute',
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],

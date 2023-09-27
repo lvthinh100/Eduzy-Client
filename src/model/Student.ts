@@ -1,5 +1,5 @@
-import { Dayjs } from "dayjs";
-import { Gender } from "./Standard";
+import { Dayjs } from 'dayjs';
+import { Gender } from './Standard';
 
 export type StudentInfo = {
   dateOfBirth: string;
@@ -17,18 +17,18 @@ export type StudentInfo = {
 };
 
 export const defaultUser: StudentInfo = {
-  dateOfBirth: "1/1/2006",
-  fullName: "",
-  gender: "Nam", // Set the default gender here
-  studentCode: "000000",
-  studentType: "",
-  username: "",
+  dateOfBirth: '1/1/2006',
+  fullName: '',
+  gender: 'Nam', // Set the default gender here
+  studentCode: '000000',
+  studentType: '',
+  username: '',
   coins: 0,
   crowns1: 0,
   crowns2: 0,
   crowns3: 0,
   _id: null,
-  avatar: "nah",
+  avatar: 'nah',
 };
 
 export type SignUpData = {
@@ -61,4 +61,9 @@ export type UpdateProfileData = {
   fullName: string;
   dateOfBirth: Date;
   gender: Gender;
+};
+
+export type ChangePasswordData = {
+  password: string;
+  password2: string;
 };
