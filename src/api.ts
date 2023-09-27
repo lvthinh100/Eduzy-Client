@@ -40,6 +40,14 @@ export const updateProfile = async (data: FormData) =>
     withCredentials: true,
   });
 
+export const changePassword = async (data: { password: string }) =>
+  axios.patch(`${SERVER}/api/students/updateMyPassword`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  });
+
 // Exams
 export const getExams = async () => axios.get(`${SERVER}/api/exams`);
 export const getExamById = async (id: string) =>

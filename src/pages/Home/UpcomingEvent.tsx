@@ -1,5 +1,5 @@
 // Libs
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 // UI Component
@@ -21,9 +21,12 @@ import GradeLBbtn from '../../components/GradeLBbtn';
 import AnswerBtn from '../../components/AnswerBtn';
 import LeaderBoard from '../../components/LeaderBoard';
 import { LBEnum } from '../../model/Standard';
+import useAuth from '../../hooks/useAuth';
+import { appActions } from '../../redux/slices/appSlice';
 
 const UpcomingEvent = () => {
   const { timediff } = useAppSelector((state) => state.app);
+  const { user } = useAuth();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
@@ -89,6 +92,24 @@ const UpcomingEvent = () => {
   const handleShowExam = () => {
     navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
   };
+
+  const handleGoToMeetingUrl = useCallback(
+    (url: string) => {
+      if (user && user.studentType === upcomingLesson?.lessonCode) {
+        console.log('true');
+        window.open(url, '_blank');
+      } else {
+        console.log('false');
+        dispatch(
+          appActions.showNotification({
+            variant: 'error',
+            message: 'Chỉ dành cho những học sinh đã đăng ký!',
+          })
+        );
+      }
+    },
+    [upcomingLesson?.lessonCode, user, dispatch]
+  );
 
   return (
     <CalendarContainerLeft>
@@ -184,11 +205,14 @@ const UpcomingEvent = () => {
             {isLyThuyet && (
               <Button
                 variant="gradient2"
-                LinkComponent="a"
-                href={upcomingLesson.lessonMeetingUrl}
+                onClick={() =>
+                  handleGoToMeetingUrl(upcomingLesson.lessonMeetingUrl)
+                }
               >
                 Tham gia học
               </Button>
+              // LinkComponent="a"
+              // href={upcomingLesson.lessonMeetingUrl}
             )}
           </Stack>
         </Box>
