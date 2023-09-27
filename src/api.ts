@@ -126,3 +126,7 @@ export const postFb = async (data: {
   const response = await axios.post(`${SERVER}/api/feedBack`, requestData);
   return response.data; // You can process the response as needed
 };
+
+//Time
+
+export const getTime = async () => axios.get(`${SERVER}/api/time`);
