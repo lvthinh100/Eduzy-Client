@@ -7,7 +7,6 @@ import { authActions } from './redux/slices/authSlice';
 import React from 'react';
 import dayjs from 'dayjs';
 import { appActions } from './redux/slices/appSlice';
-import { SERVER } from './constants/url';
 
 function App() {
   const dispatch = useAppDispatch();
