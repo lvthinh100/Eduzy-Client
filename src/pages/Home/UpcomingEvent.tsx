@@ -96,10 +96,8 @@ const UpcomingEvent = () => {
   const handleGoToMeetingUrl = useCallback(
     (url: string) => {
       if (user && user.studentType === upcomingLesson?.lessonCode) {
-        console.log('true');
         window.open(url, '_blank');
       } else {
-        console.log('false');
         dispatch(
           appActions.showNotification({
             variant: 'error',
