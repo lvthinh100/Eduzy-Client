@@ -1,11 +1,10 @@
 import React from "react";
 import { ListItem, Box, Typography, Stack, Avatar } from "@mui/material";
-import img from "../../assets/avatar.jpg";
 import Prize from "../Prize";
 import { StudentLBInfo } from "../../model/Student";
 import { AnswerEnum, LBEnum } from "../../model/Standard";
 import Crown from "../Crown";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import useResponsive from "../../hooks/useResponsive";
 
 interface StudentRankingProps {
   studentLB: StudentLBInfo;
@@ -18,6 +17,11 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
   type,
   index,
 }) => {
+  const isMobile = useResponsive("down", "sm");
+
+  const studentNameLabel = isMobile
+    ? studentLB.fullName.split(" ").slice(-2).join(" ")
+    : studentLB.fullName;
   return (
     <ListItem sx={{ px: 0 }}>
       <Box
@@ -44,15 +48,6 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
             : index.toString()}
         </Typography>
         <Stack direction="row" alignItems="center" flexGrow={1}>
-          {/* <Avatar
-            src={img}
-            sx={{
-              border: (theme) => `2px solid ${theme.palette.prize.first}`,
-              width: "56px",
-              height: "56px",
-              m: "4px",
-            }}
-          /> */}
           <Avatar
             src={studentLB?.avatar}
             sx={{
@@ -68,7 +63,7 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
               fontFamily="SegoeUISemiBold"
               color="#472422"
             >
-              {studentLB.fullName}
+              {studentNameLabel}
             </Typography>
             <Typography
               fontSize="10px"

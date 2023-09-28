@@ -53,7 +53,7 @@ const ListExams = () => {
         justifyContent: "center",
       }}
     >
-      <Grid item xs sx={{ minWidth: "500px" }}>
+      <Grid item xs>
         <Stack
           direction="column"
           alignItems="center"

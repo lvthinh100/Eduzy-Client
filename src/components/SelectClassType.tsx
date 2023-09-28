@@ -17,7 +17,6 @@ const SelectClassType = () => {
       const { data: response } = await getFilters();
       dispatch(filterActions.setFilters(response));
     } catch (err) {
-      console.log(err);
       dispatch(
         appActions.showNotification({
           variant: "success",
