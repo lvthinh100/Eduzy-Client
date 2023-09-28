@@ -15,7 +15,8 @@ const Countdown: React.FC<PropsType> = ({ date, onTimeout }) => {
   const { timediff } = useAppSelector((state) => state.app);
   const startUpdatingCountdown = useCallback(() => {
     const timer = setInterval(() => {
-      const milisecond = date.diff() + 1000;
+      const now = dayjs().add(timediff ? timediff : 0, 'second');
+      const milisecond = date.diff(now) + 1000;
       // This trigger stop countdown
       if (milisecond < 0) {
         clearInterval(timer);
@@ -28,7 +29,7 @@ const Countdown: React.FC<PropsType> = ({ date, onTimeout }) => {
         : setValue(dayjs.duration(milisecond).format('HH:mm:ss'));
     }, 1000);
     return timer;
-  }, [date, onTimeout]);
+  }, [date, onTimeout, timediff]);
 
   React.useEffect(() => {
     const now = dayjs().add(timediff ? timediff : 0, 'second');

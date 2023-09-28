@@ -28,6 +28,7 @@ import { authActions } from '../../redux/slices/authSlice';
 import Crown from '../Crown';
 import { Stack } from '@mui/material';
 import Coins from '../Coins';
+import paths from '../../constants/paths';
 
 function ResponsiveAppBar() {
   const dispatch = useAppDispatch();
@@ -282,7 +283,8 @@ function ResponsiveAppBar() {
 
           {/* Large */}
           <NavLinkStyled
-            href="google.com"
+            component={RouterLink}
+            to={paths.HOME}
             sx={{
               display: { xs: 'none', md: 'flex' },
               mr: 6,
