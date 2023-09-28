@@ -120,6 +120,7 @@ const StyledListbox = styled("ul")(
   background: ${theme.palette.background.paper};
   border: 0.5px solid ${grey[900]};
   color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+  z-index: 100;
   `
 );
 // box-shadow: 0px 4px 30px ${
@@ -162,5 +163,5 @@ export const StyledOption = styled(Option)(
 );
 
 const StyledPopper = styled(Popper)`
-  z-index: 1;
+  z-index: 1000;
 `;

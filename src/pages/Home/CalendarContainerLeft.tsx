@@ -12,7 +12,9 @@ const CalendarContainerLeft: React.FC<{ children: ReactNode }> = ({
         mt: 1,
         mr: { lg: 8, md: 0, xs: 0 },
         ml: { lg: 5, md: 0, xs: 0 },
-        minWidth: "320px",
+        minWidth: {
+          md: 320,
+        },
         zIndex: 100,
       }}
     >

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useCallback } from 'react';
+import { Fragment, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Button,
@@ -8,32 +8,33 @@ import {
   Grid,
   Stack,
   Typography,
-} from '@mui/material';
-import CodeFilling from '../../components/CodeFilling';
-import Sheet from './Sheet';
-import FillingText from './FillingText';
-import { StyledScoreLabel } from './style';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getExamByName, getMe, postFb, updateHardLevel } from '../../api';
-import { ExamType, UpdateHardLevelType, defaultExam } from '../../model/Exam';
-import NameDialog from './NameDialog';
-import useToggleOpen from '../../hooks/useToggleOpen';
-import useAuth from '../../hooks/useAuth';
-import dayjs from 'dayjs';
-import GenderTypography from './GenderTypography';
-import GradeLBbtn from '../../components/GradeLBbtn';
-import AnswerBtn from '../../components/AnswerBtn';
-import { StudentInfo, defaultUser } from '../../model/Student';
-import { useLocation } from 'react-router-dom';
-import ExamBtn from '../../components/ExamBtn';
-import timeState from './TimeState';
-import { ResultType } from '../../model/Exam';
-import GradeRankDialog from './GradeRankDialog';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { appActions } from '../../redux/slices/appSlice';
-import LeaderBoard from '../../components/LeaderBoard';
-import { LBEnum } from '../../model/Standard';
-import { authActions } from '../../redux/slices/authSlice';
+} from "@mui/material";
+import CodeFilling from "../../components/CodeFilling";
+import Sheet from "./Sheet";
+import FillingText from "./FillingText";
+import { StyledScoreLabel } from "./style";
+import { useNavigate, useParams } from "react-router-dom";
+import { getExamByName, getMe, postFb, updateHardLevel } from "../../api";
+import { ExamType, UpdateHardLevelType, defaultExam } from "../../model/Exam";
+import NameDialog from "./NameDialog";
+import useToggleOpen from "../../hooks/useToggleOpen";
+import useAuth from "../../hooks/useAuth";
+import dayjs from "dayjs";
+import GenderTypography from "./GenderTypography";
+import GradeLBbtn from "../../components/GradeLBbtn";
+import AnswerBtn from "../../components/AnswerBtn";
+import { StudentInfo, defaultUser } from "../../model/Student";
+import { useLocation } from "react-router-dom";
+import ExamBtn from "../../components/ExamBtn";
+import timeState from "./TimeState";
+import { ResultType } from "../../model/Exam";
+import GradeRankDialog from "./GradeRankDialog";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
+import LeaderBoard from "../../components/LeaderBoard";
+import { LBEnum } from "../../model/Standard";
+import { authActions } from "../../redux/slices/authSlice";
+import useResponsive from "../../hooks/useResponsive";
 
 const AnswerSheetPage = () => {
   const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ const AnswerSheetPage = () => {
   const { normalizedName } = useParams();
   const location = useLocation();
   const [isAnswerSheet, setIsAnswerSheet] = useState(
-    location.pathname.includes('/answersheet/')
+    location.pathname.includes("/answersheet/")
   );
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ const AnswerSheetPage = () => {
   const [result, setResult] = useState<ResultType | null>(null);
   const [hasOpen, setHasOpen] = useState(false); //Để form điểm hiện đúng 1 lần
   const [showBtn, setShowBtn] = useState(false);
+  const isMobile = useResponsive("down", "md");
   //Các state bao gồm:
   // isAnswerSheet
   // exam.isUpcoming
@@ -85,11 +87,11 @@ const AnswerSheetPage = () => {
     if (!exam.startTime) return timeState.beforeExam;
 
     if (isSubmitted && !exam.isUpcoming) return timeState.afterExam;
-    const currentTime = dayjs().add(timediff ? timediff : 0, 'second');
+    const currentTime = dayjs().add(timediff ? timediff : 0, "second");
     const startTime = dayjs(exam?.startTime);
     const endTime = startTime.add(
       exam?.duration ? exam.duration : 50,
-      'minute'
+      "minute"
     );
 
     if (currentTime.isBefore(startTime)) {
@@ -145,17 +147,17 @@ const AnswerSheetPage = () => {
   }, [unAuthName]);
 
   function getLastName(fullName: string) {
-    const nameParts = fullName.split(' ');
+    const nameParts = fullName.split(" ");
     if (nameParts.length < 1) {
-      return '';
+      return "";
     }
     const lastName = nameParts[nameParts.length - 1];
 
     const normalizedLastName = lastName
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D');
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D");
 
     return normalizedLastName;
   }
@@ -172,14 +174,14 @@ const AnswerSheetPage = () => {
         if (
           !fetchedExam.startTime &&
           !fetchedExam.isUpcoming &&
-          !location.pathname.includes('/answersheet/')
+          !location.pathname.includes("/answersheet/")
         ) {
           setShowBtn(true);
         }
 
         setExam(response.data);
       } catch (err) {
-        navigate('/error');
+        navigate("/error");
       }
     };
     fetchExam();
@@ -189,8 +191,8 @@ const AnswerSheetPage = () => {
     if (!exam) return;
     let newExam = exam;
     newExam.startTime = dayjs()
-      .add(timediff ? timediff : 0, 'second')
-      .add(5, 'second')
+      .add(timediff ? timediff : 0, "second")
+      .add(5, "second")
       .toString();
     setExam(newExam);
     setShowBtn(false);
@@ -213,11 +215,11 @@ const AnswerSheetPage = () => {
 
   const submitFb = useCallback(
     async (fb: string) => {
-      if (fb !== '') {
+      if (fb !== "") {
         const data = {
           feedBack: fb,
           student: student.fullName,
-          exam: exam ? exam.name : '',
+          exam: exam ? exam.name : "",
         };
         try {
           await postFb(data);
@@ -229,60 +231,68 @@ const AnswerSheetPage = () => {
 
   return (
     <Fragment>
-      <Container maxWidth="xl" sx={{ bgcolor: 'white' }}>
-        <Stack direction="column" alignItems="center" mb={2}>
-          <Typography variant="h3" fontFamily="Times New Roman">
-            PHIẾU TRẢ LỜI TRẮC NGHIỆM
-          </Typography>
-          <FillingText
-            label="Kỳ thi"
-            text="Luyện thi trung học phổ thông quốc gia"
-            paddingLeft={1}
-          />
-          <Stack direction="row">
+      <Container maxWidth="xl" sx={{ bgcolor: "white" }}>
+        {!isMobile && (
+          <Stack direction="column" alignItems="center" mb={2}>
+            <Typography variant="h3" fontFamily="Times New Roman">
+              PHIẾU TRẢ LỜI TRẮC NGHIỆM
+            </Typography>
             <FillingText
-              label="Bài thi"
-              text={exam?.subject || 'Vật Lý'}
-              sx={{ mr: 1 }}
-              paddingLeft={2}
+              label="Kỳ thi"
+              text="Luyện thi trung học phổ thông quốc gia"
+              paddingLeft={1}
             />
-            <FillingText
-              label="Ngày thi"
-              text={
-                exam && exam.startTime
-                  ? dayjs(exam.startTime).format('DD/MM/YYYY').toString()
-                  : dayjs()
-                      .add(timediff ? timediff : 0, 'second')
-                      .format('DD/MM/YYYY')
-                      .toString()
-              }
-              paddingLeft={2}
-            />
+            <Stack direction="row">
+              <FillingText
+                label="Bài thi"
+                text={exam?.subject || "Vật Lý"}
+                sx={{ mr: 1 }}
+                paddingLeft={2}
+              />
+              <FillingText
+                label="Ngày thi"
+                text={
+                  exam && exam.startTime
+                    ? dayjs(exam.startTime).format("DD/MM/YYYY").toString()
+                    : dayjs()
+                        .add(timediff ? timediff : 0, "second")
+                        .format("DD/MM/YYYY")
+                        .toString()
+                }
+                paddingLeft={2}
+              />
+            </Stack>
           </Stack>
-        </Stack>
+        )}
+        <Typography
+          textAlign="center"
+          variant="h3"
+          fontFamily="Times New Roman"
+        >
+          {exam?.name}
+        </Typography>
         <Grid
           container
-          spacing={1}
           sx={{
-            justifyContent: 'center',
+            justifyContent: "center",
           }}
         >
-          <Grid item style={{ width: '200px' }}>
+          <Grid item style={{ width: "200px" }}>
             <Stack
               sx={{
-                direction: 'column',
-                justifyContent: 'center',
-                height: '100%',
-                border: '1px solid #DE5173',
-                display: 'flex', // Make the Stack a flex container
-                flexDirection: 'column',
+                direction: "column",
+                justifyContent: "center",
+                height: "100%",
+                border: "1px solid #DE5173",
+                display: "flex", // Make the Stack a flex container
+                flexDirection: "column",
               }}
             >
               <Box
                 sx={{
                   p: 1,
-                  textAlign: 'center',
-                  mb: 'auto',
+                  textAlign: "center",
+                  mb: "auto",
                   flex: 1,
                 }}
               >
@@ -317,11 +327,11 @@ const AnswerSheetPage = () => {
                   </Stack>
                 )}
               </Box>
-              <Divider sx={{ width: '100%', backgroundColor: '#DE5173' }} />
+              <Divider sx={{ width: "100%", backgroundColor: "#DE5173" }} />
               <Box
                 sx={{
                   p: 1,
-                  textAlign: 'center',
+                  textAlign: "center",
                   mt: 1,
                   flex: 1,
                 }}
@@ -358,52 +368,52 @@ const AnswerSheetPage = () => {
             item
             xs
             sx={{
-              display: { md: 'block', xs: 'none' },
+              display: { md: "block", xs: "none" },
             }}
           >
             <Stack
               direction="column"
               alignItems="flex-start"
               justifyContent="space-between"
-              sx={{ height: '100%', p: 1, border: '1px solid #DE5173' }}
+              sx={{ height: "100%", p: 1, border: "1px solid #DE5173" }}
             >
               <FillingText
                 width="100%"
                 paddingLeft={2}
                 label="1.Hội Đồng thi"
                 text="Eduzy"
-                sx={{ width: '100%' }}
+                sx={{ width: "100%" }}
               />
               <FillingText
-                sx={{ width: '100%' }}
+                sx={{ width: "100%" }}
                 paddingLeft={2}
                 label="2.Điểm thi"
                 text="Eduzy"
               />
               <FillingText
-                sx={{ width: '100%' }}
+                sx={{ width: "100%" }}
                 paddingLeft={2}
                 label="3.Phòng thi số"
                 text="Eduzy001"
               />
               <FillingText
-                sx={{ width: '100%' }}
+                sx={{ width: "100%" }}
                 paddingLeft={2}
                 label="4.Họ và tên thí sinh"
-                text={student?.fullName || '___'}
+                text={student?.fullName || "___"}
               />
               <Stack direction="row">
                 <FillingText
-                  sx={{ width: '100%' }}
+                  sx={{ width: "100%" }}
                   paddingLeft={2}
                   label="5.Ngày sinh"
-                  text={student?.dateOfBirth || '1/1/2006'}
+                  text={student?.dateOfBirth || "1/1/2006"}
                 />
                 <GenderTypography isMale={false} />
               </Stack>
 
               <FillingText
-                sx={{ width: '100%', fontWeight: 'bold' }}
+                sx={{ width: "100%", fontWeight: "bold" }}
                 paddingLeft={2}
                 label="6.Chữ ký của thí sinh"
                 text={getLastName(student.fullName)}
@@ -415,9 +425,9 @@ const AnswerSheetPage = () => {
           <Grid
             item
             sx={{
-              width: '240px',
+              width: "240px",
               mt: { md: -3, xs: 0 },
-              display: { md: 'block', xs: 'none' },
+              display: { md: "block", xs: "none" },
             }}
           >
             <Stack direction="row">
@@ -432,7 +442,7 @@ const AnswerSheetPage = () => {
                   fontFamily="Times New Roman"
                   fontSize={18}
                 >
-                  7.Số báo danh:{' '}
+                  7.Số báo danh:{" "}
                 </Typography>
                 <CodeFilling id={student.studentCode} />
               </Stack>
@@ -446,16 +456,16 @@ const AnswerSheetPage = () => {
                   fontFamily="Times New Roman"
                   fontSize={18}
                 >
-                  8.Mã đề thi:{' '}
+                  8.Mã đề thi:{" "}
                 </Typography>
-                <CodeFilling id={exam ? exam.examCode : '000'} />
+                <CodeFilling id={exam ? exam.examCode : "000"} />
               </Stack>
             </Stack>
           </Grid>
           <Grid container>
             <Grid item md={12}>
               <Divider
-                sx={{ my: 1, width: '100%', backgroundColor: 'red' }}
+                sx={{ my: 1, width: "100%", backgroundColor: "red" }}
                 flexItem
               />
             </Grid>
@@ -472,32 +482,23 @@ const AnswerSheetPage = () => {
                     Nhấn nút để bắt đầu làm bài
                   </Typography>
                 </Grid>
-                <Grid
-                  container
-                  spacing={1}
-                  my={2}
-                  bgcolor="#fae9ea"
-                  height="500px"
-                >
-                  <Grid item xs>
-                    <Box
-                      sx={{
-                        maxHeight: 'calc(100vh + 50px)',
-                        overflowY: 'scroll',
-                        border: '1px solid #DE5173',
-                        textAlign: 'center',
-                      }}
+                <Grid my={2} bgcolor="#fae9ea" height="500px" item xs={12}>
+                  <Box
+                    sx={{
+                      maxHeight: "calc(100vh + 50px)",
+                      overflowY: "scroll",
+                      border: "1px solid #DE5173",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Button
+                      variant="gradient"
+                      sx={{ my: 1, width: "150px" }}
+                      onClick={handleStart}
                     >
-                      <Button
-                        variant="gradient"
-                        sx={{ my: 1, width: '150px' }}
-                        onClick={handleStart}
-                      >
-                        {' '}
-                        Bắt đầu{' '}
-                      </Button>
-                    </Box>
-                  </Grid>
+                      Bắt đầu
+                    </Button>
+                  </Box>
                 </Grid>
               </Fragment>
             ) : (
@@ -549,8 +550,8 @@ const AnswerSheetPage = () => {
         fullWidth
         PaperProps={{
           style: {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
+            backgroundColor: "transparent",
+            boxShadow: "none",
           },
         }}
         onClose={() => dispatch(appActions.toggleShowLeaderBoardModal())}
@@ -558,7 +559,7 @@ const AnswerSheetPage = () => {
         <LeaderBoard
           type={LBEnum.score}
           examId={exam && exam._id ? exam._id : undefined}
-          examName={exam ? exam.name : ''}
+          examName={exam ? exam.name : ""}
         />
       </Dialog>
     </Fragment>

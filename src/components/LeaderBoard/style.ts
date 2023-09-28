@@ -1,4 +1,4 @@
-import { styled, Badge, BadgeProps, Box, BoxProps } from "@mui/material";
+import { styled, Badge, BadgeProps, Box, BoxProps, Theme } from "@mui/material";
 
 export const StyledBadge = styled(Badge)<BadgeProps>(
   ({ theme, badgeContent }) => ({
@@ -20,10 +20,10 @@ export const StyledBadge = styled(Badge)<BadgeProps>(
   })
 );
 export const StandingBox = styled(Box)<BoxProps>(({ theme }) => ({
-  width: "80%",
   borderRadius: "30px 30px 0 0",
   p: 1,
   color: "white",
   fontSize: 25,
   fontWeight: "bold",
+  fontFamily: "SegoeUISemiBold",
 }));
