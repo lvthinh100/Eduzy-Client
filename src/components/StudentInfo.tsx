@@ -1,11 +1,10 @@
 import React from "react";
 import { Stack, Avatar, Typography } from "@mui/material";
-import img from "../assets/avatar.jpg";
 import Prize from "./Prize";
 import { StudentLBInfo } from "../model/Student";
 import { LBEnum } from "../model/Standard";
 import Crown from "./Crown";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import useResponsive from "../hooks/useResponsive";
 
 interface StudentInfoProps {
   studentLB: StudentLBInfo;
@@ -13,28 +12,25 @@ interface StudentInfoProps {
 }
 
 const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
+  const isMobile = useResponsive("down", "sm");
+  const studentNameLabel = isMobile
+    ? studentLB.fullName.split(" ").slice(-2).join(" ")
+    : studentLB.fullName;
+  const crownFontSize = isMobile ? 10 : undefined;
+
   return (
     <Stack direction="column" alignItems="center">
-      {/* <Avatar
-        src={img}
-        sx={{
-          border: (theme) => `2px solid ${theme.palette.prize.first}`,
-          width: "56px",
-          height: "56px",
-          m: "4px",
-        }}
-      /> */}
       <Avatar
         src={studentLB?.avatar}
         sx={{
-          width: "56px",
-          height: "56px",
+          width: { md: "56px", sm: "40px" },
+          height: { md: "56px", sm: "40px" },
           m: "4px",
           backgroundColor: "#fff",
         }}
       ></Avatar>
       <Typography
-        fontSize="14px"
+        fontSize="12px"
         fontFamily="SegoeUISemiBold"
         maxWidth={200}
         overflow="hidden"
@@ -42,7 +38,7 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
         whiteSpace="nowrap"
         color="#472422"
       >
-        {studentLB.fullName}
+        {studentNameLabel}
       </Typography>
       <Typography fontSize="10px" fontFamily="SegoeUISemiBold" color="#472422">
         #{studentLB.studentCode}
@@ -59,16 +55,19 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
       {type === LBEnum.achievement && (
         <Stack direction="row" display="flex" alignItems="center" mb={0.5}>
           <Crown
+            fontSize={crownFontSize}
             quantity={studentLB.crowns1}
             variant="first"
             style={{ margin: "0px 5px" }}
           />
           <Crown
+            fontSize={crownFontSize}
             quantity={studentLB.crowns2}
             variant="second"
             style={{ margin: "0px 5px" }}
           />
           <Crown
+            fontSize={crownFontSize}
             quantity={studentLB.crowns3}
             variant="third"
             style={{ margin: "0px 5px" }}

@@ -2,8 +2,25 @@ import React from "react";
 import img from "../../assets/Reward.png";
 import { Box, CardMedia } from "@mui/material";
 import Prize from "../../components/Prize";
+import useResponsive from "../../hooks/useResponsive";
 
 const Reward = () => {
+  const isMobile = useResponsive("down", "sm");
+  const prizePos = {
+    first: {
+      x: -20,
+      y: isMobile ? 115 : 128,
+    },
+    second: {
+      x: isMobile ? 8 : 10,
+      y: 44,
+    },
+    thirst: {
+      x: isMobile ? 20 : 25,
+      y: isMobile ? 190 : 214,
+    },
+  };
+  const prizeFontSize = isMobile ? 10 : undefined;
   return (
     <Box sx={{ mt: 1 }}>
       <Box
@@ -17,7 +34,10 @@ const Reward = () => {
         <CardMedia
           component="img"
           sx={{
-            height: 120,
+            height: {
+              sm: 120,
+              xs: 105,
+            },
             objectFit: "contain",
             width: "fit-content",
             mx: "auto",
@@ -26,14 +46,38 @@ const Reward = () => {
           }}
           src={img}
         />
-        <Box position="absolute" sx={{ top: 10, left: 44 }}>
-          <Prize direction="column" variant="second" value={22000} />
+        <Box
+          position="absolute"
+          sx={{ top: prizePos.second.x, left: prizePos.second.y }}
+        >
+          <Prize
+            fontSize={prizeFontSize}
+            direction="column"
+            variant="second"
+            value={22000}
+          />
         </Box>
-        <Box position="absolute" sx={{ top: -20, left: 128 }}>
-          <Prize direction="column" variant="first" value={33000} />
+        <Box
+          position="absolute"
+          sx={{ top: prizePos.first.x, left: prizePos.first.y }}
+        >
+          <Prize
+            fontSize={prizeFontSize}
+            direction="column"
+            variant="first"
+            value={33000}
+          />
         </Box>
-        <Box position="absolute" sx={{ top: 25, left: 214 }}>
-          <Prize direction="column" variant="third" value={11000} />
+        <Box
+          position="absolute"
+          sx={{ top: prizePos.thirst.x, left: prizePos.thirst.y }}
+        >
+          <Prize
+            fontSize={prizeFontSize}
+            direction="column"
+            variant="third"
+            value={11000}
+          />
         </Box>
       </Box>
     </Box>
