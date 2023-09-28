@@ -10,6 +10,7 @@ import {
   Fab,
   Dialog,
   IconButton,
+  Divider,
 } from "@mui/material";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import CloseIcon from "@mui/icons-material/Close";
@@ -468,7 +469,12 @@ const Sheet: React.FC<PropsType> = ({
           >
             <FormatListNumberedIcon />
           </Fab>
-          <Dialog open={openAnswer} maxWidth="md" onClose={handleCloseAnswer}>
+          <Dialog
+            open={openAnswer}
+            maxWidth="lg"
+            fullWidth
+            onClose={handleCloseAnswer}
+          >
             <Typography
               fontFamily="Times New Roman"
               fontWeight="bold"
@@ -478,76 +484,105 @@ const Sheet: React.FC<PropsType> = ({
             >
               PHIẾU TRẢ LỜI
             </Typography>
-            <Box sx={{ px: 2 }}>
+            <Box sx={{ px: 2, background: "white" }}>
               <Grid
                 container
-                direction="column"
                 sx={{ padding: 1, my: 2, border: "1px solid #DE5173" }}
               >
-                {answerSheet.map((value, index: number) => (
-                  <Grid item xs={6} key={index}>
-                    <Stack
-                      key={index}
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="center"
-                      sx={{
-                        backgroundColor:
-                          currentState === timeState.afterExam && result
-                            ? answerSheet[index] === exam.answerSheet[index]
-                              ? "#AAD0AA"
-                              : "#EAC8C8"
-                            : "white",
-                      }}
-                    >
-                      <Typography fontFamily="Times New Roman" minWidth={20}>
-                        {index + 1}
-                      </Typography>
-                      <RadioGroup
-                        value={answerSheet[index]}
-                        row
-                        onChange={generateChangeEventHandler(index)}
-                      >
-                        <AnswerRadio
-                          value="A"
-                          isGreen={
-                            currentState === timeState.afterExam &&
-                            result !== null &&
-                            answerSheet[index] !== exam.answerSheet[index] &&
-                            exam.answerSheet[index] === "A"
-                          }
-                        />
-                        <AnswerRadio
-                          value="B"
-                          isGreen={
-                            currentState === timeState.afterExam &&
-                            result !== null &&
-                            answerSheet[index] !== exam.answerSheet[index] &&
-                            exam.answerSheet[index] === "B"
-                          }
-                        />
-                        <AnswerRadio
-                          value="C"
-                          isGreen={
-                            currentState === timeState.afterExam &&
-                            result !== null &&
-                            answerSheet[index] !== exam.answerSheet[index] &&
-                            exam.answerSheet[index] === "C"
-                          }
-                        />
-                        <AnswerRadio
-                          value="D"
-                          isGreen={
-                            currentState === timeState.afterExam &&
-                            result !== null &&
-                            answerSheet[index] !== exam.answerSheet[index] &&
-                            exam.answerSheet[index] === "D"
-                          }
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </Grid>
-                ))}
+                {/* convert answerSheet to [ [Q,Q,Q,Q,Q], [Q,Q,Q,Q,Q], [Q,Q,Q,Q,Q] ] then mapping into chunk of 5 element  */}
+                {answerSheet
+                  .reduce((groups: any[], current, index) => {
+                    if (index % 5 === 0) {
+                      groups.push([]);
+                    }
+                    groups[groups.length - 1].push(current);
+                    return groups;
+                  }, [])
+                  .map((group, index: number) => (
+                    <Grid item xs={12} sm={6} key={index}>
+                      <Stack direction="column" sx={{ px: { sm: 1 } }}>
+                        {group.map((v: any, index2: number) => {
+                          const currentIndex = index * 5 + index2;
+                          return (
+                            <Stack key={currentIndex}>
+                              <Stack
+                                key={currentIndex}
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="center"
+                                sx={{
+                                  backgroundColor:
+                                    currentState === timeState.afterExam &&
+                                    result
+                                      ? answerSheet[currentIndex] ===
+                                        exam.answerSheet[currentIndex]
+                                        ? "#AAD0AA"
+                                        : "#EAC8C8"
+                                      : "white",
+                                }}
+                              >
+                                <Typography
+                                  fontFamily="Times New Roman"
+                                  minWidth={20}
+                                >
+                                  {currentIndex + 1}
+                                </Typography>
+                                <RadioGroup
+                                  value={answerSheet[currentIndex]}
+                                  row
+                                  onChange={generateChangeEventHandler(
+                                    currentIndex
+                                  )}
+                                >
+                                  <AnswerRadio
+                                    value="A"
+                                    isGreen={
+                                      currentState === timeState.afterExam &&
+                                      result !== null &&
+                                      answerSheet[currentIndex] !==
+                                        exam.answerSheet[currentIndex] &&
+                                      exam.answerSheet[currentIndex] === "A"
+                                    }
+                                  />
+                                  <AnswerRadio
+                                    value="B"
+                                    isGreen={
+                                      currentState === timeState.afterExam &&
+                                      result !== null &&
+                                      answerSheet[currentIndex] !==
+                                        exam.answerSheet[currentIndex] &&
+                                      exam.answerSheet[currentIndex] === "B"
+                                    }
+                                  />
+                                  <AnswerRadio
+                                    value="C"
+                                    isGreen={
+                                      currentState === timeState.afterExam &&
+                                      result !== null &&
+                                      answerSheet[currentIndex] !==
+                                        exam.answerSheet[currentIndex] &&
+                                      exam.answerSheet[currentIndex] === "C"
+                                    }
+                                  />
+                                  <AnswerRadio
+                                    value="D"
+                                    isGreen={
+                                      currentState === timeState.afterExam &&
+                                      result !== null &&
+                                      answerSheet[currentIndex] !==
+                                        exam.answerSheet[currentIndex] &&
+                                      exam.answerSheet[currentIndex] === "D"
+                                    }
+                                  />
+                                </RadioGroup>
+                              </Stack>
+                            </Stack>
+                          );
+                        })}
+                      </Stack>
+                      <Divider flexItem sx={{ my: 1 }} />
+                    </Grid>
+                  ))}
               </Grid>
             </Box>
 
