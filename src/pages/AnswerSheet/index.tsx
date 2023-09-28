@@ -482,14 +482,7 @@ const AnswerSheetPage = () => {
                     Nhấn nút để bắt đầu làm bài
                   </Typography>
                 </Grid>
-                <Grid
-                  spacing={1}
-                  my={2}
-                  bgcolor="#fae9ea"
-                  height="500px"
-                  item
-                  xs={12}
-                >
+                <Grid my={2} bgcolor="#fae9ea" height="500px" item xs={12}>
                   <Box
                     sx={{
                       maxHeight: "calc(100vh + 50px)",
