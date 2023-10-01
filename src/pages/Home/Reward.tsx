@@ -8,15 +8,15 @@ const Reward = () => {
   const isMobile = useResponsive('down', 'sm');
   const prizePos = {
     first: {
-      x: -20,
+      x: 0,
       y: isMobile ? 115 : 128,
     },
     second: {
-      x: isMobile ? 8 : 10,
-      y: 44,
+      x: isMobile ? 26 : 30,
+      y: isMobile ? 40 : 44,
     },
     thirst: {
-      x: isMobile ? 20 : 25,
+      x: isMobile ? 40 : 45,
       y: isMobile ? 190 : 214,
     },
   };
@@ -29,7 +29,7 @@ const Reward = () => {
           width: 'auto',
           display: 'inline-block',
           left: 'inherit',
-          height: 130,
+          height: 140,
           mx: 'auto',
         }}
       >
