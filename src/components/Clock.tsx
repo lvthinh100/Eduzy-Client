@@ -4,6 +4,7 @@ import img from '../assets/KeSach2.jpg';
 
 import { Box, Typography, CardMedia, Stack } from '@mui/material';
 import { useAppSelector } from '../hooks/redux';
+import { autoBatchEnhancer } from '@reduxjs/toolkit';
 
 const Clock = () => {
   const format = 'HH:mm:ss';
@@ -44,7 +45,9 @@ const Clock = () => {
         component="img"
         sx={{
           height: 130,
-          display: 'table',
+          width: 'auto',
+          display: 'inline-block',
+          left: 'inherit',
           position: 'relative',
         }}
         src={img}
