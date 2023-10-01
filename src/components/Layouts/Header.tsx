@@ -29,6 +29,7 @@ import Crown from '../Crown';
 import { Stack } from '@mui/material';
 import Coins from '../Coins';
 import paths from '../../constants/paths';
+import theme from '../../theme';
 
 function ResponsiveAppBar() {
   const dispatch = useAppDispatch();
@@ -218,14 +219,28 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ minHeight: '50px !important' }}>
           {/* Mobile */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: {
+                xs: 'flex',
+                md: 'none',
+              },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{
+                color: (theme) => theme.palette.lighter.main,
+                opacity: 0.6,
+                '&:hover': {
+                  opacity: 1,
+                },
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -272,10 +287,8 @@ function ResponsiveAppBar() {
                     mr: 2,
                     flexGrow: 1,
                     color: 'inherit',
-                    textDecoration: 'none',
                     fontSize: '18px',
-                    letterSpacing: '.1rem',
-                    fontFamily: 'Montserrat',
+                    fontFamily: '_MontserratBold',
                     mx: 1,
                   }}
                   component={RouterLink}
@@ -295,10 +308,8 @@ function ResponsiveAppBar() {
               display: { xs: 'none', md: 'flex' },
               mr: 6,
               ml: 3,
-              textTransform: 'none',
               fontSize: '18px',
-              letterSpacing: '.05rem',
-              fontFamily: 'Montserrat',
+              fontFamily: '_MontserratBold',
             }}
           >
             {content.LOGO}

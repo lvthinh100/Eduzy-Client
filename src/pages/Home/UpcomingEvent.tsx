@@ -146,7 +146,7 @@ const UpcomingEvent = () => {
           </Typography>
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: 'Segoe UI', fontSize: '12px' }}
+            sx={{ fontFamily: 'SegoeUISemiBold', fontSize: 12 }}
           >
             <Countdown
               key={upcomingLesson?._id}
@@ -158,8 +158,8 @@ const UpcomingEvent = () => {
               <Typography
                 variant="subtitle1"
                 sx={{
-                  fontFamily: 'Segoe UI',
-                  fontSize: '14px',
+                  fontFamily: 'SegoeUISemiBold',
+                  fontSize: 14,
                   my: 2,
                 }}
               >

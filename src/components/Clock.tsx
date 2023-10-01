@@ -44,8 +44,7 @@ const Clock = () => {
         component="img"
         sx={{
           height: 130,
-          objectFit: 'contain',
-          width: 'fit-content',
+          display: 'table',
           position: 'relative',
         }}
         src={img}
