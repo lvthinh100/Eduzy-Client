@@ -26,7 +26,9 @@ const Reward = () => {
       <Box
         sx={{
           position: 'relative',
-          width: 'fit-content',
+          width: 'auto',
+          display: 'inline-block',
+          left: 'inherit',
           height: 130,
           mx: 'auto',
         }}
@@ -38,8 +40,9 @@ const Reward = () => {
               sm: 120,
               xs: 105,
             },
-            objectFit: 'contain',
-            width: 'fit-content',
+            width: 'auto',
+            display: 'inline-block',
+            left: 'inherit',
             mx: 'auto',
             mt: '20px',
             position: 'relative',
