@@ -51,7 +51,6 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
           fontSize="30px"
           color="#39393A"
           fontFamily="SegoeUISemiBold"
-          fontWeight="bold"
           textAlign="center"
           mb={3}
         >

@@ -1,5 +1,5 @@
-import React from "react";
-import { Stack, Typography, SxProps } from "@mui/material";
+import React from 'react';
+import { Stack, Typography, SxProps } from '@mui/material';
 
 type PropsType = {
   label: string;
@@ -19,8 +19,7 @@ const FillingText: React.FC<PropsType> = ({
   fontFamily,
 }) => {
   const signatureStyle = {
-    fontSize: "20px",
-    fontWeight: "bolder",
+    fontSize: '20px',
   };
   return (
     <Stack
@@ -39,12 +38,12 @@ const FillingText: React.FC<PropsType> = ({
       </Typography>
       <Typography
         sx={{
-          display: "block",
-          minWidth: "150px",
-          borderBottom: "2px dotted black",
-          lineHeight: "12px",
-          color: "#4845C4",
-          ...(fontFamily === "Signature" && signatureStyle),
+          display: 'block',
+          minWidth: '150px',
+          borderBottom: '2px dotted black',
+          lineHeight: '12px',
+          color: '#4845C4',
+          ...(fontFamily === 'Signature' && signatureStyle),
         }}
         pl={paddingLeft}
         width={width}
@@ -58,7 +57,7 @@ const FillingText: React.FC<PropsType> = ({
 };
 
 FillingText.defaultProps = {
-  fontFamily: "HandWriting",
+  fontFamily: 'HandWriting',
 };
 
 export default FillingText;

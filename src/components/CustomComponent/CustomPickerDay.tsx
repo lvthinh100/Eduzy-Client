@@ -1,11 +1,11 @@
-import * as React from "react";
-import dayjs, { Dayjs, duration } from "dayjs";
-import isBetweenPlugin from "dayjs/plugin/isBetween";
-import { styled } from "@mui/material/styles";
-import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
-import { Box, Popover, Typography } from "@mui/material";
-import { LessonType } from "../../model/Lesson";
-import { useAppSelector } from "../../hooks/redux";
+import * as React from 'react';
+import dayjs, { Dayjs, duration } from 'dayjs';
+import isBetweenPlugin from 'dayjs/plugin/isBetween';
+import { styled } from '@mui/material/styles';
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { Box, Popover, Typography } from '@mui/material';
+import { LessonType } from '../../model/Lesson';
+import { useAppSelector } from '../../hooks/redux';
 
 dayjs.extend(isBetweenPlugin);
 
@@ -14,31 +14,31 @@ interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
 }
 
 const CustomPickersDay = styled(PickersDay, {
-  shouldForwardProp: (prop) => prop !== "lessonType",
+  shouldForwardProp: (prop) => prop !== 'lessonType',
 })<CustomPickerDayProps>(({ theme, lessonType, selected, today }) => ({
-  fontWeight: "bold",
-  color: today ? "#212020 !important" : "inherit",
+  fontWeight: 'bold',
+  color: today ? '#212020 !important' : 'inherit',
   backgroundColor: today
-    ? "#FEB102 !important"
+    ? '#FEB102 !important'
     : selected
-    ? "#999 !important"
-    : "inherit",
+    ? '#999 !important'
+    : 'inherit',
   ...(today &&
-    lessonType === "LuyenDe" && {
-      backgroundColor: theme.palette.date.exam + " !important",
+    lessonType === 'LuyenDe' && {
+      backgroundColor: theme.palette.date.exam + ' !important',
     }),
   ...(today &&
-    lessonType === "LyThuyet" && {
-      backgroundColor: theme.palette.date.lesson + " !important",
+    lessonType === 'LyThuyet' && {
+      backgroundColor: theme.palette.date.lesson + ' !important',
     }),
   ...(today && {
-    border: "none !important",
+    border: 'none !important',
   }),
-  ...(lessonType === "LuyenDe" && {
-    border: "2px solid " + theme.palette.date.exam + " !important",
+  ...(lessonType === 'LuyenDe' && {
+    border: '2px solid ' + theme.palette.date.exam + ' !important',
   }),
-  ...(lessonType === "LyThuyet" && {
-    border: "2px solid " + theme.palette.date.lesson + " !important",
+  ...(lessonType === 'LyThuyet' && {
+    border: '2px solid ' + theme.palette.date.lesson + ' !important',
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
@@ -75,7 +75,7 @@ function CustomDay(
   let lesson: LessonType | null = null;
   const index = lessons?.findIndex(
     (lesson) =>
-      day.isSame(dayjs(lesson.startTime).format("YYYY-MM-DD")) &&
+      day.isSame(dayjs(lesson.startTime).format('YYYY-MM-DD')) &&
       lesson.lessonCode == type
   );
 
@@ -95,17 +95,17 @@ function CustomDay(
       />
       <Popover
         sx={{
-          pointerEvents: "none",
+          pointerEvents: 'none',
         }}
         open={open}
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
+          vertical: 'top',
+          horizontal: 'left',
         }}
         onClose={handlePopoverClose}
         disableRestoreFocus
@@ -117,20 +117,19 @@ function CustomDay(
             p: 1,
             px: 3,
             borderRadius: 1,
-            backgroundColor: "#FDF5FA",
-            color: "#494969",
+            backgroundColor: '#FDF5FA',
+            color: '#494969',
           }}
         >
           <Typography
             fontFamily="SegoeUISemiBold"
-            fontWeight="bold"
             fontSize="12px"
             whiteSpace="pre-line"
           >
             {index && index < 0
-              ? "Ngày nghỉ"
+              ? 'Ngày nghỉ'
               : ` ${lesson?.lessonContent}
-             Ngày ${dayjs(lesson?.startTime).format("DD/MM/YYYY - h:mma")} 
+             Ngày ${dayjs(lesson?.startTime).format('DD/MM/YYYY - h:mma')} 
              Nội dung: ${lesson?.lessonContent}
             `}
           </Typography>

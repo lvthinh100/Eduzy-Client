@@ -1,6 +1,6 @@
-import React from "react";
-import { CardMedia } from "@mui/material";
-import img from "../assets/EduzyLogo.png";
+import React from 'react';
+import { CardMedia } from '@mui/material';
+import img from '../assets/EduzyLogo.png';
 
 const Logo: React.FC = () => {
   return (
@@ -8,8 +8,8 @@ const Logo: React.FC = () => {
       component="img"
       sx={{
         height: 18,
-        objectFit: "contain",
-        width: "fit-content",
+        objectFit: 'contain',
+        width: 'fit-content',
       }}
       src={img}
     />
