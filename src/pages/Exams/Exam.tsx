@@ -1,8 +1,8 @@
-import React from "react";
-import { Stack, ListItemButtonProps, Rating, Box } from "@mui/material";
-import { StyledListItem, StyledTypo } from "./style";
-import Prize from "../../components/Prize";
-import { ExamType } from "../../model/Exam";
+import React from 'react';
+import { Stack, ListItemButtonProps, Rating, Box } from '@mui/material';
+import { StyledListItem, StyledTypo } from './style';
+import Prize from '../../components/Prize';
+import { ExamType } from '../../model/Exam';
 
 type PropsType = ListItemButtonProps & {
   exam: ExamType;
@@ -14,16 +14,16 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
     onSelectExam(exam);
   };
   const labels: { [index: string]: string } = {
-    1: "Rất dễ",
-    2: "Dễ",
-    3: "Trung bình",
-    4: "Khó",
-    5: "Rất khó",
+    1: 'Rất dễ',
+    2: 'Dễ',
+    3: 'Trung bình',
+    4: 'Khó',
+    5: 'Rất khó',
   };
   return (
     <StyledListItem
       sx={{
-        border: "0.9px solid #FE6C85",
+        border: '0.9px solid #FE6C85',
         borderRadius: 1.5,
         px: 2,
         py: 1,
@@ -51,7 +51,7 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
               readOnly
               size="small"
               sx={{ mr: 0.1 }}
-            />{" "}
+            />{' '}
             <StyledTypo>({exam.ratingCount})</StyledTypo>
             {/* {exam.ratingCount > 0 && (
               <StyledTypo sx={{ ml: 1 }}> - {labels[exam.rating]}</StyledTypo>

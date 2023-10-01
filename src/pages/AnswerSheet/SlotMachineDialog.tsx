@@ -1,16 +1,16 @@
-import React, { useState, useCallback, useEffect } from "react";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
+import React, { useState, useCallback, useEffect } from 'react';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 // Import your CrownIcon component here
-import CrownIcon from "../../components/IconComponent/CrownIcon";
-import MoneyIcon from "../../components/IconComponent/MoneyIcon";
-import palette from "../../theme/palette";
-import { Box, Paper, Stack, Typography } from "@mui/material";
-import Prize from "../../components/Prize";
+import CrownIcon from '../../components/IconComponent/CrownIcon';
+import MoneyIcon from '../../components/IconComponent/MoneyIcon';
+import palette from '../../theme/palette';
+import { Box, Paper, Stack, Typography } from '@mui/material';
+import Prize from '../../components/Prize';
 
 interface SlotMachineDialogProps {
   colorProp: number;
@@ -70,22 +70,22 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
         Open Slot Machine
       </Button> */}
       <Dialog onClose={handleClose} {...dialogProps}>
-        <Paper sx={{ padding: 3, backgroundColor: "white" }}>
+        <Paper sx={{ padding: 3, backgroundColor: 'white' }}>
           <DialogContent>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               {slotItems.map((item, index) => (
                 <div
                   key={index}
                   style={{
-                    width: "120px",
-                    height: "120px",
-                    margin: "0 10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "24px",
-                    border: "2px solid #333",
-                    borderRadius: "50%",
+                    width: '120px',
+                    height: '120px',
+                    margin: '0 10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: '24px',
+                    border: '2px solid #333',
+                    borderRadius: '50%',
                   }}
                 >
                   {item < 3 ? (
@@ -109,7 +109,6 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
                 fontSize="30px"
                 color="#39393A"
                 fontFamily="SegoeUISemiBold"
-                fontWeight="bold"
                 textAlign="center"
                 mb={3}
               >
@@ -117,19 +116,19 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
               </Typography>
               <Stack
                 sx={{
-                  direction: "column",
-                  justifyContent: "center",
-                  height: "100%",
-                  border: "1px solid #DE5173",
-                  display: "flex", // Make the Stack a flex container
-                  flexDirection: "column",
+                  direction: 'column',
+                  justifyContent: 'center',
+                  height: '100%',
+                  border: '1px solid #DE5173',
+                  display: 'flex', // Make the Stack a flex container
+                  flexDirection: 'column',
                 }}
               >
                 <Box
                   sx={{
                     p: 1,
-                    textAlign: "center",
-                    mb: "auto",
+                    textAlign: 'center',
+                    mb: 'auto',
                     flex: 1,
                   }}
                 >
@@ -146,12 +145,12 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
                       direction="column"
                       variant={
                         colorProp === 0
-                          ? "first"
+                          ? 'first'
                           : colorProp === 1
-                          ? "second"
+                          ? 'second'
                           : colorProp === 2
-                          ? "third"
-                          : "first"
+                          ? 'third'
+                          : 'first'
                       }
                       fontSize={24}
                       value={coinsValue}
@@ -161,7 +160,7 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
               </Stack>
               <Button
                 variant="gradient2"
-                sx={{ p: 1.25, width: "100%", fontSize: "12px", mt: 4 }}
+                sx={{ p: 1.25, width: '100%', fontSize: '12px', mt: 4 }}
                 type="submit"
                 onClick={handleClose}
               >

@@ -1,52 +1,52 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import MenuItem from "@mui/material/MenuItem";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import NavLinkStyled from "./style";
-import { Link as RouterLink } from "react-router-dom";
-import content from "../../constants/content";
-import Logo from "../Logo";
-import useResponsive from "../../hooks/useResponsive";
-import { useAppDispatch } from "../../hooks/redux";
-import { MODAL, appActions } from "../../redux/slices/appSlice";
-import useAuth from "../../hooks/useAuth";
-import MESSAGE from "../../constants/message";
-import { logout } from "../../api";
-import { authActions } from "../../redux/slices/authSlice";
-import Crown from "../Crown";
-import { Stack } from "@mui/material";
-import Coins from "../Coins";
-import paths from "../../constants/paths";
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NavLinkStyled from './style';
+import { Link as RouterLink } from 'react-router-dom';
+import content from '../../constants/content';
+import Logo from '../Logo';
+import useResponsive from '../../hooks/useResponsive';
+import { useAppDispatch } from '../../hooks/redux';
+import { MODAL, appActions } from '../../redux/slices/appSlice';
+import useAuth from '../../hooks/useAuth';
+import MESSAGE from '../../constants/message';
+import { logout } from '../../api';
+import { authActions } from '../../redux/slices/authSlice';
+import Crown from '../Crown';
+import { Stack } from '@mui/material';
+import Coins from '../Coins';
+import paths from '../../constants/paths';
 
 function ResponsiveAppBar() {
   const dispatch = useAppDispatch();
-  const isDesktop = useResponsive("up", "md");
+  const isDesktop = useResponsive('up', 'md');
   const [openNav, setOpenNav] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const userActions = [
     {
-      label: "Cập nhật thông tin",
+      label: 'Cập nhật thông tin',
       handler: () => {
         dispatch(appActions.showModal(MODAL.UPDATE_PROFILE));
         setAnchorElUser(null);
       },
     },
     {
-      label: "Đổi mật khẩu",
+      label: 'Đổi mật khẩu',
       handler: () => {
         dispatch(appActions.showModal(MODAL.CHANGE_PASSWORD));
         setAnchorElUser(null);
@@ -102,7 +102,7 @@ function ResponsiveAppBar() {
       dispatch(authActions.logout());
       dispatch(
         appActions.showNotification({
-          variant: "success",
+          variant: 'success',
           message: MESSAGE.LOGOUT_SUCCESS,
         })
       );
@@ -110,7 +110,7 @@ function ResponsiveAppBar() {
     } catch (err) {
       dispatch(
         appActions.showNotification({
-          variant: "error",
+          variant: 'error',
           message: MESSAGE.UNKNOWN_ERROR,
         })
       );
@@ -118,11 +118,11 @@ function ResponsiveAppBar() {
   };
 
   const notAuthAction = (
-    <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+    <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
       <NavLinkStyled mr={2} onClick={handleOpenLoginModal}>
         {
           <content.NAV_AUTH.login.icon
-            sx={{ mr: 0.6, width: "18px", height: "18px" }}
+            sx={{ mr: 0.6, width: '18px', height: '18px' }}
           />
         }
 
@@ -131,7 +131,7 @@ function ResponsiveAppBar() {
       <NavLinkStyled onClick={handleOpenRegisterModal}>
         {
           <content.NAV_AUTH.register.icon
-            sx={{ mr: 0.6, width: "18px", height: "18px" }}
+            sx={{ mr: 0.6, width: '18px', height: '18px' }}
           />
         }
 
@@ -153,24 +153,24 @@ function ResponsiveAppBar() {
             <Crown
               quantity={user?.crowns1}
               variant="first"
-              style={{ margin: "0px 5px" }}
+              style={{ margin: '0px 5px' }}
             />
             <Crown
               quantity={user?.crowns2}
               variant="second"
-              style={{ margin: "0px 5px" }}
+              style={{ margin: '0px 5px' }}
             />
             <Crown
               quantity={user?.crowns3}
               variant="third"
-              style={{ margin: "0px 5px" }}
+              style={{ margin: '0px 5px' }}
             />
           </Stack>
 
           <Stack
             direction="row"
             alignItems="center"
-            sx={{ marginLeft: "auto" }}
+            sx={{ marginLeft: 'auto' }}
           >
             <Coins value={user?.coins} variant="first" />
           </Stack>
@@ -181,16 +181,16 @@ function ResponsiveAppBar() {
           </Avatar>
         </IconButton>
         <Menu
-          sx={{ mt: "40px" }}
+          sx={{ mt: '40px' }}
           id="menu-appbar"
           anchorEl={anchorElUserAction}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
           open={Boolean(anchorElUserAction)}
           onClose={handleCloseUserActionMenu}
@@ -216,9 +216,9 @@ function ResponsiveAppBar() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ minHeight: "50px !important" }}>
+        <Toolbar disableGutters sx={{ minHeight: '50px !important' }}>
           {/* Mobile */}
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -233,8 +233,8 @@ function ResponsiveAppBar() {
             <Drawer anchor="left" open={openNav} onClose={handleCloseNavMenu}>
               <List
                 sx={{
-                  height: "100%",
-                  backgroundColor: "primary.main",
+                  height: '100%',
+                  backgroundColor: 'primary.main',
                 }}
               >
                 {content.NAV_LINK.map((page) => (
@@ -244,13 +244,13 @@ function ResponsiveAppBar() {
                       component={RouterLink}
                       to={page.path}
                       // onClick={handleCloseNavMenu}
-                      sx={{ display: "flex", alignItems: "center", mr: 2 }}
+                      sx={{ display: 'flex', alignItems: 'center', mr: 2 }}
                     >
                       <ListItemIcon>
                         {
                           <page.icon
                             fontSize="small"
-                            sx={{ mr: 1, color: "white" }}
+                            sx={{ mr: 1, color: 'white' }}
                           />
                         }
                       </ListItemIcon>
@@ -260,60 +260,63 @@ function ResponsiveAppBar() {
                 ))}
               </List>
             </Drawer>
+            {!isDesktop && (
+              <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Logo />
+                <NavLinkStyled
+                  sx={{
+                    mr: 2,
+                    flexGrow: 1,
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    fontSize: '18px',
+                    letterSpacing: '.1rem',
+                    fontFamily: 'Montserrat',
+                    mx: 1,
+                  }}
+                  component={RouterLink}
+                  to={paths.HOME}
+                >
+                  {content.LOGO}
+                </NavLinkStyled>
+              </Stack>
+            )}
           </Box>
-
-          {!isDesktop && <Logo />}
-
-          <NavLinkStyled
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontWeight: 400,
-              color: "inherit",
-              textDecoration: "none",
-              fontSize: "18px",
-              letterSpacing: ".1rem",
-              fontFamily: "Montserrat",
-              mx: 1,
-            }}
-            component={RouterLink}
-            to={paths.HOME}
-          >
-            {content.LOGO}
-          </NavLinkStyled>
 
           {/* Large */}
           <NavLinkStyled
             component={RouterLink}
             to={paths.HOME}
             sx={{
-              display: { xs: "none", md: "flex" },
+              display: { xs: 'none', md: 'flex' },
               mr: 6,
               ml: 3,
-              textTransform: "none",
-              fontWeight: "bold",
-              fontSize: "18px",
-              letterSpacing: ".05rem",
-              fontFamily: "Montserrat",
+              textTransform: 'none',
+              fontSize: '18px',
+              letterSpacing: '.05rem',
+              fontFamily: 'Montserrat',
             }}
           >
             {content.LOGO}
           </NavLinkStyled>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {content.NAV_LINK.map((page) => (
               <NavLinkStyled
                 key={page.text}
                 component={RouterLink}
                 to={page.path}
                 // onClick={handleCloseNavMenu}
-                sx={{ display: "flex", alignItems: "center", mr: 2 }}
+                sx={{ display: 'flex', alignItems: 'center', mr: 2 }}
               >
                 {
                   <page.icon
                     fontSize="small"
-                    sx={{ mr: 0.75, width: "14px", height: "14px" }}
+                    sx={{ mr: 0.75, width: '14px', height: '14px' }}
                   />
                 }
                 {page.text}
@@ -332,16 +335,16 @@ function ResponsiveAppBar() {
                 </Avatar>
               </IconButton>
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{ mt: '45px' }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                  vertical: 'top',
+                  horizontal: 'right',
                 }}
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                  vertical: 'top',
+                  horizontal: 'right',
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}

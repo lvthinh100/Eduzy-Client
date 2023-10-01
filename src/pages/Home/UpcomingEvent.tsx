@@ -125,7 +125,6 @@ const UpcomingEvent = () => {
             textTransform="uppercase"
             sx={{
               fontFamily: 'ArialUnicodeMS',
-              fontWeight: '600',
               fontSize: '24px !important',
               letterSpacing: '.05rem',
             }}
@@ -140,14 +139,14 @@ const UpcomingEvent = () => {
           <CustomSubtitleTypography variant="subtitle2">
             Ngày {dayjs(upcomingLesson?.startTime).format('DD-MM-YYYY - HH:mm')}
           </CustomSubtitleTypography>
-          <Typography fontSize={28}>
+          <Typography fontSize="1.25rem">
             {!isLyThuyet
               ? upcomingLesson?.examId?.name
               : upcomingLesson.lessonContent}
           </Typography>
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: 'Segoe UI', fontWeight: '600', fontSize: '12px' }}
+            sx={{ fontFamily: 'Segoe UI', fontSize: '12px' }}
           >
             <Countdown
               key={upcomingLesson?._id}
@@ -160,7 +159,6 @@ const UpcomingEvent = () => {
                 variant="subtitle1"
                 sx={{
                   fontFamily: 'Segoe UI',
-                  fontWeight: '700',
                   fontSize: '14px',
                   my: 2,
                 }}
@@ -229,7 +227,6 @@ const UpcomingEvent = () => {
             textTransform="uppercase"
             sx={{
               fontFamily: 'ArialUnicodeMS',
-              fontWeight: '600',
               fontSize: '24px !important',
               letterSpacing: '.05rem',
             }}
@@ -267,7 +264,6 @@ const UpcomingEvent = () => {
             fontSize="24px"
             color="#39393A"
             fontFamily="SegoeUISemiBold"
-            fontWeight="bold"
             textAlign="center"
             mb={3}
           >
@@ -277,7 +273,6 @@ const UpcomingEvent = () => {
             fontSize="24px"
             color="#39393A"
             fontFamily="SegoeUISemiBold"
-            fontWeight="bold"
             textAlign="center"
             mb={3}
           >

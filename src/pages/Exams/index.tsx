@@ -1,8 +1,5 @@
-import { Box, Container, Grid } from "@mui/material";
-import React from "react";
-import ListExams from "./ListExams";
-import LeaderBoard from "../../components/LeaderBoard";
-import { LBEnum } from "../../model/Standard";
+import { Container } from '@mui/material';
+import ListExams from './ListExams';
 
 const ExamsPage = () => {
   return (

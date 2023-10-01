@@ -1,13 +1,13 @@
-import * as React from "react";
+import * as React from 'react';
 import Select, {
   selectClasses,
   SelectProps,
   SelectRootSlotProps,
-} from "@mui/base/Select";
-import Option, { optionClasses } from "@mui/base/Option";
-import Popper from "@mui/base/Popper";
-import { styled } from "@mui/system";
-import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
+} from '@mui/base/Select';
+import Option, { optionClasses } from '@mui/base/Option';
+import Popper from '@mui/base/Popper';
+import { styled } from '@mui/system';
+import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 
 export const CustomSelect = React.forwardRef(function CustomSelect<
   TValue extends {},
@@ -27,25 +27,25 @@ export const CustomSelect = React.forwardRef(function CustomSelect<
 });
 
 const blue = {
-  100: "#DAECFF",
-  200: "#99CCF3",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E5",
-  900: "#003A75",
+  100: '#DAECFF',
+  200: '#99CCF3',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E5',
+  900: '#003A75',
 };
 
 const grey = {
-  50: "#f6f8fa",
-  100: "#eaeef2",
-  200: "#d0d7de",
-  300: "#afb8c1",
-  400: "#8c959f",
-  500: "#6e7781",
-  600: "#57606a",
-  700: "#424a53",
-  800: "#32383f",
-  900: "#24292f",
+  50: '#f6f8fa',
+  100: '#eaeef2',
+  200: '#d0d7de',
+  300: '#afb8c1',
+  400: '#8c959f',
+  500: '#6e7781',
+  600: '#57606a',
+  700: '#424a53',
+  800: '#32383f',
+  900: '#24292f',
 };
 
 const Button = React.forwardRef(function Button<
@@ -77,9 +77,8 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
   text-align: center;
   line-height: 1.5;
   background: ${theme.palette.background.paper};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
   color: ${theme.palette.highlightText.main};
-  font-weight: bold;
   position: relative;
   cursor: pointer;
 
@@ -93,7 +92,7 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
 
   &.${selectClasses.focusVisible} {
     border-color: ${blue[400]};
-    outline: 3px solid ${theme.palette.mode === "dark" ? blue[500] : blue[200]};
+    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
   }
 
   & > svg {
@@ -106,7 +105,7 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
   `
 );
 
-const StyledListbox = styled("ul")(
+const StyledListbox = styled('ul')(
   ({ theme }) => `
   font-family: SegoeUISemibold;
   font-size: 0.875rem;
@@ -119,7 +118,7 @@ const StyledListbox = styled("ul")(
   outline: 0px;
   background: ${theme.palette.background.paper};
   border: 0.5px solid ${grey[900]};
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   z-index: 100;
   `
 );
@@ -135,7 +134,6 @@ export const StyledOption = styled(Option)(
   cursor: pointer;
   text-align: center;
   color: ${theme.palette.highlightText.main};
-  font-weight: bold;
   &:last-of-type {
     border-bottom: none;
   }
@@ -153,11 +151,11 @@ export const StyledOption = styled(Option)(
   }
 
   &.${optionClasses.disabled} {
-    color: ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
+    color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
   }
 
   &:hover:not(.${optionClasses.disabled}) {
-    background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
+    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
   }
   `
 );

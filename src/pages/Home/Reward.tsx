@@ -1,11 +1,11 @@
-import React from "react";
-import img from "../../assets/Reward.png";
-import { Box, CardMedia } from "@mui/material";
-import Prize from "../../components/Prize";
-import useResponsive from "../../hooks/useResponsive";
+import React from 'react';
+import img from '../../assets/Reward.png';
+import { Box, CardMedia } from '@mui/material';
+import Prize from '../../components/Prize';
+import useResponsive from '../../hooks/useResponsive';
 
 const Reward = () => {
-  const isMobile = useResponsive("down", "sm");
+  const isMobile = useResponsive('down', 'sm');
   const prizePos = {
     first: {
       x: -20,
@@ -25,10 +25,10 @@ const Reward = () => {
     <Box sx={{ mt: 1 }}>
       <Box
         sx={{
-          position: "relative",
-          width: "fit-content",
+          position: 'relative',
+          width: 'fit-content',
           height: 130,
-          mx: "auto",
+          mx: 'auto',
         }}
       >
         <CardMedia
@@ -38,11 +38,11 @@ const Reward = () => {
               sm: 120,
               xs: 105,
             },
-            objectFit: "contain",
-            width: "fit-content",
-            mx: "auto",
-            mt: "20px",
-            position: "relative",
+            objectFit: 'contain',
+            width: 'fit-content',
+            mx: 'auto',
+            mt: '20px',
+            position: 'relative',
           }}
           src={img}
         />
