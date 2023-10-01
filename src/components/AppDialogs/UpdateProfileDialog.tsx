@@ -1,4 +1,4 @@
-import React, { useRef, useState, RefObject, LegacyRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Avatar,
   Box,

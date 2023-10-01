@@ -1,7 +1,6 @@
 import React from 'react';
-import { Stack, ListItemButtonProps, Rating, Box } from '@mui/material';
+import { Stack, ListItemButtonProps, Rating } from '@mui/material';
 import { StyledListItem, StyledTypo } from './style';
-import Prize from '../../components/Prize';
 import { ExamType } from '../../model/Exam';
 
 type PropsType = ListItemButtonProps & {
@@ -13,13 +12,13 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
   const handleSelect = () => {
     onSelectExam(exam);
   };
-  const labels: { [index: string]: string } = {
-    1: 'Rất dễ',
-    2: 'Dễ',
-    3: 'Trung bình',
-    4: 'Khó',
-    5: 'Rất khó',
-  };
+  // const labels: { [index: string]: string } = {
+  //   1: 'Rất dễ',
+  //   2: 'Dễ',
+  //   3: 'Trung bình',
+  //   4: 'Khó',
+  //   5: 'Rất khó',
+  // };
   return (
     <StyledListItem
       sx={{

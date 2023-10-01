@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Container,
@@ -6,7 +5,6 @@ import {
   Grid,
   IconButton,
   SpeedDialAction,
-  Typography,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
