@@ -1,4 +1,4 @@
-import { styled, Badge, BadgeProps, Box, BoxProps, Theme } from '@mui/material';
+import { styled, Badge, BadgeProps, Box, BoxProps } from '@mui/material';
 
 export const StyledBadge = styled(Badge)<BadgeProps>(
   ({ theme, badgeContent }) => ({

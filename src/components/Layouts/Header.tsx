@@ -29,7 +29,6 @@ import Crown from '../Crown';
 import { Stack } from '@mui/material';
 import Coins from '../Coins';
 import paths from '../../constants/paths';
-import theme from '../../theme';
 
 function ResponsiveAppBar() {
   const dispatch = useAppDispatch();

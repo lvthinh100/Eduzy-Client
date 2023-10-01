@@ -160,7 +160,8 @@ const UpcomingEvent = () => {
                 sx={{
                   fontFamily: 'SegoeUISemiBold',
                   fontSize: 14,
-                  my: 2,
+                  mt: 2,
+                  mb: 1,
                 }}
               >
                 Giải thưởng

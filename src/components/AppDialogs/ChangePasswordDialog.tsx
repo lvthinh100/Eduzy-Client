@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Avatar,
   Box,
@@ -7,10 +7,8 @@ import {
   Stack,
   Theme,
   Typography,
-  IconButton,
 } from '@mui/material';
 import landscape from '../../assets/landscape.jpg';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 // RHF

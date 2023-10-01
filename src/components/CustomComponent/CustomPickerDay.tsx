@@ -1,5 +1,5 @@
 import * as React from 'react';
-import dayjs, { Dayjs, duration } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import { styled } from '@mui/material/styles';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
@@ -76,10 +76,10 @@ function CustomDay(
   const index = lessons?.findIndex(
     (lesson) =>
       day.isSame(dayjs(lesson.startTime).format('YYYY-MM-DD')) &&
-      lesson.lessonCode == type
+      lesson.lessonCode === type
   );
 
-  if (lessons && index != undefined && index > -1) {
+  if (lessons && index !== undefined && index > -1) {
     lessonType = lessons[index].lessonType;
     lesson = lessons[index];
   }

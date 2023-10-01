@@ -1,10 +1,10 @@
 import { Box, Paper, Stack, Typography, Button, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyledList } from './style';
 
 import Exam from './Exam';
 import SelectClassType from '../../components/SelectClassType';
-import { getExams, getExamsByType } from '../../api';
+import { getExamsByType } from '../../api';
 import { ExamType } from '../../model/Exam';
 import { useNavigate } from 'react-router-dom';
 import LeaderBoard from '../../components/LeaderBoard';
