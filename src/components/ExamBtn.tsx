@@ -1,7 +1,7 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import CardMedia from "@mui/material/CardMedia";
-import examIcon from "../assets/examIcon.png"; // Replace with the actual image path
+import React from 'react';
+import Button from '@mui/material/Button';
+import CardMedia from '@mui/material/CardMedia';
+import examIcon from '../assets/examIcon.png'; // Replace with the actual image path
 
 type ExamBtnProps = {
   onChange: () => void;
@@ -17,7 +17,9 @@ const ExamBtn: React.FC<ExamBtnProps> = ({ onChange }) => {
         sx={{
           mt: 0,
           height: 25,
-          objectFit: "contain",
+          width: 'auto',
+          display: 'inline-block',
+          left: 'inherit',
         }}
       />
     </Button>

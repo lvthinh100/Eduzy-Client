@@ -21,8 +21,9 @@ const Additional = () => {
           component="img"
           sx={{
             height: 160,
-            objectFit: 'contain',
-            width: 'fit-content',
+            width: 'auto',
+            display: 'inline-block',
+            left: 'inherit',
           }}
           src={flowers}
         />

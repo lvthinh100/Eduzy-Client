@@ -8,8 +8,9 @@ const Logo: React.FC = () => {
       component="img"
       sx={{
         height: 18,
-        objectFit: 'contain',
-        width: 'fit-content',
+        width: 'auto',
+        display: 'inline-block',
+        left: 'inherit',
       }}
       src={img}
     />

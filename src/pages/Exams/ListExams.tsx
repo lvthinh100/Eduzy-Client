@@ -1,16 +1,16 @@
-import { Box, Paper, Stack, Typography, Button, Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { StyledList } from "./style";
+import { Box, Paper, Stack, Typography, Button, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { StyledList } from './style';
 
-import Exam from "./Exam";
-import SelectClassType from "../../components/SelectClassType";
-import { getExams, getExamsByType } from "../../api";
-import { ExamType } from "../../model/Exam";
-import { useNavigate } from "react-router-dom";
-import LeaderBoard from "../../components/LeaderBoard";
-import { LBEnum } from "../../model/Standard";
-import AnswerBtn from "../../components/AnswerBtn";
-import { useAppSelector } from "../../hooks/redux";
+import Exam from './Exam';
+import SelectClassType from '../../components/SelectClassType';
+import { getExams, getExamsByType } from '../../api';
+import { ExamType } from '../../model/Exam';
+import { useNavigate } from 'react-router-dom';
+import LeaderBoard from '../../components/LeaderBoard';
+import { LBEnum } from '../../model/Standard';
+import AnswerBtn from '../../components/AnswerBtn';
+import { useAppSelector } from '../../hooks/redux';
 
 const ListExams = () => {
   const { code } = useAppSelector((state) => state.lesson);
@@ -50,7 +50,7 @@ const ListExams = () => {
       container
       spacing={1}
       sx={{
-        justifyContent: "center",
+        justifyContent: 'center',
       }}
     >
       <Grid item xs>
@@ -64,12 +64,12 @@ const ListExams = () => {
           <Paper
             sx={{
               p: 2,
-              width: "100%",
+              width: '100%',
               mt: 2,
               flexGrow: 1,
               borderRadius: 4,
               boxShadow:
-                "26px 26px 16px 4px rgba(110, 143, 148,0.76) !important",
+                '26px 26px 16px 4px rgba(110, 143, 148,0.76) !important',
             }}
             elevation={5}
           >
@@ -98,7 +98,6 @@ const ListExams = () => {
               direction="row"
               alignItems="center"
               justifyContent="space-between"
-              spacing={1}
               marginTop={2}
             >
               <Button
@@ -120,16 +119,16 @@ const ListExams = () => {
           </Paper>
         </Stack>
       </Grid>
-      <Grid item sx={{ width: { md: "500px", xs: "100%" } }}>
+      <Grid item sx={{ width: { md: '500px', xs: '100%' } }}>
         <LeaderBoard
           type={LBEnum.score}
           examId={
             selectedExam && selectedExam._id ? selectedExam._id : undefined
           }
-          examName={selectedExam ? selectedExam.name : ""}
+          examName={selectedExam ? selectedExam.name : ''}
           paperStyle={{
             boxShadow:
-              "26px 26px 16px 4px rgba(110, 143, 148, 0.76) !important",
+              '26px 26px 16px 4px rgba(110, 143, 148, 0.76) !important',
             m: 2,
           }}
         />
