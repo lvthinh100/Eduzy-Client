@@ -70,13 +70,13 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
       <Dialog onClose={handleClose} {...dialogProps}>
         <Paper sx={{ padding: 3, backgroundColor: 'white' }}>
           <DialogContent>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               {slotItems.map((item, index) => (
-                <div
+                <Box
                   key={index}
-                  style={{
-                    width: '120px',
-                    height: '120px',
+                  sx={{
+                    width: { md: '120px', xs: '60px' },
+                    height: { md: '120px', xs: '60px' },
                     margin: '0 10px',
                     display: 'flex',
                     justifyContent: 'center',
@@ -89,17 +89,25 @@ const SlotMachineDialog: React.FC<SlotMachineDialogProps & DialogProps> = ({
                   {item < 3 ? (
                     <CrownIcon
                       key={index}
-                      sx={{ width: 60, height: 60, color: crownColors[item] }}
+                      sx={{
+                        width: { md: 60, xs: 30 },
+                        height: { md: 60, xs: 30 },
+                        color: crownColors[item],
+                      }}
                     />
                   ) : (
                     <MoneyIcon
                       key={index}
-                      sx={{ width: 60, height: 60, color: palette.prize.first }}
+                      sx={{
+                        width: { md: 60, xs: 30 },
+                        height: { md: 60, xs: 30 },
+                        color: palette.prize.first,
+                      }}
                     />
                   )}
-                </div>
+                </Box>
               ))}
-            </div>
+            </Box>
           </DialogContent>
           {showMsg && (
             <Box>

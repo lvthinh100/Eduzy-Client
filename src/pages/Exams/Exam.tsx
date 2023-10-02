@@ -2,6 +2,7 @@ import React from 'react';
 import { Stack, ListItemButtonProps, Rating } from '@mui/material';
 import { StyledListItem, StyledTypo } from './style';
 import { ExamType } from '../../model/Exam';
+import useResponsive from '../../hooks/useResponsive';
 
 type PropsType = ListItemButtonProps & {
   exam: ExamType;
@@ -12,6 +13,7 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
   const handleSelect = () => {
     onSelectExam(exam);
   };
+  const isMobile = useResponsive('down', 'sm');
   // const labels: { [index: string]: string } = {
   //   1: 'Rất dễ',
   //   2: 'Dễ',
@@ -59,7 +61,9 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
 
           {/* <Prize crown={false} variant="first" value={exam.price} /> */}
         </Stack>
-        <StyledTypo>Lượt làm bài: {exam.examTimes}</StyledTypo>
+        <StyledTypo>
+          {isMobile ? 'Lượt LB:' : 'Lượt làm bài:'} {exam.examTimes}
+        </StyledTypo>
       </Stack>
     </StyledListItem>
   );

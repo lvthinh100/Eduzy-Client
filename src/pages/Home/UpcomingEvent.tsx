@@ -30,6 +30,7 @@ const UpcomingEvent = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+  const [notifyHappening, setNotifyHappening] = useState(false);
   const { fetching, code } = useAppSelector((state) => state.lesson);
   const [upcomingLesson, setUpComingLesson] =
     useState<UpcomingLessonType | null>(null);
@@ -62,23 +63,34 @@ const UpcomingEvent = () => {
   }, [code, fetching, dispatch]);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined;
     const fetchClosestLesson = async () => {
       try {
         const { data: response } = await getClosestUpcomingLesson();
-        if (
-          dayjs(response.data.startTime).diff(
-            dayjs().add(timediff ? timediff : 0, 'second'),
-            'minutes'
-          ) <= 15
-        ) {
+        const s = dayjs(response.data.startTime).diff(
+          dayjs().add(timediff ? timediff : 0, 'second'),
+          'seconds'
+        );
+        if (s <= 15 * 60) {
           setClosestLesson(response.data);
           setIsNotifyOpen(true);
+          setNotifyHappening(s <= 0 ? true : false);
+          if (s > 0)
+            timeoutId = setTimeout(() => {
+              setNotifyHappening(true);
+            }, s * 1000);
         }
       } catch (err) {
         setClosestLesson(null);
       }
     };
     fetchClosestLesson();
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [dispatch, timediff]);
 
   const handleShowPrevLeaderBoard = () => {
@@ -268,17 +280,21 @@ const UpcomingEvent = () => {
             textAlign="center"
             mb={3}
           >
-            "{closestLesson?.examId?.name}" sắp diễn ra trong
+            "{closestLesson?.examId?.name}"
+            {notifyHappening ? 'đang diễn ra!' : 'sắp diễn ra trong'}
           </Typography>
-          <Typography
-            fontSize="24px"
-            color="#39393A"
-            fontFamily="SegoeUISemiBold"
-            textAlign="center"
-            mb={3}
-          >
-            <Countdown date={dayjs(closestLesson?.startTime)} />
-          </Typography>
+          {!notifyHappening && (
+            <Typography
+              fontSize="24px"
+              color="#39393A"
+              fontFamily="SegoeUISemiBold"
+              textAlign="center"
+              mb={3}
+            >
+              <Countdown date={dayjs(closestLesson?.startTime)} />
+            </Typography>
+          )}
+
           <Button
             variant="gradient2"
             sx={{ p: 1.25, width: '100%', fontSize: '12px', mt: 4 }}

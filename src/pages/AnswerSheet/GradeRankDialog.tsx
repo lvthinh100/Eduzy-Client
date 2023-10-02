@@ -175,6 +175,14 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
               fullWidth
               variant="standard"
             />
+            <Typography
+              variant="subtitle2"
+              fontFamily="Times New Roman"
+              fontSize={10}
+            >
+              Giới thiệu app cho bạn bè và người thân nếu thấy hay nhé. Cảm ơn
+              các bạn rất nhiều ♡
+            </Typography>
           </Box>
         </Stack>
         <Button

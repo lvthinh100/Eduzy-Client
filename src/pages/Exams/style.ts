@@ -68,6 +68,7 @@ export const StyledInput = styled(Input)<InputProps>(({ theme }) => ({
 
 export const StandingBox = styled(Box)<BoxProps>(({ theme }) => ({
   width: '90%',
+  minWidth: '80px',
   borderRadius: '20px 20px 0 0',
   p: 4,
   color: 'white',
