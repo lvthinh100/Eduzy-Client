@@ -233,7 +233,7 @@ const AnswerSheetPage = () => {
     <Fragment>
       <Container maxWidth="xl" sx={{ bgcolor: 'white' }}>
         {!isMobile && (
-          <Stack direction="column" alignItems="center" mb={2}>
+          <Stack direction="column" alignItems="center">
             <Typography variant="h3" fontFamily="Times New Roman">
               PHIẾU TRẢ LỜI TRẮC NGHIỆM
             </Typography>
