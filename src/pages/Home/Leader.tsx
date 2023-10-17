@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Avatar,
@@ -6,18 +6,17 @@ import {
   Typography,
   Stack,
   CardMedia,
-} from "@mui/material";
-import Crown from "../../components/Crown";
-import computer from "../../assets/computer.jpg";
-import img from "../../assets/avatar.jpg";
-import leaderboardBtn from "../../assets/leaderboardBtn.png";
-import { motion } from "framer-motion";
-import { useAppDispatch } from "../../hooks/redux";
-import { appActions } from "../../redux/slices/appSlice";
-import { getStudentLBs } from "../../api";
-import { LBReqType } from "../../model/Exam";
-import { StudentLBInfo } from "../../model/Student";
-import { LBEnum } from "../../model/Standard";
+} from '@mui/material';
+import Crown from '../../components/Crown';
+import computer from '../../assets/computer.jpg';
+import leaderboardBtn from '../../assets/leaderboardBtn.png';
+import { motion } from 'framer-motion';
+import { useAppDispatch } from '../../hooks/redux';
+import { appActions } from '../../redux/slices/appSlice';
+import { getStudentLBs } from '../../api';
+import { LBReqType } from '../../model/Exam';
+import { StudentLBInfo } from '../../model/Student';
+import { LBEnum } from '../../model/Standard';
 
 const Leader = () => {
   const dispatch = useAppDispatch();
@@ -35,8 +34,8 @@ const Leader = () => {
         console.log(err);
         dispatch(
           appActions.showNotification({
-            variant: "success",
-            message: "Lỗi khi fetch leader board",
+            variant: 'success',
+            message: 'Lỗi khi fetch leader board',
           })
         );
       }
@@ -47,8 +46,8 @@ const Leader = () => {
   return (
     <Box
       sx={{
-        position: "relative",
-        width: { md: "300px", xs: "500px" },
+        position: 'relative',
+        width: { md: '300px', xs: '500px' },
         mt: { md: 5, xs: 1 },
         mr: { lg: 5, md: 0, xs: 0 },
         height: 300,
@@ -60,8 +59,8 @@ const Leader = () => {
         direction="column"
         alignItems="center"
         sx={{
-          width: "200px",
-          position: "absolute",
+          width: '200px',
+          position: 'absolute',
           zIndex: 1,
           right: { md: -50, xs: 150 },
           top: 45,
@@ -69,7 +68,7 @@ const Leader = () => {
       >
         <Box
           sx={{
-            borderRadius: "50%",
+            borderRadius: '50%',
             border: (theme) => `3px solid ${theme.palette.prize.first}`,
           }}
         >
@@ -77,16 +76,16 @@ const Leader = () => {
             badgeContent="1"
             overlap="circular"
             sx={{
-              "& .MuiBadge-badge": { backgroundColor: "prize.first" },
+              '& .MuiBadge-badge': { backgroundColor: 'prize.first' },
             }}
           >
             <Avatar
               src={studentLB?.avatar}
               sx={{
-                width: "40px",
-                height: "40px",
-                m: "4px",
-                backgroundColor: "#fff",
+                width: '40px',
+                height: '40px',
+                m: '4px',
+                backgroundColor: '#fff',
               }}
             ></Avatar>
           </Badge>
@@ -95,17 +94,17 @@ const Leader = () => {
           component={motion.span}
           fontWeight="bold"
           sx={{
-            color: "transparent",
-            backgroundImage: "linear-gradient(180deg, white, #fdbd24 75%);",
-            WebkitBackgroundClip: "text",
-            backgroundSize: "250% 250%",
-            WebkitBackgroundSize: "250% 250%",
-            fontFamily: "OswaldSemiBold",
-            fontSize: "14px",
+            color: 'transparent',
+            backgroundImage: 'linear-gradient(180deg, white, #fdbd24 75%);',
+            WebkitBackgroundClip: 'text',
+            backgroundSize: '250% 250%',
+            WebkitBackgroundSize: '250% 250%',
+            fontFamily: 'OswaldSemiBold',
+            fontSize: '14px',
             m: 0,
           }}
           animate={{
-            backgroundPosition: ["0 100%", "0 -100%", "0 100%"],
+            backgroundPosition: ['0 100%', '0 -100%', '0 100%'],
           }}
           transition={{ duration: 10, repeat: Infinity, delay: 3 }}
         >
@@ -114,7 +113,7 @@ const Leader = () => {
         <Typography
           fontWeight="500"
           fontSize={12}
-          sx={{ color: "prize.first" }}
+          sx={{ color: 'prize.first' }}
         >
           #{studentLB?.studentCode}
         </Typography>
@@ -129,14 +128,14 @@ const Leader = () => {
         alt="leader board"
         src={leaderboardBtn}
         sx={{
-          position: "absolute",
+          position: 'absolute',
           width: 60,
           top: 80,
           left: { md: 100, xs: 115 },
           zIndex: 10,
-          "&:hover": {
+          '&:hover': {
             opacity: 0.6,
-            cursor: "pointer",
+            cursor: 'pointer',
           },
         }}
         onClick={handleClick}
@@ -146,7 +145,7 @@ const Leader = () => {
         alt="computer"
         src={computer}
         sx={{
-          position: "absolute",
+          position: 'absolute',
           width: 500,
           right: { md: -180, xs: 0 },
         }}
