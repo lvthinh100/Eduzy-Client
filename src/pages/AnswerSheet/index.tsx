@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Dialog,
+  DialogContent,
   Divider,
   Grid,
   Stack,
@@ -47,6 +48,7 @@ const AnswerSheetPage = () => {
   );
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [isNavigating, setIsNavigating] = useState(false);
   const [exam, setExam] = useState<ExamType | null>(null);
   const [unAuthName, setUnAuthName] = useState<string | null>(null);
   const [openNameDialog, handleOpen, handleClose] = useToggleOpen(true);
@@ -76,6 +78,28 @@ const AnswerSheetPage = () => {
 
   //Hiện tại thì cứ nộp bài là trả về kết quả lẫn xếp hạng ( xếp hạng sẽ là stt kiểu 123/555 )
   //update mỗi 3s một lần
+
+  useEffect(() => {
+    // Create a function to show the confirmation message
+    const showConfirmation = (event: BeforeUnloadEvent) => {
+      if (currentState !== timeState.afterExam) {
+        // Customize the confirmation message
+        const confirmationMessage =
+          'Are you sure you want to leave this page? Your progress may not be saved.';
+
+        // Display the confirmation dialog
+        event.returnValue = confirmationMessage;
+      }
+    };
+
+    // Add the event listener to the window
+    window.addEventListener('beforeunload', showConfirmation);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', showConfirmation);
+    };
+  }, [currentState]);
 
   const getCurrentState = useCallback(() => {
     if (!exam) return timeState.beforeExam;

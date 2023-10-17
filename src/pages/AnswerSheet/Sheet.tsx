@@ -219,6 +219,13 @@ const Sheet: React.FC<PropsType> = ({
     try {
       const { data: response } = await postAnswer(data);
       onSubmit(response);
+      dispatch(
+        appActions.showNotification({
+          variant: 'success',
+          message:
+            'Nộp bài thành công, thông báo điểm số và xếp hạng sẽ xuất hiện sau khi hết giờ làm bài.',
+        })
+      );
     } catch (error) {
       dispatch(
         appActions.showNotification({
@@ -595,7 +602,9 @@ const Sheet: React.FC<PropsType> = ({
             <Button
               variant="gradient"
               sx={{ my: 1, width: '150px', mx: 'auto' }}
-              disabled={currentState === timeState.inExam ? false : true}
+              disabled={
+                currentState === timeState.inExam && !isDisabled ? false : true
+              }
               onClick={handleSubmit}
             >
               Nộp bài
