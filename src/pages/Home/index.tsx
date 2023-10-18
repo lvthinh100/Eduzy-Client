@@ -2,6 +2,7 @@ import {
   Box,
   Container,
   Dialog,
+  Fab,
   Grid,
   IconButton,
   SpeedDialAction,
@@ -10,7 +11,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
-
+import FacebookIcon from '@mui/icons-material/Facebook';
+import ChatIcon from '@mui/icons-material/Chat';
+import TikTokIcon from '../../components/IconComponent/TikTokIcon';
 import UpcomingEvent from './UpcomingEvent';
 import Schedule from './Schedule';
 import Additional from './Additional';
@@ -25,6 +28,7 @@ import LeaderBoard from '../../components/LeaderBoard';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { appActions } from '../../redux/slices/appSlice';
 import { LBEnum } from '../../model/Standard';
+import { Fragment } from 'react';
 
 const HomePage = () => {
   const [openCalendar, handleOpenCalendar, handleCloseCalendar] =
@@ -95,6 +99,44 @@ const HomePage = () => {
             </Box>
           </Box>
         </Grid>
+        <Fragment>
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="open"
+            sx={{ position: 'fixed', bottom: 20, left: 10 }}
+            onClick={() => {
+              window.open(
+                'https://www.facebook.com/groups/857028829034537',
+                '_blank'
+              );
+            }}
+          >
+            <FacebookIcon />
+          </Fab>
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="open"
+            sx={{ position: 'fixed', bottom: 70, left: 10 }}
+            onClick={() => {
+              window.open('https://m.me/j/AbbohirduHDQ388y/', '_blank');
+            }}
+          >
+            <ChatIcon />
+          </Fab>
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="open"
+            sx={{ position: 'fixed', bottom: 120, left: 10 }}
+            onClick={() => {
+              window.open('https://www.tiktok.com/@eduzyyy', '_blank');
+            }}
+          >
+            <TikTokIcon />
+          </Fab>
+        </Fragment>
         <Grid item lg={4} md={3} xs={12}>
           <UpcomingEvent />
         </Grid>
