@@ -3,6 +3,7 @@ import { Stack, ListItemButtonProps, Rating } from '@mui/material';
 import { StyledListItem, StyledTypo } from './style';
 import { ExamType } from '../../model/Exam';
 import useResponsive from '../../hooks/useResponsive';
+import labels from '../../constants/labels';
 
 type PropsType = ListItemButtonProps & {
   exam: ExamType;
@@ -54,9 +55,12 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
               sx={{ mr: 0.1 }}
             />{' '}
             <StyledTypo>({exam.ratingCount})</StyledTypo>
-            {/* {exam.ratingCount > 0 && (
-              <StyledTypo sx={{ ml: 1 }}> - {labels[exam.rating]}</StyledTypo>
-            )} */}
+            {exam.ratingCount > 0 && (
+              <StyledTypo sx={{ ml: 1 }}>
+                {' '}
+                - {labels[Math.round(exam.rating)]}
+              </StyledTypo>
+            )}
           </Stack>
 
           {/* <Prize crown={false} variant="first" value={exam.price} /> */}

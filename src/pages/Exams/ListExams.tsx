@@ -37,12 +37,22 @@ const ListExams = () => {
 
   const handleShowExam = () => {
     if (!selectedExam) return;
-    navigate(`/sheet/${selectedExam.normalizedName}`);
+    //navigate(`/sheet/${selectedExam.normalizedName}`);
+    const newTab: Window | null = window.open(
+      `/sheet/${selectedExam.normalizedName}`,
+      '_blank'
+    );
+    newTab?.focus();
   };
 
   const handleShowAnswerSheet = () => {
     if (!selectedExam) return;
-    navigate(`/answersheet/${selectedExam.normalizedName}`);
+    // navigate(`/answersheet/${selectedExam.normalizedName}`);
+    const newTab: Window | null = window.open(
+      `/answersheet/${selectedExam.normalizedName}`,
+      '_blank'
+    );
+    newTab?.focus();
   };
 
   return (

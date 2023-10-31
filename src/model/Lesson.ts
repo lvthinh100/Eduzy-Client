@@ -16,12 +16,20 @@ export type UpcomingLessonType = {
     price: number;
     subject: string;
     _id: string;
-    //listOfMainResult: ResultType[];
   } | null;
 };
 
 export type LessonType = {
-  examId: string;
+  examId: {
+    duration: number;
+    examCode: string;
+    examType: string;
+    name: string;
+    normalizedName: string;
+    price: number;
+    subject: string;
+    _id: string;
+  } | null;
   lessonContent: string;
   lessonMeetingUrl: string;
   lessonType: string; //"LuyenDe" | "LyThuyet";

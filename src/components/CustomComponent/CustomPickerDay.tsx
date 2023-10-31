@@ -130,8 +130,8 @@ function CustomDay(
               ? 'Ngày nghỉ'
               : ` ${lesson?.lessonContent}
              Ngày ${dayjs(lesson?.startTime).format('DD/MM/YYYY - h:mma')} 
-             Nội dung: ${lesson?.lessonContent}
-            `}
+             `}
+            {lesson?.examId?.name ? `Nội dung: ${lesson?.examId?.name}` : ''}
           </Typography>
         </Box>
       </Popover>
