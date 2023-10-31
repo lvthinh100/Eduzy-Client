@@ -9,15 +9,15 @@ const Reward = () => {
   const prizePos = {
     first: {
       x: 0,
-      y: isMobile ? 115 : 128,
+      y: isMobile ? 110 : 128,
     },
     second: {
       x: isMobile ? 26 : 30,
-      y: isMobile ? 40 : 44,
+      y: isMobile ? 35 : 44,
     },
     thirst: {
       x: isMobile ? 40 : 45,
-      y: isMobile ? 190 : 214,
+      y: isMobile ? 184 : 214,
     },
   };
   const prizeFontSize = isMobile ? 10 : undefined;
@@ -54,7 +54,7 @@ const Reward = () => {
           sx={{ top: prizePos.second.x, left: prizePos.second.y }}
         >
           <Prize
-            fontSize={prizeFontSize}
+            //fontSize={prizeFontSize}
             direction="column"
             variant="second"
             value={22000}
@@ -65,7 +65,7 @@ const Reward = () => {
           sx={{ top: prizePos.first.x, left: prizePos.first.y }}
         >
           <Prize
-            fontSize={prizeFontSize}
+            //fontSize={prizeFontSize}
             direction="column"
             variant="first"
             value={33000}
@@ -76,7 +76,7 @@ const Reward = () => {
           sx={{ top: prizePos.thirst.x, left: prizePos.thirst.y }}
         >
           <Prize
-            fontSize={prizeFontSize}
+            //fontSize={prizeFontSize}
             direction="column"
             variant="third"
             value={11000}
