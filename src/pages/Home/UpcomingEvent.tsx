@@ -98,11 +98,21 @@ const UpcomingEvent = () => {
   };
 
   const handleShowAnswerSheet = () => {
-    navigate(`/answersheet/${prevLesson?.examId?.normalizedName}`);
+    //navigate(`/answersheet/${prevLesson?.examId?.normalizedName}`);
+    const newTab: Window | null = window.open(
+      `/answersheet/${prevLesson?.examId?.normalizedName}`,
+      '_blank'
+    );
+    newTab?.focus();
   };
 
   const handleShowExam = () => {
-    navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
+    //navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
+    const newTab: Window | null = window.open(
+      `/sheet/${upcomingLesson?.examId?.normalizedName}`,
+      '_blank'
+    );
+    newTab?.focus();
   };
 
   const handleGoToMeetingUrl = useCallback(
@@ -195,17 +205,31 @@ const UpcomingEvent = () => {
                   </Stack>
                 </Button>
                 {prevLesson && (
-                  <Stack direction="row">
-                    <GradeLBbtn
-                      onChange={() => {
-                        handleShowPrevLeaderBoard();
+                  <Stack direction="column">
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        fontFamily: 'SegoeUISemiBold',
+                        fontSize: 14,
+                        mt: 2,
+                        mb: 1,
+                        fontStyle: 'italic',
                       }}
-                    />
-                    <AnswerBtn
-                      onChange={() => {
-                        handleShowAnswerSheet();
-                      }}
-                    />
+                    >
+                      Kết quả "{prevLesson.examId?.name}"
+                    </Typography>
+                    <Stack direction="row">
+                      <GradeLBbtn
+                        onChange={() => {
+                          handleShowPrevLeaderBoard();
+                        }}
+                      />
+                      <AnswerBtn
+                        onChange={() => {
+                          handleShowAnswerSheet();
+                        }}
+                      />
+                    </Stack>
                   </Stack>
                 )}
               </Fragment>
@@ -301,7 +325,12 @@ const UpcomingEvent = () => {
             type="submit"
             onClick={() => {
               setIsNotifyOpen(false);
-              navigate(`/sheet/${closestLesson?.examId?.normalizedName}`);
+              // navigate(`/sheet/${closestLesson?.examId?.normalizedName}`);
+              const newTab: Window | null = window.open(
+                `/sheet/${closestLesson?.examId?.normalizedName}`,
+                '_blank'
+              );
+              newTab?.focus();
             }}
           >
             Tham gia ngay

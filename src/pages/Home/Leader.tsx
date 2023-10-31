@@ -17,6 +17,7 @@ import { getStudentLBs } from '../../api';
 import { LBReqType } from '../../model/Exam';
 import { StudentLBInfo } from '../../model/Student';
 import { LBEnum } from '../../model/Standard';
+import Coins from '../../components/Coins';
 
 const Leader = () => {
   const dispatch = useAppDispatch();
@@ -121,6 +122,7 @@ const Leader = () => {
           <Crown quantity={studentLB?.crowns1} variant="first" />
           <Crown quantity={studentLB?.crowns2} variant="second" />
           <Crown quantity={studentLB?.crowns3} variant="third" />
+          <Coins value={studentLB?.coins} variant="first" />
         </Stack>
       </Box>
       <CardMedia

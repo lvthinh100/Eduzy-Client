@@ -1,10 +1,11 @@
-import React from "react";
-import { ListItem, Box, Typography, Stack, Avatar } from "@mui/material";
-import Prize from "../Prize";
-import { StudentLBInfo } from "../../model/Student";
-import { AnswerEnum, LBEnum } from "../../model/Standard";
-import Crown from "../Crown";
-import useResponsive from "../../hooks/useResponsive";
+import React from 'react';
+import { ListItem, Box, Typography, Stack, Avatar } from '@mui/material';
+import Prize from '../Prize';
+import { StudentLBInfo } from '../../model/Student';
+import { AnswerEnum, LBEnum } from '../../model/Standard';
+import Crown from '../Crown';
+import useResponsive from '../../hooks/useResponsive';
+import Coins from '../Coins';
 
 interface StudentRankingProps {
   studentLB: StudentLBInfo;
@@ -17,10 +18,10 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
   type,
   index,
 }) => {
-  const isMobile = useResponsive("down", "sm");
+  const isMobile = useResponsive('down', 'sm');
 
   const studentNameLabel = isMobile
-    ? studentLB.fullName.split(" ").slice(-2).join(" ")
+    ? studentLB.fullName.split(' ').slice(-2).join(' ')
     : studentLB.fullName;
   return (
     <ListItem sx={{ px: 0 }}>
@@ -28,11 +29,11 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
         sx={{
           backgroundColor:
             studentLB.type === AnswerEnum.sub
-              ? "#E1E5E6" // Set background color to gray for "Sub" type
+              ? '#E1E5E6' // Set background color to gray for "Sub" type
               : (theme) => theme.palette.background.darker,
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
           p: 1,
           borderRadius: 3,
         }}
@@ -44,17 +45,17 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
           color="#472422"
         >
           {index.toString().length < 2
-            ? "0" + index.toString()
+            ? '0' + index.toString()
             : index.toString()}
         </Typography>
         <Stack direction="row" alignItems="center" flexGrow={1}>
           <Avatar
             src={studentLB?.avatar}
             sx={{
-              width: "56px",
-              height: "56px",
-              m: "4px",
-              backgroundColor: "#fff",
+              width: '56px',
+              height: '56px',
+              m: '4px',
+              backgroundColor: '#fff',
             }}
           ></Avatar>
           <Stack ml={1} justifyContent="center">
@@ -87,17 +88,22 @@ const StudentRanking: React.FC<StudentRankingProps> = ({
                 <Crown
                   quantity={studentLB.crowns1}
                   variant="first"
-                  style={{ margin: "0px 5px" }}
+                  style={{ margin: '0px 5px' }}
                 />
                 <Crown
                   quantity={studentLB.crowns2}
                   variant="second"
-                  style={{ margin: "0px 5px" }}
+                  style={{ margin: '0px 5px' }}
                 />
                 <Crown
                   quantity={studentLB.crowns3}
                   variant="third"
-                  style={{ margin: "0px 5px" }}
+                  style={{ margin: '0px 5px' }}
+                />
+                <Coins
+                  value={studentLB.coins}
+                  variant="first"
+                  style={{ marginLeft: '5px' }}
                 />
               </Stack>
             )}

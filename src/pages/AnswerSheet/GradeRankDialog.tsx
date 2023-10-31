@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { StyledScoreLabel } from './style';
 import { ResultType } from '../../model/Exam';
+import labels from '../../constants/labels';
 
 type PropsType = {
   result: ResultType | null;
@@ -27,23 +28,7 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
   const [userRating, setUserRating] = useState<number | null>(null);
   const [hover, setHover] = React.useState(-1);
   const [fb, setFb] = React.useState('');
-  const labels: { [index: string]: string } = {
-    1: 'Rất dễ',
-    2: 'Dễ',
-    3: 'Trung bình',
-    4: 'Khó',
-    5: 'Rất khó',
-  };
-  // Function to handle rating change
-  // const handleRatingChange = (
-  //   event: React.ChangeEvent<{}>,
-  //   newValue: number | null
-  // ) => {
-  //   setUserRating(newValue);
-  // };
-  function getLabelText(value: number) {
-    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
-  }
+
   return (
     <Dialog maxWidth="sm" {...dialogProps}>
       <Paper sx={{ padding: 3, backgroundColor: 'white', maxWidth: 360 }}>
@@ -129,7 +114,6 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
             <Rating
               name="hover-feedback"
               value={userRating}
-              getLabelText={getLabelText}
               onChange={(event, newValue) => {
                 setUserRating(newValue);
               }}
@@ -144,8 +128,16 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
             ) : (
               <Box>&nbsp;</Box>
             )}
+            <Typography
+              variant="subtitle2"
+              fontFamily="Times New Roman"
+              fontSize={10}
+            >
+              Giới thiệu app cho bạn bè và người thân nếu thấy hay nhé. Cảm ơn
+              các bạn rất nhiều ♡
+            </Typography>
           </Box>
-          <Divider sx={{ width: '100%', backgroundColor: '#DE5173' }} />
+          {/* <Divider sx={{ width: '100%', backgroundColor: '#DE5173' }} />
           <Box
             sx={{
               p: 1,
@@ -175,15 +167,8 @@ const GradeRankDialog: React.FC<PropsType & DialogProps> = ({
               fullWidth
               variant="standard"
             />
-            <Typography
-              variant="subtitle2"
-              fontFamily="Times New Roman"
-              fontSize={10}
-            >
-              Giới thiệu app cho bạn bè và người thân nếu thấy hay nhé. Cảm ơn
-              các bạn rất nhiều ♡
-            </Typography>
-          </Box>
+
+          </Box> */}
         </Stack>
         <Button
           variant="gradient2"

@@ -1,25 +1,27 @@
-import React from "react";
-import { Stack, Typography } from "@mui/material";
+import React from 'react';
+import { Stack, Typography } from '@mui/material';
 
-import { CrownVariantType } from "../model/Crown";
-import MoneyIcon from "./IconComponent/MoneyIcon";
-import { formatCoins } from "../utils/coinFormat";
+import { CrownVariantType } from '../model/Crown';
+import MoneyIcon from './IconComponent/MoneyIcon';
+import { formatCoins } from '../utils/coinFormat';
 
 interface PropsType {
   variant?: CrownVariantType;
   value?: number;
   fontSize?: number;
+  style?: React.CSSProperties;
 }
 
-const Coins: React.FC<PropsType> = ({ variant, value, fontSize }) => {
-  const formattedValue = value ? formatCoins(value) : "0";
+const Coins: React.FC<PropsType> = ({ variant, value, style, fontSize }) => {
+  const formattedValue = value ? formatCoins(value) : '0';
   return (
     <Stack
       direction="row"
       alignItems="center"
       sx={{
-        fontSize: fontSize || "12px",
-        color: (theme) => theme.palette.prize[variant ?? "normal"],
+        fontSize: fontSize || '12px',
+        color: (theme) => theme.palette.prize[variant ?? 'normal'],
+        ...style,
       }}
     >
       <Typography
@@ -37,7 +39,7 @@ const Coins: React.FC<PropsType> = ({ variant, value, fontSize }) => {
 };
 
 Coins.defaultProps = {
-  variant: "normal",
+  variant: 'normal',
   value: 11000,
   fontSize: 12,
 };

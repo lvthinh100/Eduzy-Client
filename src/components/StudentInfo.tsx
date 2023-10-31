@@ -1,10 +1,11 @@
-import React from "react";
-import { Stack, Avatar, Typography } from "@mui/material";
-import Prize from "./Prize";
-import { StudentLBInfo } from "../model/Student";
-import { LBEnum } from "../model/Standard";
-import Crown from "./Crown";
-import useResponsive from "../hooks/useResponsive";
+import React from 'react';
+import { Stack, Avatar, Typography } from '@mui/material';
+import Prize from './Prize';
+import { StudentLBInfo } from '../model/Student';
+import { LBEnum } from '../model/Standard';
+import Crown from './Crown';
+import useResponsive from '../hooks/useResponsive';
+import Coins from './Coins';
 
 interface StudentInfoProps {
   studentLB: StudentLBInfo;
@@ -12,9 +13,9 @@ interface StudentInfoProps {
 }
 
 const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
-  const isMobile = useResponsive("down", "sm");
+  const isMobile = useResponsive('down', 'sm');
   const studentNameLabel = isMobile
-    ? studentLB.fullName.split(" ").slice(-2).join(" ")
+    ? studentLB.fullName.split(' ').slice(-2).join(' ')
     : studentLB.fullName;
   const crownFontSize = isMobile ? 10 : undefined;
 
@@ -23,10 +24,10 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
       <Avatar
         src={studentLB?.avatar}
         sx={{
-          width: { md: "56px", sm: "40px" },
-          height: { md: "56px", sm: "40px" },
-          m: "4px",
-          backgroundColor: "#fff",
+          width: { md: '56px', sm: '40px' },
+          height: { md: '56px', sm: '40px' },
+          m: '4px',
+          backgroundColor: '#fff',
         }}
       ></Avatar>
       <Typography
@@ -53,24 +54,33 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
         <Prize direction="row" variant="third" value={studentLB.coins} />
       )}
       {type === LBEnum.achievement && (
-        <Stack direction="row" display="flex" alignItems="center" mb={0.5}>
-          <Crown
+        <Stack direction="column" display="flex" alignItems="center" mb={0.5}>
+          <Stack direction="row" display="flex" alignItems="center" mb={0.5}>
+            <Crown
+              fontSize={crownFontSize}
+              quantity={studentLB.crowns1}
+              variant="first"
+              style={{ margin: '0px 5px' }}
+            />
+            <Crown
+              fontSize={crownFontSize}
+              quantity={studentLB.crowns2}
+              variant="second"
+              style={{ margin: '0px 5px' }}
+            />
+            <Crown
+              fontSize={crownFontSize}
+              quantity={studentLB.crowns3}
+              variant="third"
+              style={{ margin: '0px 5px' }}
+            />
+          </Stack>
+
+          <Coins
             fontSize={crownFontSize}
-            quantity={studentLB.crowns1}
+            value={studentLB.coins}
             variant="first"
-            style={{ margin: "0px 5px" }}
-          />
-          <Crown
-            fontSize={crownFontSize}
-            quantity={studentLB.crowns2}
-            variant="second"
-            style={{ margin: "0px 5px" }}
-          />
-          <Crown
-            fontSize={crownFontSize}
-            quantity={studentLB.crowns3}
-            variant="third"
-            style={{ margin: "0px 5px" }}
+            style={{ marginLeft: '10px' }}
           />
         </Stack>
       )}
