@@ -57,19 +57,19 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
         <Stack direction="column" display="flex" alignItems="center" mb={0.5}>
           <Stack direction="row" display="flex" alignItems="center" mb={0.5}>
             <Crown
-              fontSize={crownFontSize}
+              //fontSize={crownFontSize}
               quantity={studentLB.crowns1}
               variant="first"
               style={{ margin: '0px 5px' }}
             />
             <Crown
-              fontSize={crownFontSize}
+              //fontSize={crownFontSize}
               quantity={studentLB.crowns2}
               variant="second"
               style={{ margin: '0px 5px' }}
             />
             <Crown
-              fontSize={crownFontSize}
+              //fontSize={crownFontSize}
               quantity={studentLB.crowns3}
               variant="third"
               style={{ margin: '0px 5px' }}
@@ -77,7 +77,7 @@ const StudentInfo: React.FC<StudentInfoProps> = ({ studentLB, type }) => {
           </Stack>
 
           <Coins
-            fontSize={crownFontSize}
+            //fontSize={crownFontSize}
             value={studentLB.coins}
             variant="first"
             style={{ marginLeft: '10px' }}
