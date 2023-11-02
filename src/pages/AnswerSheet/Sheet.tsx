@@ -358,34 +358,18 @@ const Sheet: React.FC<PropsType> = ({
               src={''}
             />
             {imgUrl === exam.questionUrl && (
-              // <CardMedia
-              //   component="img"
-              //   sx={{
-              //     width: '100%',
-              //   }}
-              //   src={exam.questionUrl}
-              // />
               <iframe
                 title="PDF Viewer"
-                width="100%"
-                height="800px"
                 src={exam.questionUrl}
+                style={{ minHeight: '800px', width: '100%' }}
               ></iframe>
             )}
 
             {imgUrl === exam.answerUrl && (
-              // <CardMedia
-              //   component="img"
-              //   sx={{
-              //     width: '100%',
-              //   }}
-              //   src={exam.answerUrl}
-              // />
               <iframe
                 title="PDF Viewer"
-                width="100%"
-                height="800px"
                 src={exam.answerUrl}
+                style={{ minHeight: '800px', width: '100%' }}
               ></iframe>
             )}
           </Box>
