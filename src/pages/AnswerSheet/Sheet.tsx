@@ -238,33 +238,33 @@ const Sheet: React.FC<PropsType> = ({
     }
   }, [answerSheet, dispatch, exam, isSubmitted, onSubmit, student]);
 
-  // useEffect(() => {
-  //   if (exam.questionUrl === '') return;
-  //   new Promise((resolve) => {
-  //     const img = new Image();
-  //     img.src = exam.questionUrl;
-  //     img.onload = () => {
-  //       resolve(true);
-  //     };
-  //     img.onerror = () => {
-  //       resolve(false);
-  //     };
-  //   });
-  // }, [exam.questionUrl]);
+  useEffect(() => {
+    if (exam.questionUrl === '') return;
+    new Promise((resolve) => {
+      const img = new Image();
+      img.src = exam.questionUrl;
+      img.onload = () => {
+        resolve(true);
+      };
+      img.onerror = () => {
+        resolve(false);
+      };
+    });
+  }, [exam.questionUrl]);
 
-  // useEffect(() => {
-  //   if (exam.answerUrl === '') return;
-  //   new Promise<boolean>((resolve) => {
-  //     const img = new Image();
-  //     img.src = exam.answerUrl;
-  //     img.onload = () => {
-  //       resolve(true);
-  //     };
-  //     img.onerror = () => {
-  //       resolve(false);
-  //     };
-  //   });
-  // }, [exam.answerUrl]);
+  useEffect(() => {
+    if (exam.answerUrl === '') return;
+    new Promise<boolean>((resolve) => {
+      const img = new Image();
+      img.src = exam.answerUrl;
+      img.onload = () => {
+        resolve(true);
+      };
+      img.onerror = () => {
+        resolve(false);
+      };
+    });
+  }, [exam.answerUrl]);
 
   useEffect(() => {
     if (currentState > timeState.beforeExam) return;
