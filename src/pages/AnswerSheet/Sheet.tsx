@@ -386,7 +386,7 @@ const Sheet: React.FC<PropsType> = ({
                 component="img"
                 sx={{
                   width: '100%',
-                  display: imgUrl === '' ? 'block' : 'none',
+                  display: imgUrl === exam.questionUrl ? 'block' : 'none',
                 }}
                 src={exam.questionUrl}
               />
@@ -419,7 +419,7 @@ const Sheet: React.FC<PropsType> = ({
                 component="img"
                 sx={{
                   width: '100%',
-                  display: imgUrl === '' ? 'block' : 'none',
+                  display: imgUrl === exam.answerUrl ? 'block' : 'none',
                 }}
                 src={exam.answerUrl}
               />
