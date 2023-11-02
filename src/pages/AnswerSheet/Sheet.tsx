@@ -36,6 +36,7 @@ import { fetchAnswer, fetchAnswerById, postAnswer } from '../../api';
 import { ResultType } from '../../model/Exam';
 import SlotMachineDialog from './SlotMachineDialog';
 import PDFViewer from './PDFViewer';
+import WordDocumentViewer from './WordDocumentViewer';
 
 type PropsType = {
   exam: ExamType;
@@ -358,53 +359,78 @@ const Sheet: React.FC<PropsType> = ({
               }}
               src={''}
             />
-            {imgUrl === exam.questionUrl &&
-              (!isMobile ? (
-                <iframe
-                  title="PDF Viewer"
-                  src={exam.questionUrl}
-                  style={{
-                    minHeight: '800px',
-                    width: '100%',
-                    overflow: 'scroll',
-                  }}
-                ></iframe>
-              ) : (
-                <p>
-                  Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
-                  <a
-                    href={exam.questionUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    click vào đây để xem đề nhé {'<3'}
-                  </a>
-                </p>
-              ))}
+            {imgUrl === exam.questionUrl && (
+              // (!isMobile ? (
+              //   <iframe
+              //     title="PDF Viewer"
+              //     src={exam.questionUrl}
+              //     style={{
+              //       minHeight: '800px',
+              //       width: '100%',
+              //       overflow: 'scroll',
+              //     }}
+              //   ></iframe>
+              // ) : (
+              //   <p>
+              //     Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
+              //     <a
+              //       href={exam.questionUrl}
+              //       target="_blank"
+              //       rel="noopener noreferrer"
+              //     >
+              //       click vào đây để xem đề nhé {'<3'}
+              //     </a>
+              //   </p>
+              // ))
+              <CardMedia
+                component="img"
+                sx={{
+                  width: '100%',
+                  display: imgUrl === '' ? 'block' : 'none',
+                }}
+                src={exam.questionUrl}
+              />
+            )}
 
-            {imgUrl === exam.answerUrl &&
-              (!isMobile ? (
-                <iframe
-                  title="PDF Viewer"
-                  src={exam.answerUrl}
-                  style={{
-                    minHeight: '800px',
-                    width: '100%',
-                    overflow: 'scroll',
-                  }}
-                ></iframe>
-              ) : (
-                <p>
-                  Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
-                  <a
-                    href={exam.answerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    click vào đây để xem đáp án nhé {'<3'}
-                  </a>
-                </p>
-              ))}
+            {imgUrl === exam.answerUrl && (
+              // (!isMobile ? (
+              //   <iframe
+              //     title="PDF Viewer"
+              //     src={exam.answerUrl}
+              //     style={{
+              //       minHeight: '800px',
+              //       width: '100%',
+              //       overflow: 'scroll',
+              //     }}
+              //   ></iframe>
+              // ) : (
+              //   <p>
+              //     Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
+              //     <a
+              //       href={exam.answerUrl}
+              //       target="_blank"
+              //       rel="noopener noreferrer"
+              //     >
+              //       click vào đây để xem đáp án nhé {'<3'}
+              //     </a>
+              //   </p>
+              // ))
+              <CardMedia
+                component="img"
+                sx={{
+                  width: '100%',
+                  display: imgUrl === '' ? 'block' : 'none',
+                }}
+                src={exam.answerUrl}
+              />
+            )}
+            {/* {imgUrl === exam.questionUrl && (
+              <WordDocumentViewer docxFileUrl={exam.questionUrl} />
+            )}
+
+            {imgUrl === exam.answerUrl && (
+              <WordDocumentViewer docxFileUrl={exam.answerUrl} />
+            )} */}
           </Box>
         </Grid>
         <Grid
