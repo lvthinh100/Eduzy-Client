@@ -35,6 +35,7 @@ import { appActions } from '../../redux/slices/appSlice';
 import { fetchAnswer, fetchAnswerById, postAnswer } from '../../api';
 import { ResultType } from '../../model/Exam';
 import SlotMachineDialog from './SlotMachineDialog';
+import PDFViewer from './PDFViewer';
 
 type PropsType = {
   exam: ExamType;
@@ -236,33 +237,33 @@ const Sheet: React.FC<PropsType> = ({
     }
   }, [answerSheet, dispatch, exam, isSubmitted, onSubmit, student]);
 
-  useEffect(() => {
-    if (exam.questionUrl === '') return;
-    new Promise((resolve) => {
-      const img = new Image();
-      img.src = exam.questionUrl;
-      img.onload = () => {
-        resolve(true);
-      };
-      img.onerror = () => {
-        resolve(false);
-      };
-    });
-  }, [exam.questionUrl]);
+  // useEffect(() => {
+  //   if (exam.questionUrl === '') return;
+  //   new Promise((resolve) => {
+  //     const img = new Image();
+  //     img.src = exam.questionUrl;
+  //     img.onload = () => {
+  //       resolve(true);
+  //     };
+  //     img.onerror = () => {
+  //       resolve(false);
+  //     };
+  //   });
+  // }, [exam.questionUrl]);
 
-  useEffect(() => {
-    if (exam.answerUrl === '') return;
-    new Promise<boolean>((resolve) => {
-      const img = new Image();
-      img.src = exam.answerUrl;
-      img.onload = () => {
-        resolve(true);
-      };
-      img.onerror = () => {
-        resolve(false);
-      };
-    });
-  }, [exam.answerUrl]);
+  // useEffect(() => {
+  //   if (exam.answerUrl === '') return;
+  //   new Promise<boolean>((resolve) => {
+  //     const img = new Image();
+  //     img.src = exam.answerUrl;
+  //     img.onload = () => {
+  //       resolve(true);
+  //     };
+  //     img.onerror = () => {
+  //       resolve(false);
+  //     };
+  //   });
+  // }, [exam.answerUrl]);
 
   useEffect(() => {
     if (currentState > timeState.beforeExam) return;
@@ -363,25 +364,54 @@ const Sheet: React.FC<PropsType> = ({
                 type="application/pdf"
                 style={{ minHeight: '800px', width: '100%' }}
               >
-                <iframe
-                  title="PDF Viewer"
-                  src={exam.questionUrl}
-                  style={{ minHeight: '800px', width: '100%' }}
-                ></iframe>
+                <p>
+                  Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
+                  <a
+                    href={exam.questionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    click vào đây để xem đề nhé {'<3'}
+                  </a>
+                </p>
               </object>
+              //   <iframe
+              //   title="PDF Viewer"
+              //   src={exam.questionUrl}
+              //   style={{ minHeight: '800px', width: '100%' }}
+              // ></iframe>
+              // <PDFViewer
+              //   pdfUrl={'https://www.africau.edu/images/default/sample.pdf'}
+              // />
             )}
 
             {imgUrl === exam.answerUrl && (
+              // <object
+              //   data={exam.answerUrl}
+              //   type="application/pdf"
+              //   style={{ minHeight: '800px', width: '100%' }}
+              // >
+              //   <iframe
+              //     title="PDF Viewer"
+              //     src={exam.answerUrl}
+              //     style={{ minHeight: '800px', width: '100%' }}
+              //   ></iframe>
+              // </object>
               <object
                 data={exam.answerUrl}
                 type="application/pdf"
                 style={{ minHeight: '800px', width: '100%' }}
               >
-                <iframe
-                  title="PDF Viewer"
-                  src={exam.answerUrl}
-                  style={{ minHeight: '800px', width: '100%' }}
-                ></iframe>
+                <p>
+                  Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
+                  <a
+                    href={exam.answerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    click vào đây để xem đáp án nhé {'<3'}
+                  </a>
+                </p>
               </object>
             )}
           </Box>
