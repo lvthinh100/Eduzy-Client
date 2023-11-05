@@ -45,7 +45,8 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
           <StyledTypo>
             {exam.duration}m - {exam.numberOfQuestion} câu
           </StyledTypo>
-          {isMobile && <StyledTypo>Lượt LB: {exam.examTimes}</StyledTypo>}
+          {/* {isMobile && <StyledTypo>Lượt LB: {exam.examTimes}</StyledTypo>} */}
+          <StyledTypo>Lượt LB: {exam.examTimes}</StyledTypo>
           <Stack direction="row">
             <Rating
               name="read-only"
@@ -66,7 +67,7 @@ const Exam: React.FC<PropsType> = ({ exam, onSelectExam, ...other }) => {
 
           {/* <Prize crown={false} variant="first" value={exam.price} /> */}
         </Stack>
-        {!isMobile && <StyledTypo>Lượt làm bài: {exam.examTimes}</StyledTypo>}
+        {/* {!isMobile && <StyledTypo>Lượt làm bài: {exam.examTimes}</StyledTypo>} */}
       </Stack>
     </StyledListItem>
   );
