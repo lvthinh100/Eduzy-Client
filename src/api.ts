@@ -59,6 +59,9 @@ export const getExamByName = async (name: string) =>
 export const getExamsByType = async (type: string) =>
   axios.get(`${SERVER}/api/exams/type/${type}`);
 
+export const fetchChart = async (id: string) =>
+  axios.get(`${SERVER}/api/exams/chart/${id}`);
+
 export const registerExam = async (examId: string, studentId: string) => {
   const requestData = { examId, studentId };
 

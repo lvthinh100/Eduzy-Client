@@ -11,6 +11,7 @@ import LeaderBoard from '../../components/LeaderBoard';
 import { LBEnum } from '../../model/Standard';
 import AnswerBtn from '../../components/AnswerBtn';
 import { useAppSelector } from '../../hooks/redux';
+import Chart from './Chart';
 
 const ListExams = () => {
   const { code } = useAppSelector((state) => state.lesson);
@@ -67,7 +68,8 @@ const ListExams = () => {
         <Stack
           direction="column"
           alignItems="center"
-          sx={{ py: 2, flexGrow: 1, mx: 5, my: 0 }}
+          mx={{ lg: 5, md: 2, xs: 0 }}
+          sx={{ py: 2, flexGrow: 1, my: 0 }}
         >
           <SelectClassType />
 
@@ -139,8 +141,17 @@ const ListExams = () => {
           paperStyle={{
             boxShadow:
               '26px 26px 16px 4px rgba(110, 143, 148, 0.76) !important',
+
             m: 2,
+            mx: { md: 2, xs: 0 },
           }}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Chart
+          examId={
+            selectedExam && selectedExam._id ? selectedExam._id : undefined
+          }
         />
       </Grid>
     </Grid>

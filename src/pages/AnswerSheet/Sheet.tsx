@@ -11,6 +11,7 @@ import {
   Dialog,
   IconButton,
   Divider,
+  Color,
 } from '@mui/material';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import CloseIcon from '@mui/icons-material/Close';
@@ -35,8 +36,6 @@ import { appActions } from '../../redux/slices/appSlice';
 import { fetchAnswer, fetchAnswerById, postAnswer } from '../../api';
 import { ResultType } from '../../model/Exam';
 import SlotMachineDialog from './SlotMachineDialog';
-import PDFViewer from './PDFViewer';
-import WordDocumentViewer from './WordDocumentViewer';
 
 type PropsType = {
   exam: ExamType;
@@ -382,27 +381,45 @@ const Sheet: React.FC<PropsType> = ({
               //     </a>
               //   </p>
               // ))
-              <CardMedia
-                component="img"
-                sx={{
+              // <CardMedia
+              //   component="img"
+              //   sx={{
+              //     width: '100%',
+              //     display: imgUrl === exam.questionUrl ? 'block' : 'none',
+              //   }}
+              //   src={exam.questionUrl}
+              // />
+              <iframe
+                title="PDF Viewer"
+                src="https://drive.google.com/file/d/1xEy8aHdhCEkHXJeLG5deThuutF0cztH7/preview"
+                style={{
+                  minHeight: '800px',
                   width: '100%',
-                  display: imgUrl === exam.questionUrl ? 'block' : 'none',
+                  overflow: 'scroll',
                 }}
-                src={exam.questionUrl}
-              />
+              ></iframe>
             )}
 
             {imgUrl === exam.answerUrl && (
+              <iframe
+                title="PDF Viewer"
+                src="https://drive.google.com/file/d/1xEy8aHdhCEkHXJeLG5deThuutF0cztH7/preview"
+                style={{
+                  minHeight: '800px',
+                  width: '100%',
+                  overflow: 'scroll',
+                }}
+              ></iframe>
               // (!isMobile ? (
-              //   <iframe
-              //     title="PDF Viewer"
-              //     src={exam.answerUrl}
-              //     style={{
-              //       minHeight: '800px',
-              //       width: '100%',
-              //       overflow: 'scroll',
-              //     }}
-              //   ></iframe>
+              // <iframe
+              //   title="PDF Viewer"
+              //   src="https://docs.google.com/viewerng/viewer?url=https://www.africau.edu/images/default/sample.pdf"
+              //   style={{
+              //     minHeight: '800px',
+              //     width: '100%',
+              //     overflow: 'scroll',
+              //   }}
+              // ></iframe>
               // ) : (
               //   <p>
               //     Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
@@ -415,14 +432,14 @@ const Sheet: React.FC<PropsType> = ({
               //     </a>
               //   </p>
               // ))
-              <CardMedia
-                component="img"
-                sx={{
-                  width: '100%',
-                  display: imgUrl === exam.answerUrl ? 'block' : 'none',
-                }}
-                src={exam.answerUrl}
-              />
+              // <CardMedia
+              //   component="img"
+              //   sx={{
+              //     width: '100%',
+              //     display: imgUrl === exam.answerUrl ? 'block' : 'none',
+              //   }}
+              //   src={exam.answerUrl}
+              // />
             )}
             {/* {imgUrl === exam.questionUrl && (
               <WordDocumentViewer docxFileUrl={exam.questionUrl} />
