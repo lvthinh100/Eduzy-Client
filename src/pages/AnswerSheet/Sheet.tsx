@@ -391,7 +391,7 @@ const Sheet: React.FC<PropsType> = ({
               // />
               <iframe
                 title="PDF Viewer"
-                src="https://drive.google.com/file/d/1xEy8aHdhCEkHXJeLG5deThuutF0cztH7/preview"
+                src={exam.questionUrl}
                 style={{
                   minHeight: '800px',
                   width: '100%',
@@ -403,7 +403,7 @@ const Sheet: React.FC<PropsType> = ({
             {imgUrl === exam.answerUrl && (
               <iframe
                 title="PDF Viewer"
-                src="https://drive.google.com/file/d/1xEy8aHdhCEkHXJeLG5deThuutF0cztH7/preview"
+                src={exam.answerUrl}
                 style={{
                   minHeight: '800px',
                   width: '100%',
