@@ -1,6 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { AppDispatch } from "..";
-import { StudentInfo } from "../../model/Student";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { AppDispatch } from '..';
+import { StudentInfo } from '../../model/Student';
 
 type AuthState = {
   user: StudentInfo | null;
@@ -17,12 +17,12 @@ type AuthPayload = {
 };
 
 const authSlice = createSlice({
-  name: "app",
+  name: 'app',
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<AuthPayload>) {
       state.user = { ...action.payload.user } as StudentInfo;
-      // localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem('userId', action.payload.user?._id ?? '');
       // localStorage.setItem(
       //   "expired",
       //   new Date(action.payload.tokenExpires).toISOString()
@@ -31,9 +31,9 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.user = null;
-      localStorage.removeItem("user");
-      localStorage.removeItem("expired");
-      localStorage.removeItem("token");
+      localStorage.removeItem('user');
+      localStorage.removeItem('expired');
+      localStorage.removeItem('token');
     },
   },
 });
@@ -41,9 +41,9 @@ const authSlice = createSlice({
 export const retrieveUser = function () {
   //start
   return (dispatch: AppDispatch) => {
-    let user = localStorage.getItem("user");
-    const outDated = localStorage.getItem("expired");
-    const token = localStorage.getItem("token");
+    let user = localStorage.getItem('user');
+    const outDated = localStorage.getItem('expired');
+    const token = localStorage.getItem('token');
     if (!user || !outDated || !token) return;
     const studentInfo = { ...JSON.parse(user) } as StudentInfo;
     const countTimeRemaining = function (outDated: string) {
@@ -55,9 +55,9 @@ export const retrieveUser = function () {
 
     const timeRemaining = countTimeRemaining(outDated);
     if (timeRemaining <= 1000) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("expired");
-      localStorage.removeItem("user");
+      localStorage.removeItem('token');
+      localStorage.removeItem('expired');
+      localStorage.removeItem('user');
       return;
     }
     dispatch(

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './App.css';
 import MyRouter from './routes';
-import { getMe, getTime } from './api';
+import { getMe, getStudent, getTime } from './api';
 import { useAppDispatch } from './hooks/redux';
 import { authActions } from './redux/slices/authSlice';
 import React from 'react';
@@ -16,7 +16,16 @@ function App() {
         const { data: response } = await getMe();
         dispatch(authActions.setUser({ user: response.data.data }));
       } catch (err) {
-        console.log(err);
+        const storedUserData = localStorage.getItem('userId');
+        if (storedUserData !== undefined && storedUserData !== null) {
+          const userId = storedUserData;
+          try {
+            const { data: response } = await getStudent(userId);
+            dispatch(authActions.setUser({ user: response }));
+          } catch (err) {
+            console.log(err);
+          }
+        }
       }
     };
     const fetchTime = async () => {
