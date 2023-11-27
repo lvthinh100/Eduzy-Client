@@ -32,6 +32,9 @@ export const logout = async () =>
 export const getMe = async () =>
   axios.get(`${SERVER}/api/students/me`, { withCredentials: true });
 
+export const getStudent = async (id: string) =>
+  axios.get(`${SERVER}/api/students/${id}`, { withCredentials: true });
+
 export const updateProfile = async (data: FormData) =>
   axios.patch(`${SERVER}/api/students/updateMe`, data, {
     headers: {
