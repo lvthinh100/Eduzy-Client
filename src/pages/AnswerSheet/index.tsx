@@ -1,13 +1,13 @@
-import { Fragment, useEffect, useState, useCallback } from 'react';
+import { Fragment, useEffect, useState, useCallback, useRef } from 'react';
 import {
   Box,
   Button,
   Container,
   Dialog,
-  DialogContent,
   Divider,
   Grid,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material';
 import CodeFilling from '../../components/CodeFilling';
@@ -17,7 +17,6 @@ import { StyledScoreLabel } from './style';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getExamByName, getMe, postFb, updateHardLevel } from '../../api';
 import { ExamType, UpdateHardLevelType, defaultExam } from '../../model/Exam';
-import NameDialog from './NameDialog';
 import useToggleOpen from '../../hooks/useToggleOpen';
 import useAuth from '../../hooks/useAuth';
 import dayjs from 'dayjs';
@@ -154,6 +153,7 @@ const AnswerSheetPage = () => {
   useEffect(() => {
     if (user) {
       setStudent(user);
+      setUnAuthName(user.fullName);
     } else {
       setStudent({
         ...defaultUser,
@@ -216,7 +216,7 @@ const AnswerSheetPage = () => {
     let newExam = exam;
     newExam.startTime = dayjs()
       .add(timediff ? timediff : 0, 'second')
-      .add(5, 'second')
+      .add(10, 'second')
       .toString();
     setExam(newExam);
     setShowBtn(false);
@@ -295,6 +295,26 @@ const AnswerSheetPage = () => {
         >
           {exam?.name}
         </Typography>
+        <Box
+          sx={{
+            p: 1,
+            textAlign: 'center',
+            mb: 'auto',
+            flex: 1,
+          }}
+        >
+          <TextField
+            required
+            id="standard-required"
+            label="Họ và tên"
+            defaultValue=""
+            variant="standard"
+            value={unAuthName}
+            onChange={(event) => setUnAuthName(event.target.value)}
+            InputLabelProps={{ shrink: true }}
+          />
+        </Box>
+
         <Grid
           container
           sx={{
@@ -551,7 +571,7 @@ const AnswerSheetPage = () => {
         </Grid>
       </Container>
 
-      {!user && !isAnswerSheet && currentState < timeState.afterExam && (
+      {/* {!user && !isAnswerSheet && currentState < timeState.afterExam && (
         <NameDialog
           onSubmitName={(name: string) => {
             setUnAuthName(name);
@@ -559,7 +579,7 @@ const AnswerSheetPage = () => {
           }}
           open={openNameDialog}
         />
-      )}
+      )} */}
       <GradeRankDialog
         handleClose={(rating, fb) => {
           setIsOpenGradeRankDialog(false);

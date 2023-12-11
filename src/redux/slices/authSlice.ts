@@ -34,6 +34,7 @@ const authSlice = createSlice({
       localStorage.removeItem('user');
       localStorage.removeItem('expired');
       localStorage.removeItem('token');
+      localStorage.removeItem('userId');
     },
   },
 });

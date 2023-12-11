@@ -44,6 +44,10 @@ export type LoginData = {
   password: string;
 };
 
+export type DoExamData = {
+  username: string;
+};
+
 export type StudentLBInfo = {
   //Show in Leader Board
   fullName: string;

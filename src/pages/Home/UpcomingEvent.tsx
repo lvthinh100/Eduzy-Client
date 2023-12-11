@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { UpcomingLessonType } from '../../model/Lesson';
 import {
   getClosestUpcomingLesson,
+  getExamById,
   getPrevLesson,
   getUpcomingLesson,
 } from '../../api';
@@ -23,6 +24,7 @@ import LeaderBoard from '../../components/LeaderBoard';
 import { LBEnum } from '../../model/Standard';
 import useAuth from '../../hooks/useAuth';
 import { appActions } from '../../redux/slices/appSlice';
+import { ExamType } from '../../model/Exam';
 
 const UpcomingEvent = () => {
   const { timediff } = useAppSelector((state) => state.app);
@@ -35,6 +37,7 @@ const UpcomingEvent = () => {
   const [upcomingLesson, setUpComingLesson] =
     useState<UpcomingLessonType | null>(null);
   const [prevLesson, setPrevLesson] = useState<UpcomingLessonType | null>(null);
+  const [exam, setExam] = useState<ExamType | null>(null);
   const [closestLesson, setClosestLesson] = useState<UpcomingLessonType | null>(
     null
   );
@@ -188,7 +191,7 @@ const UpcomingEvent = () => {
               >
                 Giải thưởng
               </Typography>
-              <Reward />
+              <Reward upcomingLesson={upcomingLesson} />
             </Fragment>
           )}
 

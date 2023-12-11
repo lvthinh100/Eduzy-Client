@@ -165,10 +165,6 @@ const LoginModal = () => {
             >
               Đăng nhập
             </Button>
-            {/* <Divider flexItem>Hoặc</Divider>
-            <Button variant="gradient" sx={{ width: 250 }} type="submit">
-              Đăng nhập dùng thử
-            </Button> */}
           </Stack>
         </FormProvider>
         <IconButton

@@ -3,8 +3,13 @@ import img from '../../assets/Reward.png';
 import { Box, CardMedia } from '@mui/material';
 import Prize from '../../components/Prize';
 import useResponsive from '../../hooks/useResponsive';
+import { UpcomingLessonType } from '../../model/Lesson';
 
-const Reward = () => {
+const Reward = ({
+  upcomingLesson,
+}: {
+  upcomingLesson?: UpcomingLessonType;
+}) => {
   const isMobile = useResponsive('down', 'sm');
   const prizePos = {
     first: {
@@ -21,6 +26,23 @@ const Reward = () => {
     },
   };
   const prizeFontSize = isMobile ? 10 : undefined;
+  const [coinsPrize, setCoinsPrize] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (upcomingLesson && upcomingLesson.examId) {
+      console.log('upcomingLesson.examId', upcomingLesson.examId);
+      setCoinsPrize(upcomingLesson.examId.coinsPrize);
+    }
+  }, [upcomingLesson]);
+
+  const firstPrize = roundToNearestThousand((coinsPrize / 7) * 4);
+  const secondPrize = roundToNearestThousand((coinsPrize / 7) * 2);
+  const thirdPrize = roundToNearestThousand(coinsPrize / 7);
+
+  function roundToNearestThousand(value: number): number {
+    return Math.round(value / 1000) * 1000;
+  }
+
   return (
     <Box sx={{ mt: 1 }}>
       <Box
@@ -57,7 +79,7 @@ const Reward = () => {
             //fontSize={prizeFontSize}
             direction="column"
             variant="second"
-            value={22000}
+            value={secondPrize}
           />
         </Box>
         <Box
@@ -68,7 +90,7 @@ const Reward = () => {
             //fontSize={prizeFontSize}
             direction="column"
             variant="first"
-            value={33000}
+            value={firstPrize}
           />
         </Box>
         <Box
@@ -79,7 +101,7 @@ const Reward = () => {
             //fontSize={prizeFontSize}
             direction="column"
             variant="third"
-            value={11000}
+            value={thirdPrize}
           />
         </Box>
       </Box>

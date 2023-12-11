@@ -1,12 +1,12 @@
-import React from "react";
-import { Stack, Typography } from "@mui/material";
-import Crown from "./Crown";
+import React from 'react';
+import { Stack, Typography } from '@mui/material';
+import Crown from './Crown';
 
-import { CrownVariantType } from "../model/Crown";
-import MoneyIcon from "./IconComponent/MoneyIcon";
-import { formatCoins } from "../utils/coinFormat";
+import { CrownVariantType } from '../model/Crown';
+import MoneyIcon from './IconComponent/MoneyIcon';
+import { formatCoins } from '../utils/coinFormat';
 
-type direction = "row" | "column";
+type direction = 'row' | 'column';
 
 interface PropsType {
   variant?: CrownVariantType;
@@ -23,13 +23,13 @@ const Prize: React.FC<PropsType> = ({
   value,
   fontSize,
 }) => {
-  const formattedValue = value ? formatCoins(value) : "11.000";
+  const formattedValue = value ? formatCoins(value) : '0.000';
 
   return (
     <Stack
       sx={{
-        fontSize: fontSize || "12px",
-        color: (theme) => theme.palette.prize[variant ?? "normal"],
+        fontSize: fontSize || '12px',
+        color: (theme) => theme.palette.prize[variant ?? 'normal'],
       }}
       alignItems="center"
       direction={direction}
@@ -38,8 +38,8 @@ const Prize: React.FC<PropsType> = ({
       <Stack
         direction="row"
         alignItems="center"
-        ml={direction === "row" ? 0.5 : 0}
-        mt={direction === "column" && crown ? 1 : 0}
+        ml={direction === 'row' ? 0.5 : 0}
+        mt={direction === 'column' && crown ? 1 : 0}
       >
         <Typography
           fontSize="inherit"
@@ -58,8 +58,8 @@ const Prize: React.FC<PropsType> = ({
 
 Prize.defaultProps = {
   crown: true,
-  direction: "column",
-  variant: "normal",
+  direction: 'column',
+  variant: 'normal',
   value: 11000,
   fontSize: 12,
 };
