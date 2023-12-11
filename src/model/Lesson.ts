@@ -13,8 +13,8 @@ export type UpcomingLessonType = {
     examType: string;
     name: string;
     normalizedName: string;
-    price: number;
     subject: string;
+    coinsPrize: number;
     _id: string;
   } | null;
 };
@@ -28,6 +28,7 @@ export type LessonType = {
     normalizedName: string;
     price: number;
     subject: string;
+    coinsPrize: number;
     _id: string;
   } | null;
   lessonContent: string;

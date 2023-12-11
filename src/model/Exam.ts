@@ -16,6 +16,7 @@ export type ExamType = {
   startTime: string | null;
   rating: number;
   ratingCount: number;
+  coinsPrize: number;
 };
 
 export type ResultType = {
@@ -63,42 +64,43 @@ export type LBReqType = {
 };
 
 export const AnswerEnum = {
-  main: "MAIN",
-  sub: "SUB",
+  main: 'MAIN',
+  sub: 'SUB',
 };
 
 export const defaultResult: ResultType = {
-  _id: "",
-  student: "",
-  studentName: "",
-  exam: "",
-  type: "",
-  answer: "",
-  score: "",
+  _id: '',
+  student: '',
+  studentName: '',
+  exam: '',
+  type: '',
+  answer: '',
+  score: '',
   coins: 0,
   crown1: 0,
   crown2: 0,
   crown3: 0,
-  rank: "",
+  rank: '',
   isPrized: false,
 };
 
 export const defaultExam: ExamType = {
-  examCode: "001",
-  examType: "",
+  examCode: '001',
+  examType: '',
   examTimes: 0,
-  name: "",
-  normalizedName: "",
-  subject: "",
+  name: '',
+  normalizedName: '',
+  subject: '',
   duration: 50,
   price: 0,
-  questionUrl: "",
-  answerUrl: "",
+  questionUrl: '',
+  answerUrl: '',
   numberOfQuestion: 40,
-  answerSheet: "",
+  answerSheet: '',
   isUpcoming: true,
   _id: null,
   startTime: null,
   rating: 0,
   ratingCount: 0,
+  coinsPrize: 0,
 };

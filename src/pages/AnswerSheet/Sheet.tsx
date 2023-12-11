@@ -11,7 +11,6 @@ import {
   Dialog,
   IconButton,
   Divider,
-  Color,
 } from '@mui/material';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import CloseIcon from '@mui/icons-material/Close';
@@ -30,7 +29,7 @@ import {
   defaultResult,
 } from '../../model/Exam';
 import { StudentInfo } from '../../model/Student';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import timeState from './TimeState';
 import { appActions } from '../../redux/slices/appSlice';
 import { fetchAnswer, fetchAnswerById, postAnswer } from '../../api';
@@ -60,11 +59,12 @@ const Sheet: React.FC<PropsType> = ({
   setResult,
   reloadUser,
 }) => {
+  console.log('exam', exam);
   const dispatch = useAppDispatch();
   const [answerSheet, setAnswerSheet] = useState(
     new Array(exam.numberOfQuestion).fill('')
   );
-
+  const { okCancelNotification } = useAppSelector((state) => state.app);
   const [imgUrl, setImgUrl] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); //For prevent user from click too fast
 
@@ -178,12 +178,12 @@ const Sheet: React.FC<PropsType> = ({
         !student._id &&
         currentState === timeState.afterExam
       ) {
-        dispatch(
-          appActions.showNotification({
-            variant: 'success',
-            message: 'Bạn cần đăng nhập để xem đáp án',
-          })
-        );
+        // dispatch(
+        //   appActions.showNotification({
+        //     variant: 'success',
+        //     message: 'Bạn cần đăng nhập để xem đáp án',
+        //   })
+        // );
       }
     }
 
@@ -201,73 +201,92 @@ const Sheet: React.FC<PropsType> = ({
       const newAnswerSheet = [...answerSheet];
       newAnswerSheet[index] = value;
       setAnswerSheet(newAnswerSheet);
+
+      localStorage.setItem(
+        'answerSheet' + exam.name,
+        newAnswerSheet.map((char) => (char === '' ? ' ' : char)).join('')
+      );
     };
 
     return handleChangeAnswer;
   };
 
-  const handleSubmit = useCallback(async () => {
-    setIsDisabled(true);
-    if (!exam || !exam._id || isSubmitted) return;
+  const handleSubmit = useCallback(
+    async (byUser: boolean) => {
+      if (!exam || !exam._id || isSubmitted) return;
+      if (student.fullName === '') {
+        dispatch(
+          appActions.showNotification({
+            variant: 'success',
+            message: 'Vui lòng nhập họ và tên hoặc đăng nhập.',
+          })
+        );
+        return;
+      }
+      const data: AnswerType = {
+        student: student._id,
+        studentName: student.fullName,
+        exam: exam._id,
+        answer: answerSheet.map((char) => (char === '' ? ' ' : char)).join(''),
+        type: exam.isUpcoming ? AnswerEnum.main : AnswerEnum.sub,
+      };
+      try {
+        if (byUser) {
+          if (window.confirm('Bạn có chắc muốn nộp bài sớm?')) {
+            const { data: response } = await postAnswer(data);
+            onSubmit(response);
+            if (exam.isUpcoming)
+              dispatch(
+                appActions.showNotification({
+                  variant: 'success',
+                  message:
+                    'Nộp bài thành công, kết quả sẽ có sau khi hết giờ làm bài.',
+                })
+              );
+            setIsDisabled(true);
+          }
+        } else {
+          const { data: response } = await postAnswer(data);
+          onSubmit(response);
+          setIsDisabled(true);
+        }
+      } catch (error) {
+        dispatch(
+          appActions.showNotification({
+            variant: 'error',
+            message: 'Có lỗi xảy ra khi nộp bài.',
+          })
+        );
+      }
+    },
+    [answerSheet, dispatch, exam, isSubmitted, onSubmit, student]
+  );
 
-    const data: AnswerType = {
-      student: student._id,
-      studentName: student.fullName,
-      exam: exam._id,
-      answer: answerSheet.map((char) => (char === '' ? ' ' : char)).join(''),
-      type: exam.isUpcoming ? AnswerEnum.main : AnswerEnum.sub,
-    };
-    try {
-      const { data: response } = await postAnswer(data);
-      onSubmit(response);
-      dispatch(
-        appActions.showNotification({
-          variant: 'success',
-          message:
-            'Nộp bài thành công, thông báo điểm số và xếp hạng sẽ xuất hiện sau khi hết giờ làm bài.',
-        })
-      );
-    } catch (error) {
-      dispatch(
-        appActions.showNotification({
-          variant: 'error',
-          message: 'Có lỗi xảy ra khi nộp bài.',
-        })
-      );
+  useEffect(() => {
+    //if (currentState === timeState.beforeExam || !exam.isUpcoming) return;
+    const answerData = localStorage.getItem('answerSheet' + exam.name);
+    if (answerData !== undefined && answerData !== null) {
+      try {
+        let charArray = answerData.split('');
+        if (charArray.length > exam.numberOfQuestion) {
+          charArray = charArray.slice(0, exam.numberOfQuestion);
+        }
+        setAnswerSheet(charArray);
+
+        Object.keys(localStorage).forEach((key) => {
+          if (
+            key.includes('answerSheet') &&
+            key !== 'answerSheet' + exam.name
+          ) {
+            localStorage.removeItem(key);
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }, [answerSheet, dispatch, exam, isSubmitted, onSubmit, student]);
 
-  useEffect(() => {
-    if (exam.questionUrl === '') return;
-    new Promise((resolve) => {
-      const img = new Image();
-      img.src = exam.questionUrl;
-      img.onload = () => {
-        resolve(true);
-      };
-      img.onerror = () => {
-        resolve(false);
-      };
-    });
-  }, [exam.questionUrl]);
-
-  useEffect(() => {
-    if (exam.answerUrl === '') return;
-    new Promise<boolean>((resolve) => {
-      const img = new Image();
-      img.src = exam.answerUrl;
-      img.onload = () => {
-        resolve(true);
-      };
-      img.onerror = () => {
-        resolve(false);
-      };
-    });
-  }, [exam.answerUrl]);
-
-  useEffect(() => {
-    if (currentState > timeState.beforeExam) return;
-    setAnswerSheet(new Array(exam.numberOfQuestion).fill(''));
+    //setAnswerSheet(new Array(exam.numberOfQuestion).fill(''));
   }, [exam, currentState]);
 
   const [prevCurrentState, setPrevCurrentState] = useState<Number | null>(null); //For check currentState change from 2 to 3
@@ -278,11 +297,19 @@ const Sheet: React.FC<PropsType> = ({
       currentState === timeState.afterExam &&
       isSubmitted === false
     ) {
-      handleSubmit();
+      handleSubmit(false);
     }
     setPrevCurrentState(currentState);
   }, [currentState, isSubmitted, handleSubmit, prevCurrentState]);
 
+  useEffect(() => {
+    try {
+      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
+        {}
+      );
+      //(window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {}
+  }, []);
   return (
     <Fragment>
       <Grid item md={12} xs={12}>
@@ -343,52 +370,21 @@ const Sheet: React.FC<PropsType> = ({
         <Grid item xs>
           <Box
             sx={{
+              minHeight: '700px',
               maxHeight: 'calc(100vh + 50px)',
               overflowY: 'scroll',
               border: '1px solid #DE5173',
             }}
           >
-            {/* Tạo 3 cái để ko cần reload khi đổi ảnh */}
-
             <CardMedia
               component="img"
               sx={{
                 width: '100%',
-                display: imgUrl === '' ? 'block' : 'none',
+                display: 'block',
               }}
               src={''}
             />
             {imgUrl === exam.questionUrl && (
-              // (!isMobile ? (
-              //   <iframe
-              //     title="PDF Viewer"
-              //     src={exam.questionUrl}
-              //     style={{
-              //       minHeight: '800px',
-              //       width: '100%',
-              //       overflow: 'scroll',
-              //     }}
-              //   ></iframe>
-              // ) : (
-              //   <p>
-              //     Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
-              //     <a
-              //       href={exam.questionUrl}
-              //       target="_blank"
-              //       rel="noopener noreferrer"
-              //     >
-              //       click vào đây để xem đề nhé {'<3'}
-              //     </a>
-              //   </p>
-              // ))
-              // <CardMedia
-              //   component="img"
-              //   sx={{
-              //     width: '100%',
-              //     display: imgUrl === exam.questionUrl ? 'block' : 'none',
-              //   }}
-              //   src={exam.questionUrl}
-              // />
               <iframe
                 title="PDF Viewer"
                 src={exam.questionUrl}
@@ -410,44 +406,27 @@ const Sheet: React.FC<PropsType> = ({
                   overflow: 'scroll',
                 }}
               ></iframe>
-              // (!isMobile ? (
-              // <iframe
-              //   title="PDF Viewer"
-              //   src="https://docs.google.com/viewerng/viewer?url=https://www.africau.edu/images/default/sample.pdf"
-              //   style={{
-              //     minHeight: '800px',
-              //     width: '100%',
-              //     overflow: 'scroll',
-              //   }}
-              // ></iframe>
-              // ) : (
-              //   <p>
-              //     Có vẻ trình duyệt web của bạn không hỗ trợ pdf{' '}
-              //     <a
-              //       href={exam.answerUrl}
-              //       target="_blank"
-              //       rel="noopener noreferrer"
-              //     >
-              //       click vào đây để xem đáp án nhé {'<3'}
-              //     </a>
-              //   </p>
-              // ))
-              // <CardMedia
-              //   component="img"
-              //   sx={{
-              //     width: '100%',
-              //     display: imgUrl === exam.answerUrl ? 'block' : 'none',
-              //   }}
-              //   src={exam.answerUrl}
-              // />
             )}
-            {/* {imgUrl === exam.questionUrl && (
-              <WordDocumentViewer docxFileUrl={exam.questionUrl} />
+            {imgUrl === '' && (
+              <div>
+                <Typography
+                  textAlign="center"
+                  color="purple"
+                  fontFamily="Times New Roman"
+                  fontSize="14px"
+                >
+                  Xem quảng cáo để ủng hộ người làm đề nha. Cảm ơn các bạn ♡
+                </Typography>
+                <ins
+                  className="adsbygoogle"
+                  style={{ display: 'block' }}
+                  data-ad-client="ca-pub-5493900609831971"
+                  data-ad-slot="9031749033"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"
+                ></ins>
+              </div>
             )}
-
-            {imgUrl === exam.answerUrl && (
-              <WordDocumentViewer docxFileUrl={exam.answerUrl} />
-            )} */}
           </Box>
         </Grid>
         <Grid
@@ -535,7 +514,7 @@ const Sheet: React.FC<PropsType> = ({
               disabled={
                 currentState === timeState.inExam && !isDisabled ? false : true
               }
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(true)}
             >
               {' '}
               Nộp bài{' '}
@@ -677,7 +656,7 @@ const Sheet: React.FC<PropsType> = ({
               disabled={
                 currentState === timeState.inExam && !isDisabled ? false : true
               }
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(true)}
             >
               Nộp bài
             </Button>

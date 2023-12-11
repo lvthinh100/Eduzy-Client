@@ -120,7 +120,7 @@ const HomePage = () => {
             aria-label="open"
             sx={{ position: 'fixed', bottom: 70, left: 10 }}
             onClick={() => {
-              window.open('https://m.me/j/AbbohirduHDQ388y/', '_blank');
+              window.open('https://m.me/ch/AbYDi5F-guVKSEQU/', '_blank');
             }}
           >
             <ChatIcon />
