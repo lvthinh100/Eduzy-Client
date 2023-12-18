@@ -307,7 +307,6 @@ const Sheet: React.FC<PropsType> = ({
       ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
         {}
       );
-      //(window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {}
   }, []);
   return (
@@ -407,7 +406,7 @@ const Sheet: React.FC<PropsType> = ({
                 }}
               ></iframe>
             )}
-            {imgUrl === '' && (
+            {/* {imgUrl === '' && (
               <div>
                 <Typography
                   textAlign="center"
@@ -426,7 +425,7 @@ const Sheet: React.FC<PropsType> = ({
                   data-full-width-responsive="true"
                 ></ins>
               </div>
-            )}
+            )} */}
           </Box>
         </Grid>
         <Grid
