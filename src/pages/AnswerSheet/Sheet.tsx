@@ -271,6 +271,9 @@ const Sheet: React.FC<PropsType> = ({
         if (charArray.length > exam.numberOfQuestion) {
           charArray = charArray.slice(0, exam.numberOfQuestion);
         }
+        // if (charArray.length < exam.numberOfQuestion) {
+        //   charArray = charArray.slice(0, exam.numberOfQuestion);
+        // }
         setAnswerSheet(charArray);
 
         Object.keys(localStorage).forEach((key) => {
@@ -286,7 +289,7 @@ const Sheet: React.FC<PropsType> = ({
       }
     }
 
-    //setAnswerSheet(new Array(exam.numberOfQuestion).fill(''));
+    setAnswerSheet(new Array(exam.numberOfQuestion).fill(''));
   }, [exam, currentState]);
 
   const [prevCurrentState, setPrevCurrentState] = useState<Number | null>(null); //For check currentState change from 2 to 3
