@@ -271,11 +271,7 @@ const Sheet: React.FC<PropsType> = ({
         if (charArray.length > exam.numberOfQuestion) {
           charArray = charArray.slice(0, exam.numberOfQuestion);
         }
-        // if (charArray.length < exam.numberOfQuestion) {
-        //   charArray = charArray.slice(0, exam.numberOfQuestion);
-        // }
         setAnswerSheet(charArray);
-
         Object.keys(localStorage).forEach((key) => {
           if (
             key.includes('answerSheet') &&
@@ -284,6 +280,7 @@ const Sheet: React.FC<PropsType> = ({
             localStorage.removeItem(key);
           }
         });
+        return;
       } catch (err) {
         console.log(err);
       }
