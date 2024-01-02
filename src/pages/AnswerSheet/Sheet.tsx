@@ -166,10 +166,7 @@ const Sheet: React.FC<PropsType> = ({
 
     //Kiểm tra điều kiện xem đáp án ở đây
     if (isAnswerSheet) {
-      newImgUrl =
-        currentState === timeState.afterExam && student._id
-          ? exam.answerUrl
-          : '';
+      newImgUrl = currentState === timeState.afterExam ? exam.answerUrl : '';
     }
 
     if (isAnswerSheet) {
