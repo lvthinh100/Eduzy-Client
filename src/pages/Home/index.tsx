@@ -131,7 +131,7 @@ const HomePage = () => {
             aria-label="open"
             sx={{ position: 'fixed', bottom: 120, left: 10 }}
             onClick={() => {
-              window.open('https://www.tiktok.com/@eduzyyy', '_blank');
+              window.open('https://www.tiktok.com/@eduzy.official', '_blank');
             }}
           >
             <TikTokIcon />
