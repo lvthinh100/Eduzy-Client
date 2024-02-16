@@ -101,21 +101,21 @@ const UpcomingEvent = () => {
   };
 
   const handleShowAnswerSheet = () => {
-    //navigate(`/answersheet/${prevLesson?.examId?.normalizedName}`);
-    const newTab: Window | null = window.open(
-      `/answersheet/${prevLesson?.examId?.normalizedName}`,
-      '_blank'
-    );
-    newTab?.focus();
+    navigate(`/answersheet/${prevLesson?.examId?.normalizedName}`);
+    // const newTab: Window | null = window.open(
+    //   `/answersheet/${prevLesson?.examId?.normalizedName}`,
+    //   '_blank'
+    // );
+    // newTab?.focus();
   };
 
   const handleShowExam = () => {
-    //navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
-    const newTab: Window | null = window.open(
-      `/sheet/${upcomingLesson?.examId?.normalizedName}`,
-      '_blank'
-    );
-    newTab?.focus();
+    navigate(`/sheet/${upcomingLesson?.examId?.normalizedName}`);
+    // const newTab: Window | null = window.open(
+    //   `/sheet/${upcomingLesson?.examId?.normalizedName}`,
+    //   '_blank'
+    // );
+    // newTab?.focus();
   };
 
   const handleGoToMeetingUrl = useCallback(
@@ -328,12 +328,12 @@ const UpcomingEvent = () => {
             type="submit"
             onClick={() => {
               setIsNotifyOpen(false);
-              // navigate(`/sheet/${closestLesson?.examId?.normalizedName}`);
-              const newTab: Window | null = window.open(
-                `/sheet/${closestLesson?.examId?.normalizedName}`,
-                '_blank'
-              );
-              newTab?.focus();
+              navigate(`/sheet/${closestLesson?.examId?.normalizedName}`);
+              // const newTab: Window | null = window.open(
+              //   `/sheet/${closestLesson?.examId?.normalizedName}`,
+              //   '_blank'
+              // );
+              // newTab?.focus();
             }}
           >
             Tham gia ngay
