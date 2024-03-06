@@ -30,7 +30,7 @@ const BioLinkPage = () => {
     >
       <Container
         maxWidth="md"
-        style={{ textAlign: "center", marginTop: "20%" }}
+        style={{ textAlign: "center", marginTop: "30px" }}
       >
         {/* <img
           src={Logo5}
