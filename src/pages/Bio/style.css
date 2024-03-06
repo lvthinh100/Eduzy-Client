@@ -17,7 +17,6 @@
           }
 
           .btn-grad:hover {
-            background-position: right center; /* change the direction of the change here */
             color: #555452;
             text-decoration: none;
           }
