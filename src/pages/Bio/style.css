@@ -1,14 +1,15 @@
          
          .btn-grad {
-            background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);
-            margin: 10px;
+            background-image: linear-gradient(to right, #FCDC93, #f08ad3 50%) ;  /* linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);   */
+            margin-top: 15px;
+            margin-bottom: 15px;
             padding: 15px 45px;
             text-align: center;
             text-transform: uppercase;
             transition: 0.5s;
             background-size: 200% auto;
             color: #555452;            
-            box-shadow: 0 0 20px #eee;
+            box-shadow: 0 0 5px #eee;
             border-radius: 30px;
             display: block;
             font-size: 15px;
