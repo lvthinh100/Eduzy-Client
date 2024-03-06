@@ -6,29 +6,29 @@ import {
   Grid,
   IconButton,
   SpeedDialAction,
-} from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import AlarmIcon from '@mui/icons-material/Alarm';
-import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import ChatIcon from '@mui/icons-material/Chat';
-import TikTokIcon from '../../components/IconComponent/TikTokIcon';
-import UpcomingEvent from './UpcomingEvent';
-import Schedule from './Schedule';
-import Additional from './Additional';
-import CalendarContainerRight from './CalendarContainerRight';
-import SelectClassType from '../../components/SelectClassType';
-import { StyledSpeedial } from './style';
-import Clock from '../../components/Clock';
-import useToggleOpen from '../../hooks/useToggleOpen';
-import LeaderBoard from '../../components/LeaderBoard';
+} from "@mui/material";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import AlarmIcon from "@mui/icons-material/Alarm";
+import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import ChatIcon from "@mui/icons-material/Chat";
+import TikTokIcon from "../../components/IconComponent/TikTokIcon";
+import UpcomingEvent from "./UpcomingEvent";
+import Schedule from "./Schedule";
+import Additional from "./Additional";
+import CalendarContainerRight from "./CalendarContainerRight";
+import SelectClassType from "../../components/SelectClassType";
+import { StyledSpeedial } from "./style";
+import Clock from "../../components/Clock";
+import useToggleOpen from "../../hooks/useToggleOpen";
+import LeaderBoard from "../../components/LeaderBoard";
 
 // Data
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { appActions } from '../../redux/slices/appSlice';
-import { LBEnum } from '../../model/Standard';
-import { Fragment } from 'react';
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { appActions } from "../../redux/slices/appSlice";
+import { LBEnum } from "../../model/Standard";
+import { Fragment } from "react";
 
 const HomePage = () => {
   const [openCalendar, handleOpenCalendar, handleCloseCalendar] =
@@ -43,8 +43,8 @@ const HomePage = () => {
         <Grid item lg={0} md={12} xs={12}>
           <Box
             sx={{
-              display: { lg: 'none', xs: 'flex' },
-              justifyContent: 'space-between',
+              display: { lg: "none", xs: "flex" },
+              justifyContent: "space-between",
               my: 1,
             }}
           >
@@ -52,8 +52,8 @@ const HomePage = () => {
             <IconButton
               aria-label="Lịch"
               sx={{
-                justifySelf: 'flex-end',
-                display: { md: 'block', xs: 'none' },
+                justifySelf: "flex-end",
+                display: { md: "block", xs: "none" },
               }}
               onClick={() => handleOpenCalendar()}
             >
@@ -61,11 +61,11 @@ const HomePage = () => {
             </IconButton>
 
             <Box
-              display={{ md: 'none', xs: 'block' }}
+              display={{ md: "none", xs: "block" }}
               sx={{
                 color: (theme) => theme.palette.lighter.main,
                 opacity: 0.6,
-                '&:hover': {
+                "&:hover": {
                   opacity: 1,
                 },
               }}
@@ -104,11 +104,11 @@ const HomePage = () => {
             size="small"
             color="secondary"
             aria-label="open"
-            sx={{ position: 'fixed', bottom: 20, left: 10 }}
+            sx={{ position: "fixed", bottom: 20, left: 10 }}
             onClick={() => {
               window.open(
-                'https://www.facebook.com/groups/857028829034537',
-                '_blank'
+                "https://www.facebook.com/groups/857028829034537",
+                "_blank"
               );
             }}
           >
@@ -118,9 +118,9 @@ const HomePage = () => {
             size="small"
             color="secondary"
             aria-label="open"
-            sx={{ position: 'fixed', bottom: 70, left: 10 }}
+            sx={{ position: "fixed", bottom: 70, left: 10 }}
             onClick={() => {
-              window.open('https://m.me/ch/AbYDi5F-guVKSEQU/', '_blank');
+              window.open("https://m.me/cm/AbYnhYnWU80GvaOH/", "_blank");
             }}
           >
             <ChatIcon />
@@ -129,9 +129,9 @@ const HomePage = () => {
             size="small"
             color="secondary"
             aria-label="open"
-            sx={{ position: 'fixed', bottom: 120, left: 10 }}
+            sx={{ position: "fixed", bottom: 120, left: 10 }}
             onClick={() => {
-              window.open('https://www.tiktok.com/@eduzy.official', '_blank');
+              window.open("https://www.tiktok.com/@eduzy.official", "_blank");
             }}
           >
             <TikTokIcon />
@@ -141,7 +141,7 @@ const HomePage = () => {
           <UpcomingEvent />
         </Grid>
         <Grid item lg={4} md={9}>
-          <Box display={{ md: 'block', xs: 'none' }}>
+          <Box display={{ md: "block", xs: "none" }}>
             <Additional />
           </Box>
         </Grid>
@@ -149,7 +149,7 @@ const HomePage = () => {
           <Box
             sx={{
               mr: { lg: 0, md: 8, xs: 0 },
-              display: { lg: 'block', md: 'none', xs: 'none' },
+              display: { lg: "block", md: "none", xs: "none" },
             }}
           >
             <CalendarContainerRight>
@@ -159,18 +159,18 @@ const HomePage = () => {
         </Grid>
       </Grid>
       <Dialog
-        maxWidth={'xs'}
+        maxWidth={"xs"}
         fullWidth={true}
         open={openCalendar}
-        sx={{ display: { lg: 'none', xs: 'block' } }}
+        sx={{ display: { lg: "none", xs: "block" } }}
         onClose={() => handleCloseCalendar()}
       >
         <Schedule />
       </Dialog>
       <Dialog
-        maxWidth={'xs'}
+        maxWidth={"xs"}
         open={openClock}
-        sx={{ display: { md: 'none', xs: 'block' } }}
+        sx={{ display: { md: "none", xs: "block" } }}
         onClose={() => handleCloseClock()}
       >
         <Clock />
@@ -180,8 +180,8 @@ const HomePage = () => {
         fullWidth
         PaperProps={{
           style: {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
+            backgroundColor: "transparent",
+            boxShadow: "none",
           },
         }}
         onClose={() => dispatch(appActions.toggleShowLeaderBoardModal())}

@@ -42,7 +42,7 @@ const RegisterModal = () => {
     password: yup
       .string()
       .min(6, "Mật khẩu phải ít nhất 6 ký tự")
-      .required("Vui long nhap mật khẩu"),
+      .required("Vui long nhập mật khẩu"),
     birth: yup
       .date()
       .typeError("Vui lòng nhập ngày sinh hợp lệ")
