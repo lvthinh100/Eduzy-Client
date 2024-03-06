@@ -1,30 +1,30 @@
 // Libs
-import { Fragment, useCallback, useEffect, useState } from 'react';
-import dayjs from 'dayjs';
+import { Fragment, useCallback, useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 // UI Component
-import CalendarContainerLeft from './CalendarContainerLeft';
-import { Box, Button, Dialog, Paper, Stack, Typography } from '@mui/material';
-import Reward from './Reward';
-import { CustomSubtitleTypography, StyledButtonText } from './style';
-import { useNavigate } from 'react-router-dom';
+import CalendarContainerLeft from "./CalendarContainerLeft";
+import { Box, Button, Dialog, Paper, Stack, Typography } from "@mui/material";
+import Reward from "./Reward";
+import { CustomSubtitleTypography, StyledButtonText } from "./style";
+import { useNavigate } from "react-router-dom";
 // Data
-import { UpcomingLessonType } from '../../model/Lesson';
+import { UpcomingLessonType } from "../../model/Lesson";
 import {
   getClosestUpcomingLesson,
   getExamById,
   getPrevLesson,
   getUpcomingLesson,
-} from '../../api';
-import Countdown from '../../components/Countdown';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import GradeLBbtn from '../../components/GradeLBbtn';
-import AnswerBtn from '../../components/AnswerBtn';
-import LeaderBoard from '../../components/LeaderBoard';
-import { LBEnum } from '../../model/Standard';
-import useAuth from '../../hooks/useAuth';
-import { appActions } from '../../redux/slices/appSlice';
-import { ExamType } from '../../model/Exam';
+} from "../../api";
+import Countdown from "../../components/Countdown";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import GradeLBbtn from "../../components/GradeLBbtn";
+import AnswerBtn from "../../components/AnswerBtn";
+import LeaderBoard from "../../components/LeaderBoard";
+import { LBEnum } from "../../model/Standard";
+import useAuth from "../../hooks/useAuth";
+import { appActions } from "../../redux/slices/appSlice";
+import { ExamType } from "../../model/Exam";
 
 const UpcomingEvent = () => {
   const { timediff } = useAppSelector((state) => state.app);
@@ -41,7 +41,7 @@ const UpcomingEvent = () => {
   const [closestLesson, setClosestLesson] = useState<UpcomingLessonType | null>(
     null
   );
-  const isLyThuyet = upcomingLesson?.lessonType === 'LyThuyet';
+  const isLyThuyet = upcomingLesson?.lessonType === "LyThuyet";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,8 +71,8 @@ const UpcomingEvent = () => {
       try {
         const { data: response } = await getClosestUpcomingLesson();
         const s = dayjs(response.data.startTime).diff(
-          dayjs().add(timediff ? timediff : 0, 'second'),
-          'seconds'
+          dayjs().add(timediff ? timediff : 0, "second"),
+          "seconds"
         );
         if (s <= 15 * 60) {
           setClosestLesson(response.data);
@@ -121,12 +121,12 @@ const UpcomingEvent = () => {
   const handleGoToMeetingUrl = useCallback(
     (url: string) => {
       if (user && user.studentType === upcomingLesson?.lessonCode) {
-        window.open(url, '_blank');
+        window.open(url, "_blank");
       } else {
         dispatch(
           appActions.showNotification({
-            variant: 'error',
-            message: 'Chỉ dành cho những học sinh đã đăng ký!',
+            variant: "error",
+            message: "Chỉ dành cho những học sinh đã đăng ký!",
           })
         );
       }
@@ -139,22 +139,22 @@ const UpcomingEvent = () => {
       {upcomingLesson ? (
         <Box
           sx={{
-            textAlign: 'center',
+            textAlign: "center",
             pb: 4,
-            position: 'relative',
-            color: '#5A7F8F',
+            position: "relative",
+            color: "#5A7F8F",
           }}
         >
           <Typography
             variant="h4"
             textTransform="uppercase"
             sx={{
-              fontFamily: 'ArialUnicodeMS',
-              fontSize: '24px !important',
-              letterSpacing: '.05rem',
+              fontFamily: "ArialUnicodeMS",
+              fontSize: "24px !important",
+              letterSpacing: ".05rem",
             }}
           >
-            {!isLyThuyet ? upcomingLesson.lessonContent : 'HỌC LÝ THUYẾT'}
+            {!isLyThuyet ? upcomingLesson.lessonContent : "HỌC LÝ THUYẾT"}
           </Typography>
 
           <CustomSubtitleTypography variant="subtitle2">
@@ -162,7 +162,7 @@ const UpcomingEvent = () => {
           </CustomSubtitleTypography>
 
           <CustomSubtitleTypography variant="subtitle2">
-            Ngày {dayjs(upcomingLesson?.startTime).format('DD-MM-YYYY - HH:mm')}
+            Ngày {dayjs(upcomingLesson?.startTime).format("DD-MM-YYYY - HH:mm")}
           </CustomSubtitleTypography>
           <Typography fontSize="1.25rem">
             {!isLyThuyet
@@ -171,7 +171,7 @@ const UpcomingEvent = () => {
           </Typography>
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: 'SegoeUISemiBold', fontSize: 12 }}
+            sx={{ fontFamily: "SegoeUISemiBold", fontSize: 12 }}
           >
             <Countdown
               key={upcomingLesson?._id}
@@ -183,7 +183,7 @@ const UpcomingEvent = () => {
               <Typography
                 variant="subtitle1"
                 sx={{
-                  fontFamily: 'SegoeUISemiBold',
+                  fontFamily: "SegoeUISemiBold",
                   fontSize: 14,
                   mt: 2,
                   mb: 1,
@@ -212,11 +212,11 @@ const UpcomingEvent = () => {
                     <Typography
                       variant="subtitle1"
                       sx={{
-                        fontFamily: 'SegoeUISemiBold',
+                        fontFamily: "SegoeUISemiBold",
                         fontSize: 14,
                         mt: 2,
                         mb: 1,
-                        fontStyle: 'italic',
+                        fontStyle: "italic",
                       }}
                     >
                       Kết quả "{prevLesson.examId?.name}"
@@ -255,20 +255,20 @@ const UpcomingEvent = () => {
       ) : (
         <Box
           sx={{
-            textAlign: 'center',
+            textAlign: "center",
             py: 9,
-            position: 'relative',
-            color: '#5A7F8F',
-            height: '200px',
+            position: "relative",
+            color: "#5A7F8F",
+            height: "200px",
           }}
         >
           <Typography
             variant="h4"
             textTransform="uppercase"
             sx={{
-              fontFamily: 'ArialUnicodeMS',
-              fontSize: '24px !important',
-              letterSpacing: '.05rem',
+              fontFamily: "ArialUnicodeMS",
+              fontSize: "24px !important",
+              letterSpacing: ".05rem",
             }}
           >
             CHƯA CÓ BÀI HỌC MỚI
@@ -280,8 +280,8 @@ const UpcomingEvent = () => {
         fullWidth
         PaperProps={{
           style: {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
+            backgroundColor: "transparent",
+            boxShadow: "none",
           },
         }}
         onClose={() => setIsOpen(false)}
@@ -291,7 +291,7 @@ const UpcomingEvent = () => {
           examId={
             prevLesson && prevLesson.examId ? prevLesson.examId._id : undefined
           }
-          examName={prevLesson ? prevLesson.examId?.name : ''}
+          examName={prevLesson ? prevLesson.examId?.name : ""}
         />
       </Dialog>
       <Dialog
@@ -299,7 +299,7 @@ const UpcomingEvent = () => {
         open={isNotifyOpen}
         onClose={() => setIsNotifyOpen(false)}
       >
-        <Paper sx={{ padding: 3, backgroundColor: 'white', maxWidth: 360 }}>
+        <Paper sx={{ padding: 3, backgroundColor: "white", maxWidth: 360 }}>
           <Typography
             fontSize="24px"
             color="#39393A"
@@ -308,7 +308,7 @@ const UpcomingEvent = () => {
             mb={3}
           >
             "{closestLesson?.examId?.name}"
-            {notifyHappening ? 'đang diễn ra!' : 'sắp diễn ra trong'}
+            {notifyHappening ? "đang diễn ra!" : "sắp diễn ra trong"}
           </Typography>
           {!notifyHappening && (
             <Typography
@@ -324,7 +324,7 @@ const UpcomingEvent = () => {
 
           <Button
             variant="gradient2"
-            sx={{ p: 1.25, width: '100%', fontSize: '12px', mt: 4 }}
+            sx={{ p: 1.25, width: "100%", fontSize: "12px", mt: 4 }}
             type="submit"
             onClick={() => {
               setIsNotifyOpen(false);

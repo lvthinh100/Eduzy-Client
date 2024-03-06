@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Grid,
@@ -11,15 +11,15 @@ import {
   Dialog,
   IconButton,
   Divider,
-} from '@mui/material';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import CloseIcon from '@mui/icons-material/Close';
+} from "@mui/material";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import CloseIcon from "@mui/icons-material/Close";
 
-import AnswerRadio from './AnswerRadio';
-import useResponsive from '../../hooks/useResponsive';
-import useToggleOpen from '../../hooks/useToggleOpen';
-import Countdown from '../../components/Countdown';
-import dayjs from 'dayjs';
+import AnswerRadio from "./AnswerRadio";
+import useResponsive from "../../hooks/useResponsive";
+import useToggleOpen from "../../hooks/useToggleOpen";
+import Countdown from "../../components/Countdown";
+import dayjs from "dayjs";
 import {
   AnswerEnum,
   AnswerType,
@@ -27,14 +27,15 @@ import {
   FetchAnswerIdType,
   FetchAnswerType,
   defaultResult,
-} from '../../model/Exam';
-import { StudentInfo } from '../../model/Student';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import timeState from './TimeState';
-import { appActions } from '../../redux/slices/appSlice';
-import { fetchAnswer, fetchAnswerById, postAnswer } from '../../api';
-import { ResultType } from '../../model/Exam';
-import SlotMachineDialog from './SlotMachineDialog';
+} from "../../model/Exam";
+import { StudentInfo } from "../../model/Student";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import timeState from "./TimeState";
+import { appActions } from "../../redux/slices/appSlice";
+import { fetchAnswer, fetchAnswerById, postAnswer } from "../../api";
+import { ResultType } from "../../model/Exam";
+import SlotMachineDialog from "./SlotMachineDialog";
+import { maxHeaderSize } from "http";
 
 type PropsType = {
   exam: ExamType;
@@ -59,13 +60,12 @@ const Sheet: React.FC<PropsType> = ({
   setResult,
   reloadUser,
 }) => {
-  console.log('exam', exam);
   const dispatch = useAppDispatch();
   const [answerSheet, setAnswerSheet] = useState(
-    new Array(exam.numberOfQuestion).fill('')
+    new Array(exam.numberOfQuestion).fill("")
   );
   const { okCancelNotification } = useAppSelector((state) => state.app);
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState("");
   const [isDisabled, setIsDisabled] = useState(false); //For prevent user from click too fast
 
   const [isPrize, setIsPrize] = useState(false);
@@ -111,7 +111,7 @@ const Sheet: React.FC<PropsType> = ({
         exam.isUpcoming &&
         isSubmitted &&
         result &&
-        result._id !== '' &&
+        result._id !== "" &&
         currentState === timeState.afterExam
       )
     )
@@ -144,12 +144,12 @@ const Sheet: React.FC<PropsType> = ({
         try {
           const { data: response } = await fetchAnswer(data);
           setResult(response);
-          let charArray = response.answer.split('');
+          let charArray = response.answer.split("");
           setAnswerSheet(charArray);
         } catch (error) {
           setResult(defaultResult);
-          const spacesString = ' '.repeat(exam.numberOfQuestion);
-          const charArray = spacesString.split('');
+          const spacesString = " ".repeat(exam.numberOfQuestion);
+          const charArray = spacesString.split("");
           setAnswerSheet(charArray);
         }
       }
@@ -160,18 +160,18 @@ const Sheet: React.FC<PropsType> = ({
 
   useEffect(() => {
     if (!exam._id) return;
-    let newImgUrl = '';
+    let newImgUrl = "";
     if (!isAnswerSheet && currentState >= timeState.inExam)
       newImgUrl = exam.questionUrl;
 
     //Kiểm tra điều kiện xem đáp án ở đây
     if (isAnswerSheet) {
-      newImgUrl = currentState === timeState.afterExam ? exam.answerUrl : '';
+      newImgUrl = currentState === timeState.afterExam ? exam.answerUrl : "";
     }
 
     if (isAnswerSheet) {
       if (
-        newImgUrl === '' &&
+        newImgUrl === "" &&
         !student._id &&
         currentState === timeState.afterExam
       ) {
@@ -190,7 +190,7 @@ const Sheet: React.FC<PropsType> = ({
   const [openAnswer, handleOpenAnswer, handleCloseAnswer] =
     useToggleOpen(false);
 
-  const isMobile = useResponsive('down', 'md');
+  const isMobile = useResponsive("down", "md");
 
   const generateChangeEventHandler = (index: number) => {
     if (!(currentState === timeState.inExam)) return;
@@ -200,8 +200,8 @@ const Sheet: React.FC<PropsType> = ({
       setAnswerSheet(newAnswerSheet);
 
       localStorage.setItem(
-        'answerSheet' + exam.name,
-        newAnswerSheet.map((char) => (char === '' ? ' ' : char)).join('')
+        "answerSheet" + exam.name,
+        newAnswerSheet.map((char) => (char === "" ? " " : char)).join("")
       );
     };
 
@@ -211,11 +211,11 @@ const Sheet: React.FC<PropsType> = ({
   const handleSubmit = useCallback(
     async (byUser: boolean) => {
       if (!exam || !exam._id || isSubmitted) return;
-      if (student.fullName === '') {
+      if (student.fullName === "") {
         dispatch(
           appActions.showNotification({
-            variant: 'success',
-            message: 'Vui lòng nhập họ và tên hoặc đăng nhập.',
+            variant: "success",
+            message: "Vui lòng nhập họ và tên hoặc đăng nhập.",
           })
         );
         return;
@@ -224,20 +224,20 @@ const Sheet: React.FC<PropsType> = ({
         student: student._id,
         studentName: student.fullName,
         exam: exam._id,
-        answer: answerSheet.map((char) => (char === '' ? ' ' : char)).join(''),
+        answer: answerSheet.map((char) => (char === "" ? " " : char)).join(""),
         type: exam.isUpcoming ? AnswerEnum.main : AnswerEnum.sub,
       };
       try {
         if (byUser) {
-          if (window.confirm('Bạn có chắc muốn nộp bài sớm?')) {
+          if (window.confirm("Bạn có chắc muốn nộp bài sớm?")) {
             const { data: response } = await postAnswer(data);
             onSubmit(response);
             if (exam.isUpcoming)
               dispatch(
                 appActions.showNotification({
-                  variant: 'success',
+                  variant: "success",
                   message:
-                    'Nộp bài thành công, kết quả sẽ có sau khi hết giờ làm bài.',
+                    "Nộp bài thành công, kết quả sẽ có sau khi hết giờ làm bài.",
                 })
               );
             setIsDisabled(true);
@@ -250,8 +250,8 @@ const Sheet: React.FC<PropsType> = ({
       } catch (error) {
         dispatch(
           appActions.showNotification({
-            variant: 'error',
-            message: 'Có lỗi xảy ra khi nộp bài.',
+            variant: "error",
+            message: "Có lỗi xảy ra khi nộp bài.",
           })
         );
       }
@@ -261,18 +261,18 @@ const Sheet: React.FC<PropsType> = ({
 
   useEffect(() => {
     //if (currentState === timeState.beforeExam || !exam.isUpcoming) return;
-    const answerData = localStorage.getItem('answerSheet' + exam.name);
+    const answerData = localStorage.getItem("answerSheet" + exam.name);
     if (answerData !== undefined && answerData !== null) {
       try {
-        let charArray = answerData.split('');
+        let charArray = answerData.split("");
         if (charArray.length > exam.numberOfQuestion) {
           charArray = charArray.slice(0, exam.numberOfQuestion);
         }
         setAnswerSheet(charArray);
         Object.keys(localStorage).forEach((key) => {
           if (
-            key.includes('answerSheet') &&
-            key !== 'answerSheet' + exam.name
+            key.includes("answerSheet") &&
+            key !== "answerSheet" + exam.name
           ) {
             localStorage.removeItem(key);
           }
@@ -283,7 +283,7 @@ const Sheet: React.FC<PropsType> = ({
       }
     }
 
-    setAnswerSheet(new Array(exam.numberOfQuestion).fill(''));
+    setAnswerSheet(new Array(exam.numberOfQuestion).fill(""));
   }, [exam, currentState]);
 
   const [prevCurrentState, setPrevCurrentState] = useState<Number | null>(null); //For check currentState change from 2 to 3
@@ -306,6 +306,45 @@ const Sheet: React.FC<PropsType> = ({
       );
     } catch (e) {}
   }, []);
+
+  function getBackGroundRadioColor(index: number) {
+    console.log("answerSheet[index]", answerSheet[index]);
+    const x =
+      currentState === timeState.afterExam && result
+        ? answerSheet[index] === exam.answerSheet[index]
+          ? "#AAD0AA"
+          : "#EAC8C8"
+        : answerSheet[index] === ""
+        ? "white"
+        : "#F6E1A7";
+    return x;
+  }
+
+  function getIsGreen(currentIndex: number, value: string) {
+    const x =
+      currentState === timeState.afterExam &&
+      result !== null &&
+      answerSheet[currentIndex] !== exam.answerSheet[currentIndex] &&
+      exam.answerSheet[currentIndex] === value;
+    return x;
+  }
+
+  function getLastName(fullName: string) {
+    const nameParts = fullName.split(" ");
+    if (nameParts.length < 1) {
+      return "";
+    }
+    const lastName = nameParts[nameParts.length - 1];
+
+    const normalizedLastName = lastName
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D");
+
+    return normalizedLastName;
+  }
+
   return (
     <Fragment>
       <Grid item md={12} xs={12}>
@@ -322,14 +361,14 @@ const Sheet: React.FC<PropsType> = ({
                 <>
                   Đáp án sẽ được mở sau:
                   <Countdown
-                    date={dayjs(exam.startTime).add(exam.duration, 'minute')}
+                    date={dayjs(exam.startTime).add(exam.duration, "minute")}
                   />
                 </>
               )}
             </>
           ) : (
             <>
-              {' '}
+              {" "}
               {currentState === timeState.beforeExam && (
                 <>
                   Đề sẽ được mở sau:
@@ -340,7 +379,7 @@ const Sheet: React.FC<PropsType> = ({
                 <>
                   Thời gian còn lại:
                   <Countdown
-                    date={dayjs(exam.startTime).add(exam.duration, 'minute')}
+                    date={dayjs(exam.startTime).add(exam.duration, "minute")}
                   />
                 </>
               )}
@@ -348,7 +387,7 @@ const Sheet: React.FC<PropsType> = ({
                 <>
                   Kết quả sẽ có sau:
                   <Countdown
-                    date={dayjs(exam.startTime).add(exam.duration, 'minute')}
+                    date={dayjs(exam.startTime).add(exam.duration, "minute")}
                   />
                 </>
               )}
@@ -361,33 +400,25 @@ const Sheet: React.FC<PropsType> = ({
         spacing={1}
         my={2}
         bgcolor="#fae9ea"
-        sx={{ minHeight: '600px' }}
+        sx={{ minHeight: "600px" }}
       >
         <Grid item xs>
           <Box
             sx={{
-              minHeight: '700px',
-              maxHeight: 'calc(100vh + 50px)',
-              overflowY: 'scroll',
-              border: '1px solid #DE5173',
+              // minHeight: '700px',
+              // maxHeight: 'calc(100vh + 50px)',
+              overflowY: "scroll",
+              border: "1px solid #DE5173",
             }}
           >
-            <CardMedia
-              component="img"
-              sx={{
-                width: '100%',
-                display: 'block',
-              }}
-              src={''}
-            />
             {imgUrl === exam.questionUrl && (
               <iframe
                 title="PDF Viewer"
                 src={exam.questionUrl}
                 style={{
-                  minHeight: '800px',
-                  width: '100%',
-                  overflow: 'scroll',
+                  height: "100vh",
+                  width: "100%",
+                  overflow: "scroll",
                 }}
               ></iframe>
             )}
@@ -397,9 +428,9 @@ const Sheet: React.FC<PropsType> = ({
                 title="PDF Viewer"
                 src={exam.answerUrl}
                 style={{
-                  minHeight: '800px',
-                  width: '100%',
-                  overflow: 'scroll',
+                  height: "100vh",
+                  width: "100%",
+                  overflow: "scroll",
                 }}
               ></iframe>
             )}
@@ -427,17 +458,17 @@ const Sheet: React.FC<PropsType> = ({
         </Grid>
         <Grid
           item
-          sx={{ width: '165px', display: { xs: 'none', md: 'block' } }}
+          sx={{ width: "180px", display: { xs: "none", md: "block" } }}
         >
           <Stack alignItems="center">
             <Box
               sx={{
                 pl: 1,
-                border: '1px solid #DE5173',
-                maxHeight: '100vh',
-                overflowY: 'scroll',
-                width: '100%',
-                backgroundColor: 'white',
+                border: "1px solid #DE5173",
+                maxHeight: "100vh",
+                overflowY: "scroll",
+                width: "100%",
+                backgroundColor: "white",
               }}
             >
               {answerSheet.map((value, index: number) => (
@@ -447,16 +478,11 @@ const Sheet: React.FC<PropsType> = ({
                   alignItems="center"
                   justifyContent="space-between"
                   sx={{
-                    backgroundColor:
-                      currentState === timeState.afterExam && result
-                        ? answerSheet[index] === exam.answerSheet[index]
-                          ? '#AAD0AA'
-                          : '#EAC8C8'
-                        : 'white',
+                    backgroundColor: getBackGroundRadioColor(index),
                   }}
                 >
                   <Typography fontFamily="Times New Roman">
-                    {' '}
+                    {" "}
                     {index + 1}
                   </Typography>
                   <RadioGroup
@@ -464,56 +490,24 @@ const Sheet: React.FC<PropsType> = ({
                     row
                     onChange={generateChangeEventHandler(index)}
                   >
-                    <AnswerRadio
-                      value="A"
-                      isGreen={
-                        currentState === timeState.afterExam &&
-                        result !== null &&
-                        answerSheet[index] !== exam.answerSheet[index] &&
-                        exam.answerSheet[index] === 'A'
-                      }
-                    />
-                    <AnswerRadio
-                      value="B"
-                      isGreen={
-                        currentState === timeState.afterExam &&
-                        result !== null &&
-                        answerSheet[index] !== exam.answerSheet[index] &&
-                        exam.answerSheet[index] === 'B'
-                      }
-                    />
-                    <AnswerRadio
-                      value="C"
-                      isGreen={
-                        currentState === timeState.afterExam &&
-                        result !== null &&
-                        answerSheet[index] !== exam.answerSheet[index] &&
-                        exam.answerSheet[index] === 'C'
-                      }
-                    />
-                    <AnswerRadio
-                      value="D"
-                      isGreen={
-                        currentState === timeState.afterExam &&
-                        result !== null &&
-                        answerSheet[index] !== exam.answerSheet[index] &&
-                        exam.answerSheet[index] === 'D'
-                      }
-                    />
+                    <AnswerRadio value="A" isGreen={getIsGreen(index, "A")} />
+                    <AnswerRadio value="B" isGreen={getIsGreen(index, "B")} />
+                    <AnswerRadio value="C" isGreen={getIsGreen(index, "C")} />
+                    <AnswerRadio value="D" isGreen={getIsGreen(index, "D")} />
                   </RadioGroup>
                 </Stack>
               ))}
             </Box>
             <Button
               variant="gradient"
-              sx={{ my: 1, width: '150px' }}
+              sx={{ my: 1, width: "150px" }}
               disabled={
                 currentState === timeState.inExam && !isDisabled ? false : true
               }
               onClick={() => handleSubmit(true)}
             >
-              {' '}
-              Nộp bài{' '}
+              {" "}
+              Nộp bài{" "}
             </Button>
           </Stack>
         </Grid>
@@ -524,7 +518,7 @@ const Sheet: React.FC<PropsType> = ({
             size="small"
             color="secondary"
             aria-label="open"
-            sx={{ position: 'fixed', bottom: 20, right: 10 }}
+            sx={{ position: "fixed", bottom: 20, right: 10 }}
             onClick={handleOpenAnswer}
           >
             <FormatListNumberedIcon />
@@ -544,10 +538,10 @@ const Sheet: React.FC<PropsType> = ({
             >
               PHIẾU TRẢ LỜI
             </Typography>
-            <Box sx={{ px: 2, background: 'white' }}>
+            <Box sx={{ px: 2, background: "white" }}>
               <Grid
                 container
-                sx={{ padding: 1, my: 2, border: '1px solid #DE5173' }}
+                sx={{ padding: 1, my: 2, border: "1px solid #DE5173" }}
               >
                 {/* convert answerSheet to [ [Q,Q,Q,Q,Q], [Q,Q,Q,Q,Q], [Q,Q,Q,Q,Q] ] then mapping into chunk of 5 element  */}
                 {answerSheet
@@ -560,7 +554,7 @@ const Sheet: React.FC<PropsType> = ({
                   }, [])
                   .map((group, index: number) => (
                     <Grid item xs={12} sm={6} key={index}>
-                      <Stack direction="column" sx={{ px: { sm: 1 } }}>
+                      <Stack direction="column" sx={{ px: { sm: 0.5 } }}>
                         {group.map((v: any, index2: number) => {
                           const currentIndex = index * 5 + index2;
                           return (
@@ -572,13 +566,7 @@ const Sheet: React.FC<PropsType> = ({
                                 justifyContent="center"
                                 sx={{
                                   backgroundColor:
-                                    currentState === timeState.afterExam &&
-                                    result
-                                      ? answerSheet[currentIndex] ===
-                                        exam.answerSheet[currentIndex]
-                                        ? '#AAD0AA'
-                                        : '#EAC8C8'
-                                      : 'white',
+                                    getBackGroundRadioColor(index),
                                 }}
                               >
                                 <Typography
@@ -596,43 +584,19 @@ const Sheet: React.FC<PropsType> = ({
                                 >
                                   <AnswerRadio
                                     value="A"
-                                    isGreen={
-                                      currentState === timeState.afterExam &&
-                                      result !== null &&
-                                      answerSheet[currentIndex] !==
-                                        exam.answerSheet[currentIndex] &&
-                                      exam.answerSheet[currentIndex] === 'A'
-                                    }
+                                    isGreen={getIsGreen(currentIndex, "A")}
                                   />
                                   <AnswerRadio
                                     value="B"
-                                    isGreen={
-                                      currentState === timeState.afterExam &&
-                                      result !== null &&
-                                      answerSheet[currentIndex] !==
-                                        exam.answerSheet[currentIndex] &&
-                                      exam.answerSheet[currentIndex] === 'B'
-                                    }
+                                    isGreen={getIsGreen(currentIndex, "B")}
                                   />
                                   <AnswerRadio
                                     value="C"
-                                    isGreen={
-                                      currentState === timeState.afterExam &&
-                                      result !== null &&
-                                      answerSheet[currentIndex] !==
-                                        exam.answerSheet[currentIndex] &&
-                                      exam.answerSheet[currentIndex] === 'C'
-                                    }
+                                    isGreen={getIsGreen(currentIndex, "C")}
                                   />
                                   <AnswerRadio
                                     value="D"
-                                    isGreen={
-                                      currentState === timeState.afterExam &&
-                                      result !== null &&
-                                      answerSheet[currentIndex] !==
-                                        exam.answerSheet[currentIndex] &&
-                                      exam.answerSheet[currentIndex] === 'D'
-                                    }
+                                    isGreen={getIsGreen(currentIndex, "D")}
                                   />
                                 </RadioGroup>
                               </Stack>
@@ -648,7 +612,7 @@ const Sheet: React.FC<PropsType> = ({
 
             <Button
               variant="gradient"
-              sx={{ my: 1, width: '150px', mx: 'auto' }}
+              sx={{ my: 1, width: "150px", mx: "auto" }}
               disabled={
                 currentState === timeState.inExam && !isDisabled ? false : true
               }
@@ -659,7 +623,7 @@ const Sheet: React.FC<PropsType> = ({
             <IconButton
               // onClick={handleClose}
               sx={{
-                position: 'absolute',
+                position: "absolute",
                 right: 8,
                 top: 8,
                 color: (theme) => theme.palette.grey[500],

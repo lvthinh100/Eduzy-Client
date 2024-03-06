@@ -4,6 +4,7 @@ import ExamIcon from '../components/IconComponent/ExamIcon';
 import OmegaIcon from '../components/IconComponent/OmegaIcon';
 
 import paths from './paths';
+import BioIcon from '../components/IconComponent/BioIcon';
 const content = {
   LOGO: 'Eduzy',
   NAV_LINK: [
@@ -16,6 +17,11 @@ const content = {
       text: 'Ngân hàng đề thi',
       path: paths.EXAMS,
       icon: OmegaIcon,
+    },
+    {
+      text: 'Bio',
+      path: paths.BIO,
+      icon: BioIcon,
     },
   ],
   NAV_AUTH: {
