@@ -314,7 +314,10 @@ const Sheet: React.FC<PropsType> = ({
         ? answerSheet[index] === exam.answerSheet[index]
           ? "#AAD0AA"
           : "#EAC8C8"
-        : answerSheet[index] === ""
+        : answerSheet[index] !== "A" &&
+          answerSheet[index] !== "B" &&
+          answerSheet[index] !== "C" &&
+          answerSheet[index] !== "D"
         ? "white"
         : "#F6E1A7";
     return x;
